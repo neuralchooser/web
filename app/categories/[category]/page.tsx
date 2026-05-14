@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { ModelSearch } from "@/components/search/model-search"
+import { PlatformSearch } from "@/components/search/platform-search"
 import {
   getAllCategories,
-  getAllModels,
   getCategoryBySlug,
-} from "@/lib/models"
+  getAllPlatforms,
+} from "@/lib/platforms"
 import { createMetadata } from "@/lib/seo"
 
 export function generateStaticParams() {
@@ -39,7 +39,7 @@ export default async function CategoryPage(props: PageProps<"/categories/[catego
         <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">{category.name}</h1>
         <p className="mt-4 text-lg leading-8 text-muted-foreground">{category.description}</p>
       </div>
-      <ModelSearch models={getAllModels()} categories={getAllCategories()} initialCategory={category.slug} />
+      <PlatformSearch platforms={getAllPlatforms()} categories={getAllCategories()} initialCategory={category.slug} />
     </section>
   )
 }

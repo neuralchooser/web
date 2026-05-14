@@ -1,21 +1,20 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Filter, Search, SlidersHorizontal, X } from "lucide-react"
+import * as React from "react";
+import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
 
-import { ModelCard } from "@/components/cards/model-card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { getCategoryBySlug } from "@/lib/models"
-import type { AIModel, Category, ModelCategory, PricingType } from "@/types/model"
+import { PlatformCard } from "@/components/cards/platform-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { getCategoryBySlug } from "@/lib/platforms";
+import type { AIPlatform, Category, PlatformCategory } from "@/types/platform";
 
 interface Filters {
-  category: "all" | ModelCategory
-  pricing: "all" | PricingType
-  openSource: boolean
-  apiAvailable: boolean
-  localRunnable: boolean
+  category: "all" | PlatformCategory;
+  pricing: "all" | "free" | "paid";
+  openSource: boolean;
+  apiAvailable: boolean;
 }
 
 const defaultFilters: Filters = {
@@ -23,23 +22,23 @@ const defaultFilters: Filters = {
   pricing: "all",
   openSource: false,
   apiAvailable: false,
-  localRunnable: false,
-}
+};
 
-function matchesSearch(model: AIModel, query: string) {
+function matchesSearch(platform: AIPlatform, query: string) {
   const haystack = [
-    model.name,
-    model.company,
-    model.shortDescription,
-    model.description,
-    ...model.tags,
-    ...model.bestFor,
-    ...model.categories.map((category) => getCategoryBySlug(category)?.name ?? category),
+    platform.name,
+    platform.company,
+    platform.shortDescription,
+    platform.description,
+    ...(platform.tags ?? []),
+    ...(platform.bestFor ?? []),
+    ...(platform.models ?? []).map((model) => model.name),
+    ...platform.categories.map((category) => getCategoryBySlug(category)?.name ?? category),
   ]
     .join(" ")
-    .toLowerCase()
+    .toLowerCase();
 
-  return haystack.includes(query.toLowerCase())
+  return haystack.includes(query.toLowerCase());
 }
 
 function FilterPanel({
@@ -47,17 +46,15 @@ function FilterPanel({
   filters,
   setFilters,
 }: {
-  categories: Category[]
-  filters: Filters
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>
+  categories: Category[];
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }) {
   const pricingOptions: Array<{ label: string; value: Filters["pricing"] }> = [
     { label: "All pricing", value: "all" },
-    { label: "Free", value: "free" },
-    { label: "Freemium", value: "freemium" },
-    { label: "Paid", value: "paid" },
-    { label: "Enterprise", value: "enterprise" },
-  ]
+    { label: "Free available", value: "free" },
+    { label: "Paid plans", value: "paid" },
+  ];
 
   return (
     <div className="grid gap-6">
@@ -92,13 +89,13 @@ function FilterPanel({
 
       <div>
         <p className="mb-3 text-sm font-medium">Pricing</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid gap-2">
           {pricingOptions.map((option) => (
             <button
               key={option.value}
               type="button"
               onClick={() => setFilters((current) => ({ ...current, pricing: option.value }))}
-              className={`rounded-md border px-3 py-2 text-sm transition-colors ${
+              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
                 filters.pricing === option.value
                   ? "border-foreground bg-foreground text-background"
                   : "border-border hover:bg-muted"
@@ -116,7 +113,6 @@ function FilterPanel({
           {[
             ["openSource", "Open source"],
             ["apiAvailable", "API available"],
-            ["localRunnable", "Local runnable"],
           ].map(([key, label]) => (
             <label key={key} className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm">
               <span>{label}</span>
@@ -136,44 +132,43 @@ function FilterPanel({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function ModelSearch({
-  models,
+export function PlatformSearch({
+  platforms,
   categories,
   initialCategory = "all",
 }: {
-  models: AIModel[]
-  categories: Category[]
-  initialCategory?: Filters["category"]
+  platforms: AIPlatform[];
+  categories: Category[];
+  initialCategory?: Filters["category"];
 }) {
-  const [query, setQuery] = React.useState("")
-  const [filters, setFilters] = React.useState<Filters>({ ...defaultFilters, category: initialCategory })
+  const [query, setQuery] = React.useState("");
+  const [filters, setFilters] = React.useState<Filters>({ ...defaultFilters, category: initialCategory });
 
-  const filteredModels = React.useMemo(() => {
-    return models.filter((model) => {
-      if (query.trim() && !matchesSearch(model, query.trim())) return false
-      if (filters.category !== "all" && !model.categories.includes(filters.category)) return false
-      if (filters.pricing !== "all" && model.pricing.type !== filters.pricing) return false
-      if (filters.openSource && !model.openSource) return false
-      if (filters.apiAvailable && !model.apiAvailable) return false
-      if (filters.localRunnable && !model.localRunnable) return false
-      return true
-    })
-  }, [filters, models, query])
+  const filteredPlatforms = React.useMemo(() => {
+    return platforms.filter((platform) => {
+      if (query.trim() && !matchesSearch(platform, query.trim())) return false;
+      if (filters.category !== "all" && !platform.categories.includes(filters.category)) return false;
+      if (filters.pricing === "free" && !platform.pricing.free) return false;
+      if (filters.pricing === "paid" && !platform.pricing.paid) return false;
+      if (filters.openSource && !platform.openSource) return false;
+      if (filters.apiAvailable && !platform.apiAvailable) return false;
+      return true;
+    });
+  }, [filters, platforms, query]);
 
   const activeFilterCount = [
     filters.category !== "all",
     filters.pricing !== "all",
     filters.openSource,
     filters.apiAvailable,
-    filters.localRunnable,
-  ].filter(Boolean).length
+  ].filter(Boolean).length;
 
   function resetFilters() {
-    setQuery("")
-    setFilters({ ...defaultFilters, category: initialCategory })
+    setQuery("");
+    setFilters({ ...defaultFilters, category: initialCategory });
   }
 
   return (
@@ -195,7 +190,7 @@ export function ModelSearch({
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search by model, company, tag, or use case"
+              placeholder="Search platforms, companies, categories, or use cases"
               className="h-11 pl-10"
             />
           </div>
@@ -225,19 +220,19 @@ export function ModelSearch({
         </div>
 
         <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
-          <span>{filteredModels.length} models found</span>
+          <span>{filteredPlatforms.length} platforms found</span>
           <span>Client-side instant filtering</span>
         </div>
 
-        {filteredModels.length ? (
+        {filteredPlatforms.length ? (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredModels.map((model) => (
-              <ModelCard key={model.slug} model={model} />
+            {filteredPlatforms.map((platform) => (
+              <PlatformCard key={platform.slug} platform={platform} />
             ))}
           </div>
         ) : (
           <div className="rounded-lg border border-dashed border-border p-10 text-center">
-            <p className="font-medium">No models match these filters.</p>
+            <p className="font-medium">No platforms match these filters.</p>
             <p className="mt-2 text-sm text-muted-foreground">Reset filters or try a broader search term.</p>
             <Button className="mt-5" variant="outline" onClick={resetFilters}>
               Reset filters
@@ -246,5 +241,5 @@ export function ModelSearch({
         )}
       </div>
     </div>
-  )
+  );
 }

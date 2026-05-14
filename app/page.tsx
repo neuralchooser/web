@@ -1,40 +1,43 @@
-import { ComparisonSection } from "@/components/sections/comparison-section"
 import { CtaSection } from "@/components/sections/cta-section"
 import { FeaturedCategories } from "@/components/sections/featured-categories"
 import { HeroSection } from "@/components/sections/hero-section"
-import { ModelRail } from "@/components/sections/model-rail"
+import { PlatformRail } from "@/components/sections/platform-rail"
 import {
-  getModelsByCategory,
-  getRecentlyAddedModels,
-  getTrendingModels,
-} from "@/lib/models"
+  getPlatformsByCategory,
+  getRecentlyAddedPlatforms,
+  getTrendingPlatforms,
+} from "@/lib/platforms"
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <FeaturedCategories />
-      <ModelRail
-        title="Trending models"
-        description="High-signal models and products teams are actively evaluating right now."
-        models={getTrendingModels(4)}
+      <PlatformRail
+        title="Trending platforms"
+        description="High-signal AI platforms teams are actively evaluating right now."
+        platforms={getTrendingPlatforms(4)}
       />
-      <ModelRail
+      <PlatformRail
         title="Best for coding"
-        description="Code models and tools for implementation, refactors, review, and agents."
-        models={getModelsByCategory("coding").slice(0, 4)}
+        description="Developer platforms for implementation, refactors, review, and agents."
+        platforms={getPlatformsByCategory("coding").slice(0, 4)}
       />
-      <ModelRail
+      <PlatformRail
         title="Best for image generation"
-        description="Creative image systems for campaigns, concepts, product visuals, and local pipelines."
-        models={getModelsByCategory("image-generation").slice(0, 4)}
+        description="Creative platforms for campaigns, concepts, product visuals, and art direction."
+        platforms={getPlatformsByCategory("image-generation").slice(0, 4)}
       />
-      <ModelRail
-        title="Recently added"
-        description="Newer entries and major model families worth reviewing."
-        models={getRecentlyAddedModels(4)}
+      <PlatformRail
+        title="Research and writing"
+        description="Curated platforms for search, analysis, writing, and source-backed exploration."
+        platforms={getPlatformsByCategory("research").slice(0, 4)}
       />
-      <ComparisonSection />
+      <PlatformRail
+        title="Recently updated"
+        description="Platforms with current editorial data in the directory."
+        platforms={getRecentlyAddedPlatforms(4)}
+      />
       <CtaSection />
     </>
   )

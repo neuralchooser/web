@@ -1,14 +1,14 @@
-import { ModelCard } from "@/components/cards/model-card"
-import type { AIModel } from "@/types/model"
+import { PlatformCard } from "@/components/cards/platform-card";
+import type { AIPlatform } from "@/types/platform";
 
-export function ModelRail({
+export function PlatformRail({
   title,
   description,
-  models,
+  platforms,
 }: {
-  title: string
-  description?: string
-  models: AIModel[]
+  title: string;
+  description?: string;
+  platforms: AIPlatform[];
 }) {
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -17,10 +17,10 @@ export function ModelRail({
         {description ? <p className="mt-2 text-muted-foreground">{description}</p> : null}
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {models.map((model) => (
-          <ModelCard key={model.slug} model={model} compact />
+        {platforms.map((platform) => (
+          <PlatformCard key={platform.slug} platform={platform} compact />
         ))}
       </div>
     </section>
-  )
+  );
 }

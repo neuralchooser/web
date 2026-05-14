@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
-import type { Category } from "@/types/model";
+import type { Category } from "@/types/platform";
 
 const icons = {
   MessageSquareText,

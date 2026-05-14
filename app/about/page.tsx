@@ -5,7 +5,7 @@ import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
   title: "About",
-  description: "Learn how NeuralChooser organizes AI model data for scalable discovery and comparison.",
+  description: "Learn how NeuralChooser organizes AI platforms for curated discovery.",
   path: "/about",
 })
 
@@ -15,19 +15,19 @@ export default function AboutPage() {
       <div className="max-w-3xl">
         <p className="text-sm font-medium text-muted-foreground">About</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-          A practical directory for choosing AI models
+          A practical directory for choosing AI platforms
         </h1>
         <p className="mt-5 text-lg leading-8 text-muted-foreground">
           NeuralChooser is built as a structured, data-driven catalog. Every card,
-          category, detail page, and comparison is generated from typed model data,
-          so the directory can scale without rewriting UI.
+          category, and detail page is generated from typed platform data, so the
+          directory can scale without rewriting UI.
         </p>
       </div>
       <div className="mt-10 grid gap-4 md:grid-cols-3">
         {[
-          ["Data-first", "Model information lives in typed content files rather than JSX."],
+          ["Data-first", "Platform information lives in typed content files rather than JSX."],
           ["Static by default", "Public pages are generated for speed, SEO, and Vercel-friendly deployment."],
-          ["Comparison-ready", "The schema supports future rankings, benchmarks, integrations, and voting."],
+          ["Curated discovery", "The schema stays simple while supporting categories, use cases, pricing, and platform details."],
         ].map(([title, body]) => (
           <Card key={title}>
             <CardContent className="p-6">

@@ -1,19 +1,18 @@
 import type { MetadataRoute } from "next"
 
-import { getComparisonPairs } from "@/lib/compare"
-import { getAllCategories, getAllModels } from "@/lib/models"
+import { getAllCategories, getAllPlatforms } from "@/lib/platforms"
 import { siteConfig } from "@/lib/site"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
-  const staticRoutes = ["", "/models", "/compare", "/about"].map((route) => ({
+  const staticRoutes = ["", "/platforms", "/about"].map((route) => ({
     url: `${siteConfig.url}${route}`,
     lastModified: now,
   }))
 
-  const modelRoutes = getAllModels().map((model) => ({
-    url: `${siteConfig.url}/models/${model.slug}`,
-    lastModified: model.lastUpdated ? new Date(model.lastUpdated) : now,
+  const platformRoutes = getAllPlatforms().map((platform) => ({
+    url: `${siteConfig.url}/platforms/${platform.slug}`,
+    lastModified: platform.lastUpdated ? new Date(platform.lastUpdated) : now,
   }))
 
   const categoryRoutes = getAllCategories().map((category) => ({
@@ -21,10 +20,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: now,
   }))
 
-  const comparisonRoutes = getComparisonPairs().map((pair) => ({
-    url: `${siteConfig.url}/compare/${pair.slug}`,
-    lastModified: now,
-  }))
-
-  return [...staticRoutes, ...modelRoutes, ...categoryRoutes, ...comparisonRoutes]
+  return [...staticRoutes, ...platformRoutes, ...categoryRoutes]
 }

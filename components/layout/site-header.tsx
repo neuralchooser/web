@@ -15,8 +15,7 @@ import {
 } from "@/components/ui/sheet";
 
 const navItems = [
-  { href: "/models", label: "Models" },
-  { href: "/compare", label: "Compare" },
+  { href: "/platforms", label: "Platforms" },
   { href: "/categories/coding", label: "Coding" },
   { href: "/about", label: "About" },
 ];
@@ -41,7 +40,7 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Button asChild variant="ghost" size="sm">
-            <Link href="/models">
+            <Link href="/platforms">
               <Search className="size-4" />
               Browse
             </Link>

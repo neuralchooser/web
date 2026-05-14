@@ -1,10 +1,10 @@
-import type { Category } from "@/types/model"
+import type { Category } from "@/types/platform"
 
 export const categories: Category[] = [
   {
     slug: "text-generation",
     name: "Text Generation",
-    description: "General-purpose assistants, writers, and reasoning models.",
+    description: "Assistant platforms for writing, reasoning, chat, and everyday work.",
     icon: "MessageSquareText",
     color: "from-sky-500 to-cyan-400",
     featured: true,
@@ -12,7 +12,7 @@ export const categories: Category[] = [
   {
     slug: "image-generation",
     name: "Image Generation",
-    description: "Models for concept art, product shots, and creative imagery.",
+    description: "Platforms for concept art, product shots, and creative imagery.",
     icon: "Image",
     color: "from-fuchsia-500 to-rose-400",
     featured: true,
@@ -20,7 +20,7 @@ export const categories: Category[] = [
   {
     slug: "video-generation",
     name: "Video Generation",
-    description: "Text-to-video and image-to-video systems for motion design.",
+    description: "Platforms for text-to-video, image-to-video, and motion design.",
     icon: "Clapperboard",
     color: "from-amber-500 to-orange-400",
     featured: true,
@@ -28,7 +28,7 @@ export const categories: Category[] = [
   {
     slug: "coding",
     name: "Coding",
-    description: "Agents and models for code generation, review, and debugging.",
+    description: "Developer platforms for coding, review, refactors, and agents.",
     icon: "Code2",
     color: "from-emerald-500 to-teal-400",
     featured: true,
@@ -36,7 +36,7 @@ export const categories: Category[] = [
   {
     slug: "audio",
     name: "Audio",
-    description: "Speech, voice, dubbing, and audio generation models.",
+    description: "Platforms for speech, voice, dubbing, and generated audio.",
     icon: "AudioWaveform",
     color: "from-violet-500 to-indigo-400",
   },
@@ -56,8 +56,8 @@ export const categories: Category[] = [
   },
   {
     slug: "open-source",
-    name: "Open Source Models",
-    description: "Models with weights or licenses suitable for self-hosting.",
+    name: "Open Source",
+    description: "Platforms with open models, self-hosting options, or open ecosystems.",
     icon: "Boxes",
     color: "from-lime-500 to-emerald-400",
   },

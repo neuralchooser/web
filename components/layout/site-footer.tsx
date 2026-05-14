@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getAllCategories } from "@/lib/models";
+import { getAllCategories } from "@/lib/platforms";
 import { SiteLogo } from "./site-logo";
 
 export function SiteFooter() {
@@ -12,18 +12,15 @@ export function SiteFooter() {
         <div>
           <SiteLogo />
           <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-            A data-driven directory for evaluating modern AI models by workflow,
-            capability, pricing, and deployment fit.
+            A curated directory for discovering modern AI platforms by workflow,
+            capability, pricing, and product fit.
           </p>
         </div>
         <div>
           <p className="text-sm font-medium">Explore</p>
           <div className="mt-3 grid gap-2 text-sm text-muted-foreground">
-            <Link href="/models" className="hover:text-foreground">
-              All models
-            </Link>
-            <Link href="/compare" className="hover:text-foreground">
-              Compare
+            <Link href="/platforms" className="hover:text-foreground">
+              All platforms
             </Link>
             <Link href="/about" className="hover:text-foreground">
               About

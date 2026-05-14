@@ -6,47 +6,48 @@ import {
   Cpu,
   ExternalLink,
   Lock,
-  Server,
 } from "lucide-react";
 
+import { PlatformLogo } from "@/components/cards/platform-logo";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ModelLogo } from "@/components/cards/model-logo";
-import { formatCategoryName } from "@/lib/models";
-import type { AIModel } from "@/types/model";
+import { formatCategoryName } from "@/lib/platforms";
+import type { AIPlatform } from "@/types/platform";
 
-export function ModelCard({
-  model,
+export function PlatformCard({
+  platform,
   compact = false,
 }: {
-  model: AIModel;
+  platform: AIPlatform;
   compact?: boolean;
 }) {
   return (
     <Card className="group h-full overflow-hidden bg-card/80 transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
       <CardContent className="flex h-full flex-col p-5">
         <div className="flex items-start gap-4">
-          <ModelLogo model={model} />
+          <PlatformLogo platform={platform} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <h3 className="truncate text-base font-semibold tracking-tight">
-                {model.name}
+                {platform.name}
               </h3>
-              {model.featured ? <Badge variant="muted">Featured</Badge> : null}
+              {platform.featured ? (
+                <Badge variant="muted">Featured</Badge>
+              ) : null}
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
-              {model.company}
+              {platform.company}
             </p>
           </div>
         </div>
 
         <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">
-          {model.shortDescription}
+          {platform.shortDescription}
         </p>
 
         {!compact ? (
           <div className="mt-4 flex flex-wrap gap-2">
-            {model.categories.slice(0, 2).map((category) => (
+            {platform.categories.slice(0, 2).map((category) => (
               <Badge key={category} variant="secondary">
                 {formatCategoryName(category)}
               </Badge>
@@ -56,42 +57,39 @@ export function ModelCard({
 
         <div className="mt-5 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
-            {model.apiAvailable ? (
+            {platform.apiAvailable ? (
               <CheckCircle2 className="size-3.5" />
             ) : (
               <Lock className="size-3.5" />
             )}
-            {model.apiAvailable ? "API" : "No API"}
+            {platform.apiAvailable ? "API" : "No API"}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            {model.openSource ? (
+            {platform.openSource ? (
               <Code2 className="size-3.5" />
             ) : (
               <Cpu className="size-3.5" />
             )}
-            {model.openSource ? "Open" : "Closed"}
+            {platform.openSource ? "Open" : "Closed"}
           </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Server className="size-3.5" />
-            {model.localRunnable ? "Local" : "Cloud"}
-          </span>
-          <span>{model.pricing.type}</span>
+          <span>{platform.pricing.free ? "Free tier" : "Paid only"}</span>
+          <span>{platform.pricing.paid ? "Paid plans" : "Free"}</span>
         </div>
 
         <div className="mt-auto flex items-center justify-between pt-5">
           <Link
-            href={`/models/${model.slug}`}
+            href={`/platforms/${platform.slug}`}
             className="inline-flex items-center gap-1 text-sm font-medium text-foreground"
           >
-            View model
+            View platform
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
-          {model.website ? (
+          {platform.website ? (
             <a
-              href={model.website}
+              href={platform.website}
               target="_blank"
               rel="noreferrer"
-              aria-label={`${model.name} website`}
+              aria-label={`${platform.name} website`}
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
               <ExternalLink className="size-4" />

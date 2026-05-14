@@ -1,5 +1,5 @@
 import { CategoryCard } from "@/components/cards/category-card";
-import { getAllCategories, getModelsByCategory } from "@/lib/models";
+import { getAllCategories, getPlatformsByCategory } from "@/lib/platforms";
 
 export function FeaturedCategories() {
   const categories = getAllCategories().filter((category) => category.featured);
@@ -11,8 +11,8 @@ export function FeaturedCategories() {
           Browse by category
         </h2>
         <p className="mt-2 text-muted-foreground">
-          Start with the workflow, then narrow down by pricing, deployment, and
-          capabilities.
+          Start with the workflow, then narrow down by pricing, access, and
+          product fit.
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -20,7 +20,7 @@ export function FeaturedCategories() {
           <CategoryCard
             key={category.slug}
             category={category}
-            count={getModelsByCategory(category.slug).length}
+            count={getPlatformsByCategory(category.slug).length}
           />
         ))}
       </div>
