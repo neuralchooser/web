@@ -11,19 +11,9 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { ModelLogo } from "@/components/cards/model-logo";
 import { formatCategoryName } from "@/lib/models";
 import type { AIModel } from "@/types/model";
-
-function LogoMark({ model }: { model: AIModel }) {
-  return (
-    <div
-      className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-sm font-semibold"
-      style={{ color: model.accentColor }}
-    >
-      {model.name.slice(0, 2).toUpperCase()}
-    </div>
-  );
-}
 
 export function ModelCard({
   model,
@@ -36,7 +26,7 @@ export function ModelCard({
     <Card className="group h-full overflow-hidden bg-card/80 transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
       <CardContent className="flex h-full flex-col p-5">
         <div className="flex items-start gap-4">
-          <LogoMark model={model} />
+          <ModelLogo model={model} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <h3 className="truncate text-base font-semibold tracking-tight">

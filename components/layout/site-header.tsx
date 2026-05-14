@@ -1,31 +1,39 @@
-import Link from "next/link"
-import { BrainCircuit, Menu, Search } from "lucide-react"
+"use client";
 
-import { ThemeToggle } from "@/components/layout/theme-toggle"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import Link from "next/link";
+import { Menu, Search } from "lucide-react";
+
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { SiteLogo } from "@/components/layout/site-logo";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const navItems = [
   { href: "/models", label: "Models" },
   { href: "/compare", label: "Compare" },
   { href: "/categories/coding", label: "Coding" },
   { href: "/about", label: "About" },
-]
+];
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="flex size-8 items-center justify-center rounded-md border border-border bg-foreground text-background">
-            <BrainCircuit className="size-4" />
-          </span>
-          <span>NeuralChooser</span>
-        </Link>
+        <SiteLogo />
 
         <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="transition-colors hover:text-foreground">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="transition-colors hover:text-foreground"
+            >
               {item.label}
             </Link>
           ))}
@@ -55,7 +63,12 @@ export function SiteHeader() {
               </SheetHeader>
               <nav className="mt-8 grid gap-2">
                 {navItems.map((item) => (
-                  <Button key={item.href} asChild variant="ghost" className="justify-start">
+                  <Button
+                    key={item.href}
+                    asChild
+                    variant="ghost"
+                    className="justify-start"
+                  >
                     <Link href={item.href}>{item.label}</Link>
                   </Button>
                 ))}
@@ -65,5 +78,5 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
-  )
+  );
 }
