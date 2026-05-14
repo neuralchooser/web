@@ -409,7 +409,7 @@ export const platforms: AIPlatform[] = [
       "Voice AI platform for speech synthesis, dubbing, narration, voice cloning, and agent audio.",
     description:
       "ElevenLabs provides voice generation, dubbing, voice cloning, and speech tools for creators and product teams that need natural spoken audio.",
-    categories: ["audio"],
+    categories: ["audio", "voice-generation"],
     tags: ["voice", "speech", "dubbing", "agents", "audio"],
     bestFor: ["Narration", "Voice agents", "Localization", "Creator audio"],
     pricing: {
@@ -1697,7 +1697,7 @@ export const platforms: AIPlatform[] = [
       "Autonomous AI agent platform focused on executing complex tasks, research workflows, and multi-step automation.",
     description:
       "Manus AI is an autonomous AI agent platform designed to independently plan, execute, and complete complex digital tasks. It combines reasoning, browsing, research, coding, and workflow orchestration into a persistent agent experience aimed at productivity, operations, and deep task automation.",
-    categories: ["research", "coding", "text-generation"],
+    categories: ["research", "coding", "text-generation", "agents"],
     tags: [
       "agents",
       "automation",
@@ -1761,7 +1761,7 @@ export const platforms: AIPlatform[] = [
       "AI-powered UI and app generation platform for building React and Next.js applications from natural language prompts.",
     description:
       "v0 is Vercel's AI-assisted development platform that generates React components, interfaces, and full-stack Next.js applications from text prompts, screenshots, and design references. It focuses on rapid frontend development, production-ready code generation, and seamless integration with the Vercel ecosystem.",
-    categories: ["coding"],
+    categories: ["website-builder", "coding"],
     tags: ["ai-coding", "frontend", "react", "nextjs", "ui-generation", "chat"],
     bestFor: [
       "Frontend development",
@@ -1826,7 +1826,7 @@ export const platforms: AIPlatform[] = [
       "AI-powered full-stack application builder that generates, runs, edits, and deploys web apps directly in the browser.",
     description:
       "Bolt.new is StackBlitz’s autonomous AI web development platform that allows users to generate, run, edit, and deploy full-stack applications entirely in the browser using natural language prompts. Built on StackBlitz WebContainers technology, Bolt.new provides a real runtime environment with Node.js, package installation, backend execution, live preview, and deployment workflows without requiring local setup.",
-    categories: ["coding"],
+    categories: ["app-builder", "coding"],
     tags: [
       "ai-coding",
       "full-stack",
@@ -2004,7 +2004,7 @@ export const platforms: AIPlatform[] = [
       "AI-powered UI and frontend generation platform that turns prompts, sketches, and screenshots into app designs and production-ready frontend code.",
     description:
       "Stitch is Google Labs’ AI-native UI design and frontend generation platform focused on transforming natural language prompts, sketches, wireframes, screenshots, and voice instructions into responsive app interfaces and frontend code. Built on Gemini models and evolved from Google’s acquisition of Galileo AI, Stitch combines design ideation, multi-screen prototyping, visual editing, and exportable frontend generation into a unified workflow for developers, designers, founders, and rapid product teams.",
-    categories: ["coding"],
+    categories: ["ui-design"],
     tags: [
       "ui-generation",
       "frontend",
@@ -2085,6 +2085,1979 @@ export const platforms: AIPlatform[] = [
       experimentalProduct: true,
       developedByGoogleLabs: true,
       supportsVoicePrompting: true,
+    },
+  },
+  {
+    id: "openai-operator",
+    slug: "openai-operator",
+    name: "Operator",
+    company: "OpenAI",
+    logo: "open-ai.svg",
+    accentColor: "#10a37f",
+    shortDescription:
+      "Autonomous web-browsing AI agent capable of performing real actions across websites and online workflows.",
+    description:
+      "Operator is OpenAI’s autonomous AI agent system designed to interact with websites, perform browser-based tasks, complete workflows, and execute real-world online actions on behalf of users. It combines multimodal reasoning, computer-use capabilities, planning, and web interaction into a persistent agent experience focused on task execution rather than chat-only assistance.",
+    categories: ["agents", "automation", "productivity"],
+    tags: [
+      "agents",
+      "computer-use",
+      "browser-automation",
+      "workflow-execution",
+      "multimodal",
+      "productivity",
+      "web-navigation",
+      "task-automation",
+    ],
+    bestFor: [
+      "Browser automation",
+      "Online task execution",
+      "Workflow assistance",
+      "Autonomous web interactions",
+      "Research and booking workflows",
+    ],
+    pricing: {
+      free: false,
+      paid: true,
+      notes:
+        "Available through premium OpenAI subscription tiers and limited rollout access.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://openai.com",
+    documentation: "https://platform.openai.com/docs",
+    strengths: [
+      "Strong browser interaction capabilities",
+      "Advanced multimodal reasoning",
+      "Can execute real web workflows",
+      "Natural conversational control layer",
+    ],
+    weaknesses: [
+      "Limited public availability",
+      "Requires safeguards for sensitive actions",
+      "Still evolving reliability for complex workflows",
+    ],
+    models: [
+      {
+        name: "Computer-Using Agent",
+        description:
+          "Autonomous browser interaction model capable of navigating interfaces and executing workflows.",
+      },
+      {
+        name: "GPT-4o",
+        description:
+          "Multimodal reasoning system powering interaction understanding and planning.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      browserAutomation: true,
+      multimodal: true,
+      workflowExecution: true,
+      autonomousActions: true,
+    },
+  },
+  {
+    id: "devin",
+    slug: "devin",
+    name: "Devin",
+    company: "Cognition",
+    logo: "devin.svg",
+    accentColor: "#2563eb",
+    shortDescription:
+      "Autonomous AI software engineer capable of planning, coding, debugging, and shipping engineering tasks.",
+    description:
+      "Devin is Cognition’s autonomous AI software engineering agent designed to independently perform development workflows including planning, coding, debugging, testing, refactoring, environment setup, and deployment-related tasks. Unlike traditional coding copilots, Devin operates more like a persistent engineering teammate with long-running task execution capabilities and integrated tooling access.",
+    categories: ["agents", "coding", "developer-tools"],
+    tags: [
+      "autonomous-engineer",
+      "ai-coding",
+      "software-engineering",
+      "agents",
+      "debugging",
+      "terminal",
+      "development-workflows",
+      "automation",
+    ],
+    bestFor: [
+      "Autonomous engineering tasks",
+      "Codebase maintenance",
+      "Debugging workflows",
+      "Long-running coding tasks",
+      "Engineering productivity",
+    ],
+    pricing: {
+      free: false,
+      paid: true,
+      notes:
+        "Enterprise-oriented pricing with controlled access and commercial plans.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://devin.ai",
+    documentation: "https://docs.devin.ai",
+    strengths: [
+      "Strong autonomous coding workflows",
+      "Persistent task execution",
+      "Integrated terminal and tooling access",
+      "Handles multi-step engineering tasks",
+    ],
+    weaknesses: [
+      "High operational costs",
+      "Still requires human oversight",
+      "Not consistently reliable for complex production systems",
+    ],
+    models: [
+      {
+        name: "Devin Software Engineer",
+        description:
+          "Autonomous software engineering agent for coding, debugging, testing, and development workflows.",
+      },
+      {
+        name: "Development Environment Runtime",
+        description:
+          "Persistent execution environment with terminal, browser, editor, and tooling orchestration.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      terminalAccess: true,
+      autonomousCoding: true,
+      persistentEnvironment: true,
+      softwareEngineeringFocused: true,
+    },
+  },
+  {
+    id: "autogpt",
+    slug: "autogpt",
+    name: "AutoGPT",
+    company: "Significant Gravitas",
+    logo: "open-ai.svg",
+    accentColor: "#7c3aed",
+    shortDescription:
+      "Open-source autonomous AI agent framework for task automation, experimentation, and multi-step workflows.",
+    description:
+      "AutoGPT is one of the earliest open-source autonomous AI agent frameworks designed to chain LLM reasoning into iterative task execution loops. It enables developers and enthusiasts to create AI agents capable of planning, memory management, tool usage, web interaction, and autonomous multi-step workflows across research, automation, and experimentation scenarios.",
+    categories: ["agents", "automation", "open-source"],
+    tags: [
+      "autonomous-agents",
+      "open-source",
+      "task-automation",
+      "llm-agents",
+      "multi-step-reasoning",
+      "developer-framework",
+      "workflow-agents",
+      "experimental-ai",
+    ],
+    bestFor: [
+      "AI agent experimentation",
+      "Autonomous workflow prototyping",
+      "Open-source agent systems",
+      "Custom AI automation",
+      "Research and tinkering",
+    ],
+    pricing: {
+      free: true,
+      paid: false,
+      notes:
+        "Open-source framework with optional infrastructure and API-related costs.",
+    },
+    apiAvailable: true,
+    openSource: true,
+    website: "https://agpt.co",
+    documentation: "https://docs.agpt.co",
+    strengths: [
+      "Highly customizable open-source framework",
+      "Large community ecosystem",
+      "Flexible agent orchestration",
+      "Good for experimentation and prototyping",
+    ],
+    weaknesses: [
+      "Can be unreliable for production automation",
+      "Requires technical setup and tuning",
+      "Performance depends heavily on connected models and tools",
+    ],
+    models: [
+      {
+        name: "AutoGPT Agent Framework",
+        description:
+          "Core orchestration framework for autonomous reasoning loops, memory, and tool execution.",
+      },
+      {
+        name: "Forge",
+        description:
+          "Toolkit for building, extending, and deploying custom AI agent systems.",
+      },
+    ],
+    featured: false,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      openSourceFramework: true,
+      customizableAgents: true,
+      developerFocused: true,
+      autonomousReasoningLoops: true,
+    },
+  },
+  {
+    id: "zapier-ai",
+    slug: "zapier-ai",
+    name: "Zapier AI",
+    company: "Zapier",
+    logo: "zapier.svg",
+    accentColor: "#ff4f00",
+    shortDescription:
+      "AI-powered workflow automation platform for connecting apps, agents, and business operations without code.",
+    description:
+      "Zapier AI extends Zapier’s automation ecosystem with AI agents, natural language workflow generation, AI-powered actions, and autonomous task orchestration across thousands of connected applications. It enables businesses and individuals to automate repetitive workflows, integrate SaaS tools, and build AI-assisted operational systems without traditional engineering complexity.",
+    categories: ["automation", "agents", "productivity"],
+    tags: [
+      "workflow-automation",
+      "no-code",
+      "integrations",
+      "agents",
+      "business-automation",
+      "ai-actions",
+      "productivity",
+      "saas",
+    ],
+    bestFor: [
+      "Business workflow automation",
+      "Cross-app integrations",
+      "AI-powered operations",
+      "No-code automations",
+      "Sales and marketing workflows",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available with task limits, plus professional and enterprise plans.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://zapier.com",
+    documentation: "https://platform.zapier.com/docs",
+    strengths: [
+      "Massive integrations ecosystem",
+      "Easy no-code workflow creation",
+      "Strong AI automation tooling",
+      "Reliable SaaS connectivity",
+      "Good balance of automation and AI agents",
+    ],
+    weaknesses: [
+      "Complex workflows can become expensive",
+      "Advanced logic may require technical workarounds",
+      "Heavy dependency on external SaaS APIs",
+    ],
+    models: [
+      {
+        name: "Zapier AI Actions",
+        description:
+          "AI-powered action system for automating app workflows through natural language instructions.",
+      },
+      {
+        name: "Zapier Agents",
+        description:
+          "Autonomous AI assistants capable of executing business workflows and connected app actions.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      noCodeAutomation: true,
+      aiAgents: true,
+      integrationsMarketplace: true,
+      enterpriseReady: true,
+    },
+  },
+  {
+    id: "make-ai",
+    slug: "make-ai",
+    name: "Make AI",
+    company: "Make",
+    logo: "make-ai.svg",
+    accentColor: "#6d5efc",
+    shortDescription:
+      "Visual AI automation platform for building advanced multi-step workflows and intelligent business operations.",
+    description:
+      "Make AI combines Make’s visual workflow automation engine with AI-native capabilities including prompt-driven actions, AI modules, autonomous routing, and intelligent workflow orchestration. The platform focuses on flexible low-code automation for complex operational pipelines, app integrations, and AI-assisted business processes.",
+    categories: ["automation", "agents", "productivity"],
+    tags: [
+      "workflow-automation",
+      "visual-workflows",
+      "low-code",
+      "integrations",
+      "business-automation",
+      "ai-modules",
+      "operations",
+      "agents",
+    ],
+    bestFor: [
+      "Complex workflow orchestration",
+      "Visual automation systems",
+      "AI-assisted business operations",
+      "Enterprise automations",
+      "Custom integration pipelines",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available with operation limits, plus scalable business and enterprise plans.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://www.make.com",
+    documentation: "https://www.make.com/en/help",
+    strengths: [
+      "Highly flexible workflow builder",
+      "Advanced branching and logic systems",
+      "Visual automation UX",
+      "Strong integrations ecosystem",
+      "Good support for AI-powered operations",
+    ],
+    weaknesses: [
+      "Steeper learning curve than simpler no-code tools",
+      "Large workflows can become difficult to maintain",
+      "Debugging complex scenarios can be challenging",
+    ],
+    models: [
+      {
+        name: "Make AI Modules",
+        description:
+          "AI-native workflow components for generation, classification, reasoning, and automation tasks.",
+      },
+      {
+        name: "Scenario Engine",
+        description:
+          "Visual orchestration runtime for executing complex multi-step automation pipelines.",
+      },
+    ],
+    featured: false,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      visualAutomationBuilder: true,
+      lowCodePlatform: true,
+      enterpriseAutomation: true,
+      aiWorkflowModules: true,
+    },
+  },
+  {
+    id: "relay-app",
+    slug: "relay-app",
+    name: "Relay.app",
+    company: "Relay.app",
+    logo: "relay-app.svg",
+    accentColor: "#0f172a",
+    shortDescription:
+      "Human-in-the-loop AI automation platform for collaborative workflows, approvals, and operational coordination.",
+    description:
+      "Relay.app is a modern AI workflow automation platform focused on collaborative automations that combine AI agents, app integrations, and human approvals inside operational workflows. Unlike purely autonomous systems, Relay emphasizes controllable AI workflows with checkpoints, notifications, collaboration, and business process coordination across teams and SaaS platforms.",
+    categories: ["automation", "agents", "productivity"],
+    tags: [
+      "workflow-automation",
+      "human-in-the-loop",
+      "collaboration",
+      "business-operations",
+      "integrations",
+      "ai-agents",
+      "notifications",
+      "approvals",
+    ],
+    bestFor: [
+      "Team workflow automation",
+      "Approval pipelines",
+      "Operational coordination",
+      "Human-in-the-loop AI systems",
+      "Cross-functional business processes",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free starter plan available with paid upgrades for advanced workflows and teams.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://relay.app",
+    documentation: "https://docs.relay.app",
+    strengths: [
+      "Excellent collaborative workflow design",
+      "Human approval integration",
+      "Modern automation UX",
+      "Good operational visibility",
+      "Balanced AI autonomy and control",
+    ],
+    weaknesses: [
+      "Smaller ecosystem than Zapier or Make",
+      "Fewer third-party integrations",
+      "Still growing enterprise feature set",
+    ],
+    models: [
+      {
+        name: "Relay AI Workflows",
+        description:
+          "AI-enhanced workflow engine for orchestrating collaborative operational processes.",
+      },
+      {
+        name: "Human Approval System",
+        description:
+          "Interactive workflow checkpoint system for approvals, validation, and team coordination.",
+      },
+    ],
+    featured: false,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      humanInLoop: true,
+      collaborativeAutomation: true,
+      aiWorkflowEngine: true,
+      approvalsSystem: true,
+    },
+  },
+  {
+    id: "n8n",
+    slug: "n8n",
+    name: "n8n",
+    company: "n8n",
+    logo: "n8n.svg",
+    accentColor: "#ef6c00",
+    shortDescription:
+      "Open-source workflow automation platform with AI agent support, self-hosting, and developer-oriented orchestration.",
+    description:
+      "n8n is a developer-focused workflow automation platform that combines low-code orchestration, API integrations, AI agents, and self-hosted infrastructure flexibility. The platform enables teams to build advanced automations, AI-powered pipelines, autonomous workflows, and internal operational systems while maintaining greater control over data, hosting, and customization than traditional SaaS automation platforms.",
+    categories: ["automation", "agents", "open-source", "developer-tools"],
+    tags: [
+      "workflow-automation",
+      "open-source",
+      "self-hosted",
+      "ai-agents",
+      "developer-tools",
+      "integrations",
+      "low-code",
+      "orchestration",
+    ],
+    bestFor: [
+      "Self-hosted automation",
+      "Developer-centric workflows",
+      "AI pipeline orchestration",
+      "Internal tooling",
+      "Custom business automations",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Open-source self-hosted option available alongside cloud and enterprise plans.",
+    },
+    apiAvailable: true,
+    openSource: true,
+    website: "https://n8n.io",
+    documentation: "https://docs.n8n.io",
+    strengths: [
+      "Open-source and self-hostable",
+      "Highly customizable workflows",
+      "Strong developer flexibility",
+      "Good AI agent integration support",
+      "Broad API and orchestration capabilities",
+    ],
+    weaknesses: [
+      "Requires more technical knowledge than no-code competitors",
+      "UI can become complex for large workflows",
+      "Enterprise-scale governance requires additional setup",
+    ],
+    models: [
+      {
+        name: "n8n AI Agent Nodes",
+        description:
+          "AI orchestration modules for connecting LLMs, tools, memory, and autonomous workflows.",
+      },
+      {
+        name: "Workflow Engine",
+        description:
+          "Core execution runtime for automation pipelines, integrations, and event-driven workflows.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      selfHosted: true,
+      openSourceAutomation: true,
+      aiAgentSupport: true,
+      developerFocused: true,
+    },
+  },
+  {
+    id: "lovable",
+    slug: "lovable",
+    name: "Lovable",
+    company: "Lovable Labs",
+    logo: "lovable.svg",
+    accentColor: "#8b5cf6",
+    shortDescription:
+      "AI-powered full-stack app builder that generates production-ready web apps from natural language prompts.",
+    description:
+      "Lovable is an AI application builder focused on generating full-stack web applications from simple prompts. It handles frontend, backend logic, database integration, and deployment workflows, aiming to let users build SaaS products and internal tools without traditional coding complexity.",
+    categories: ["app-builder", "coding", "automation"],
+    tags: [
+      "ai-app-builder",
+      "full-stack",
+      "no-code",
+      "saas-builder",
+      "react",
+      "backend-generation",
+      "startup-tools",
+    ],
+    bestFor: [
+      "SaaS prototyping",
+      "Full-stack app generation",
+      "Startup MVPs",
+      "Internal tools",
+      "Rapid product validation",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available with usage limits; paid plans for production apps and scaling.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://lovable.dev",
+    documentation: "https://docs.lovable.dev",
+    strengths: [
+      "Fast full-stack generation",
+      "Strong MVP workflow support",
+      "Beginner-friendly UX",
+      "Integrated backend + frontend generation",
+    ],
+    weaknesses: [
+      "Limited control over deep architecture",
+      "Scaling complex apps may require refactoring",
+      "Less flexible than traditional development",
+    ],
+    models: [
+      {
+        name: "Lovable App Engine",
+        description:
+          "Core AI system for generating full-stack applications including UI, backend, and database logic.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      fullStackGeneration: true,
+      noCodePlatform: true,
+      aiSaasBuilder: true,
+    },
+  },
+  {
+    id: "replit-ai",
+    slug: "replit-ai",
+    name: "Replit AI",
+    company: "Replit",
+    logo: "replit-ai.svg",
+    accentColor: "#ff2d20",
+    shortDescription:
+      "AI-powered cloud IDE and app builder for writing, running, and deploying code with integrated AI assistance.",
+    description:
+      "Replit AI is an AI-enhanced cloud development platform that combines an online IDE with autonomous coding agents, code generation, debugging assistance, and instant deployment. It enables users to build full-stack applications directly in the browser with AI support across the entire development lifecycle.",
+    categories: ["app-builder", "coding", "developer-tools"],
+    tags: [
+      "cloud-ide",
+      "ai-coding",
+      "full-stack",
+      "deployment",
+      "agents",
+      "realtime-collaboration",
+      "startup-tools",
+    ],
+    bestFor: [
+      "Full-stack development",
+      "Learning to code",
+      "Rapid prototyping",
+      "Collaborative coding",
+      "AI-assisted debugging",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; paid plans unlock higher compute and AI features.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://replit.com",
+    documentation: "https://docs.replit.com",
+    strengths: [
+      "Instant cloud development environment",
+      "Strong AI coding assistant",
+      "Easy deployment workflow",
+      "Great for beginners and teams",
+    ],
+    weaknesses: [
+      "Limited deep infrastructure control",
+      "Performance constraints for large projects",
+      "Advanced backend systems may require external tools",
+    ],
+    models: [
+      {
+        name: "Replit Agent",
+        description:
+          "Autonomous AI agent for building, debugging, and modifying full-stack applications.",
+      },
+      {
+        name: "Ghostwriter",
+        description:
+          "AI coding assistant for autocomplete, explanations, and code generation.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      cloudIDE: true,
+      aiCodingAgent: true,
+      instantDeployment: true,
+    },
+  },
+  {
+    id: "firebase-studio",
+    slug: "firebase-studio",
+    name: "Firebase Studio",
+    company: "Google",
+    logo: "firebase-studio.svg",
+    accentColor: "#ffca28",
+    shortDescription:
+      "AI-assisted app development platform for building, deploying, and scaling full-stack applications on Firebase infrastructure.",
+    description:
+      "Firebase Studio is Google's AI-enhanced development environment built on top of Firebase, enabling developers to generate, configure, and deploy full-stack applications using AI assistance. It integrates backend services like authentication, databases, hosting, and serverless functions with AI-driven app scaffolding and development workflows.",
+    categories: ["app-builder", "developer-tools", "coding"],
+    tags: [
+      "firebase",
+      "google-cloud",
+      "backend-as-a-service",
+      "full-stack",
+      "ai-development",
+      "serverless",
+      "app-generation",
+    ],
+    bestFor: [
+      "Backend-heavy applications",
+      "Mobile + web apps",
+      "Serverless architectures",
+      "Startup MVPs",
+      "Scalable cloud apps",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier via Firebase Spark plan; paid usage via Blaze plan and Google Cloud billing.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://firebase.google.com",
+    documentation: "https://firebase.google.com/docs",
+    strengths: [
+      "Strong backend infrastructure",
+      "Scalable serverless architecture",
+      "Deep Google Cloud integration",
+      "Good AI-assisted scaffolding",
+    ],
+    weaknesses: [
+      "More backend-focused than visual app builders",
+      "Requires understanding of Firebase ecosystem",
+      "Less flexible UI generation compared to v0-style tools",
+    ],
+    models: [
+      {
+        name: "Firebase AI Assistance",
+        description:
+          "AI-powered tooling for generating app structure, backend services, and configuration.",
+      },
+      {
+        name: "Firebase Backend Engine",
+        description:
+          "Core infrastructure system for authentication, databases, hosting, and serverless execution.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      backendAsAService: true,
+      serverless: true,
+      googleCloudIntegrated: true,
+      aiAssistedDevelopment: true,
+    },
+  },
+  {
+    id: "galileo-ai",
+    slug: "galileo-ai",
+    name: "Galileo AI",
+    company: "Google (acquired)",
+    logo: "galileo-ai.svg",
+    accentColor: "#7c3aed",
+    shortDescription:
+      "AI-powered UI design tool that generates app interfaces and design systems from text prompts.",
+    description:
+      "Galileo AI is an AI-native UI design platform that generates high-fidelity user interfaces from natural language prompts. It focuses on rapid UI ideation, layout generation, and design system creation, often used as a starting point for product design workflows before exporting to tools like Figma or development environments.",
+    categories: ["ui-design", "image-generation", "coding"],
+    tags: [
+      "ui-generation",
+      "design-to-code",
+      "wireframes",
+      "prototyping",
+      "ai-design",
+      "product-design",
+    ],
+    bestFor: [
+      "UI ideation",
+      "App wireframes",
+      "Design system generation",
+      "Rapid prototyping",
+      "Product mockups",
+    ],
+    pricing: {
+      free: false,
+      paid: true,
+      notes:
+        "Commercial product with subscription-based access depending on usage and tier.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://www.usegalileo.ai",
+    documentation: "https://www.usegalileo.ai",
+    strengths: [
+      "Fast UI generation from prompts",
+      "High-quality design outputs",
+      "Good for early-stage product ideation",
+      "Strong layout understanding",
+    ],
+    weaknesses: [
+      "Limited deep customization after generation",
+      "Not a full design suite replacement",
+      "Requires export to other tools for production design workflows",
+    ],
+    models: [
+      {
+        name: "Galileo Design Model",
+        description:
+          "Core AI system for generating structured UI layouts and interface components from prompts.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      uiGeneration: true,
+      designSystemCreation: true,
+      promptToUI: true,
+    },
+  },
+  {
+    id: "figma-ai",
+    slug: "figma-ai",
+    name: "Figma AI",
+    company: "Figma",
+    logo: "figma-ai.svg",
+    accentColor: "#f24e1e",
+    shortDescription:
+      "AI-powered design assistant inside Figma for generating layouts, editing designs, and accelerating UI workflows.",
+    description:
+      "Figma AI is an integrated suite of AI features within Figma that assists designers in generating UI layouts, rewriting interface copy, creating design variations, and accelerating prototyping workflows. It enhances traditional design tools with generative AI capabilities while keeping full control inside Figma’s collaborative design environment.",
+    categories: ["ui-design", "image-generation", "productivity"],
+    tags: [
+      "design-tools",
+      "ui-design",
+      "prototyping",
+      "collaboration",
+      "ai-assistant",
+      "figma",
+      "product-design",
+    ],
+    bestFor: [
+      "UI/UX design",
+      "Design collaboration",
+      "Prototyping",
+      "Design iteration",
+      "Product design teams",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; AI features included in paid Figma plans depending on tier.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://www.figma.com",
+    documentation: "https://help.figma.com",
+    strengths: [
+      "Industry-standard design platform",
+      "Strong collaboration features",
+      "Integrated AI assistance",
+      "Large plugin ecosystem",
+    ],
+    weaknesses: [
+      "AI features still evolving",
+      "Not fully autonomous UI generation",
+      "Requires manual design effort for complex apps",
+    ],
+    models: [
+      {
+        name: "Figma AI Assistant",
+        description:
+          "Generative AI system for UI layout suggestions, copy generation, and design variations.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      collaborativeDesign: true,
+      aiAssistedDesign: true,
+      uiUxPlatform: true,
+    },
+  },
+  {
+    id: "uizard",
+    slug: "uizard",
+    name: "Uizard",
+    company: "Uizard",
+    logo: "uizard.svg",
+    accentColor: "#6366f1",
+    shortDescription:
+      "AI-powered UI design platform that converts sketches, screenshots, and prompts into editable app interfaces.",
+    description:
+      "Uizard is an AI-driven design platform that enables users to generate UI designs from text prompts, hand-drawn sketches, or screenshots. It focuses on accessibility for non-designers while providing editable wireframes, prototypes, and UI components that can be refined into production-ready designs.",
+    categories: ["ui-design", "image-generation"],
+    tags: [
+      "ui-generation",
+      "wireframing",
+      "prototyping",
+      "design-ai",
+      "no-code",
+      "product-design",
+      "sketch-to-ui",
+    ],
+    bestFor: [
+      "Wireframing",
+      "Rapid UI prototyping",
+      "Non-designer product creation",
+      "Sketch-to-digital conversion",
+      "Early-stage app design",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free plan available; paid plans unlock advanced projects and export options.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://uizard.io",
+    documentation: "https://uizard.io/help",
+    strengths: [
+      "Very easy for beginners",
+      "Supports sketch and screenshot inputs",
+      "Fast UI prototyping",
+      "Good accessibility for non-designers",
+    ],
+    weaknesses: [
+      "Less precise than professional design tools",
+      "Limited advanced design control",
+      "Not suitable for complex design systems",
+    ],
+    models: [
+      {
+        name: "Uizard Autodesigner",
+        description:
+          "AI system that generates UI layouts and prototypes from prompts, sketches, and screenshots.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      sketchToUI: true,
+      noCodeDesign: true,
+      rapidPrototyping: true,
+    },
+  },
+  {
+    id: "windsurf",
+    slug: "windsurf",
+    name: "Windsurf",
+    company: "Codeium",
+    logo: "windsurf.svg",
+    accentColor: "#3b82f6",
+    shortDescription:
+      "AI-native IDE built around agentic coding workflows, real-time collaboration, and autonomous development assistance.",
+    description:
+      "Windsurf is an AI-first integrated development environment designed for agent-driven software development. It combines code generation, autonomous agents, real-time project understanding, and collaborative editing into a unified IDE experience. The platform focuses on long-context awareness, multi-file reasoning, and workflow automation for modern software engineering.",
+    categories: ["coding", "developer-tools", "agents"],
+    tags: [
+      "ai-ide",
+      "agentic-coding",
+      "code-generation",
+      "debugging",
+      "autonomous-agents",
+      "software-engineering",
+    ],
+    bestFor: [
+      "AI-assisted development",
+      "Large codebase editing",
+      "Agentic workflows",
+      "Debugging and refactoring",
+      "Full-stack development",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; Pro plans unlock higher limits and advanced agent features.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://codeium.com/windsurf",
+    documentation: "https://docs.codeium.com",
+    strengths: [
+      "Strong agent-based coding workflows",
+      "Good long-context code understanding",
+      "Fast AI code generation",
+      "IDE-native experience",
+    ],
+    weaknesses: [
+      "Still evolving ecosystem",
+      "Less mature than traditional IDEs",
+      "Advanced workflows may require tuning",
+    ],
+    models: [
+      {
+        name: "Windsurf Agent",
+        description:
+          "Autonomous coding agent capable of multi-file reasoning and development workflows.",
+      },
+      {
+        name: "Codeium AI Engine",
+        description:
+          "Core code intelligence system powering autocomplete, generation, and refactoring.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      agenticIDE: true,
+      multiFileReasoning: true,
+      aiCodingAssistant: true,
+    },
+  },
+  {
+    id: "continue-dev",
+    slug: "continue-dev",
+    name: "Continue",
+    company: "Continue Dev",
+    logo: "continue.svg",
+    accentColor: "#10b981",
+    shortDescription:
+      "Open-source AI coding assistant for IDEs like VS Code and JetBrains with customizable models and workflows.",
+    description:
+      "Continue is an open-source AI coding assistant that integrates directly into popular IDEs such as VS Code and JetBrains. It allows developers to connect different LLMs, build custom coding assistants, and create personalized AI workflows for code generation, refactoring, and debugging.",
+    categories: ["coding", "developer-tools", "open-source"],
+    tags: [
+      "ai-assistant",
+      "open-source",
+      "ide-plugin",
+      "code-generation",
+      "custom-models",
+      "developer-tools",
+    ],
+    bestFor: [
+      "IDE-based AI assistance",
+      "Custom AI coding workflows",
+      "Open-source AI tooling",
+      "Code refactoring",
+      "Model experimentation",
+    ],
+    pricing: {
+      free: true,
+      paid: false,
+      notes:
+        "Fully open-source; optional costs depend on connected LLM providers.",
+    },
+    apiAvailable: true,
+    openSource: true,
+    website: "https://continue.dev",
+    documentation: "https://docs.continue.dev",
+    strengths: [
+      "Highly customizable AI workflows",
+      "Open-source and extensible",
+      "Supports multiple LLM providers",
+      "IDE-native integration",
+    ],
+    weaknesses: [
+      "Requires setup and configuration",
+      "Less polished UX than commercial tools",
+      "Depends on external model providers",
+    ],
+    models: [
+      {
+        name: "Continue Assistant",
+        description:
+          "Configurable AI coding assistant that integrates with IDE workflows.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      openSourceIDE: true,
+      customizableLLM: true,
+      ideIntegration: true,
+    },
+  },
+  {
+    id: "langsmith",
+    slug: "langsmith",
+    name: "LangSmith",
+    company: "LangChain",
+    logo: "langsmith.svg",
+    accentColor: "#f97316",
+    shortDescription:
+      "LLM observability and evaluation platform for building, debugging, and optimizing AI applications.",
+    description:
+      "LangSmith is an LLM observability and evaluation platform designed to help developers build, monitor, and improve AI applications. It provides tracing, debugging, dataset management, evaluation workflows, and performance monitoring for LLM-powered systems, especially those built using LangChain and related frameworks.",
+    categories: ["developer-tools", "research", "api-platform"],
+    tags: [
+      "llm-observability",
+      "debugging",
+      "evaluation",
+      "monitoring",
+      "langchain",
+      "ai-engineering",
+    ],
+    bestFor: [
+      "LLM app debugging",
+      "AI system evaluation",
+      "Prompt optimization",
+      "Tracing AI workflows",
+      "Production monitoring",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; paid plans for teams and enterprise observability features.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://smith.langchain.com",
+    documentation: "https://docs.smith.langchain.com",
+    strengths: [
+      "Excellent LLM tracing and observability",
+      "Strong evaluation tooling",
+      "Deep LangChain ecosystem integration",
+      "Useful for production AI systems",
+    ],
+    weaknesses: [
+      "Primarily focused on LangChain ecosystem",
+      "Less useful for non-LLM systems",
+      "Requires engineering setup",
+    ],
+    models: [
+      {
+        name: "LangSmith Tracing Engine",
+        description:
+          "System for tracking, debugging, and analyzing LLM application workflows.",
+      },
+      {
+        name: "Evaluation System",
+        description:
+          "Framework for scoring and improving LLM outputs using datasets and metrics.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-14",
+    metadata: {
+      llmObservability: true,
+      aiEvaluation: true,
+      promptEngineeringTools: true,
+    },
+  },
+  {
+    id: "playht",
+    slug: "playht",
+    name: "PlayHT",
+    company: "PlayHT",
+    logo: "playht.svg",
+    accentColor: "#7c3aed",
+    shortDescription:
+      "AI voice generation platform for realistic text-to-speech and voice cloning across multiple languages and styles.",
+    description:
+      "PlayHT is an AI-powered voice generation platform that specializes in high-quality text-to-speech and voice cloning. It enables users to create natural-sounding speech from text using a wide range of synthetic voices or custom cloned voices. The platform is widely used for content creation, audiobooks, podcasts, marketing narration, and product voiceovers.",
+    categories: ["voice-generation", "audio"],
+    tags: [
+      "text-to-speech",
+      "voice-cloning",
+      "ai-voice",
+      "tts",
+      "audiobooks",
+      "podcast",
+      "voiceovers",
+      "synthetic-voice",
+    ],
+    bestFor: [
+      "Text-to-speech generation",
+      "Voice cloning",
+      "Audiobook narration",
+      "Content voiceovers",
+      "Podcast production",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available with limited characters; paid plans scale based on voice generation usage.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://play.ht",
+    documentation: "https://docs.play.ht",
+    strengths: [
+      "Highly realistic AI voices",
+      "Strong multilingual support",
+      "Easy voice cloning workflow",
+      "Developer-friendly API",
+      "Good for content creators and businesses",
+    ],
+    weaknesses: [
+      "Premium voices can be expensive at scale",
+      "Voice cloning requires quality input data",
+      "Limited emotional control compared to advanced studio tools",
+    ],
+    models: [
+      {
+        name: "PlayHT Voice Engine",
+        description:
+          "Core text-to-speech system for generating natural-sounding speech from text input.",
+      },
+      {
+        name: "Voice Cloning System",
+        description:
+          "AI model for creating custom synthetic voices from user audio samples.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      tts: true,
+      voiceCloning: true,
+      multilingualVoices: true,
+      apiSupport: true,
+    },
+  },
+  {
+    id: "glean",
+    slug: "glean",
+    name: "Glean",
+    company: "Glean",
+    logo: "glean.svg",
+    accentColor: "#2563eb",
+    shortDescription:
+      "Enterprise AI search platform that connects workplace data and provides unified semantic search across company knowledge.",
+    description:
+      "Glean is an enterprise AI search and knowledge discovery platform that indexes internal company data across tools like Slack, Google Drive, Notion, Jira, and others. It provides semantic search, AI answers, and contextual knowledge retrieval designed specifically for workplace productivity and enterprise information access.",
+    categories: ["search", "knowledge-base", "productivity"],
+    tags: [
+      "enterprise-search",
+      "knowledge-retrieval",
+      "rag",
+      "workplace-ai",
+      "semantic-search",
+      "internal-search",
+    ],
+    bestFor: [
+      "Enterprise search",
+      "Internal knowledge discovery",
+      "Company-wide AI assistant",
+      "Document retrieval",
+      "Workplace productivity",
+    ],
+    pricing: {
+      free: false,
+      paid: true,
+      notes: "Enterprise-only pricing based on organization size and usage.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://www.glean.com",
+    documentation: "https://www.glean.com/docs",
+    strengths: [
+      "Strong enterprise search capabilities",
+      "Deep integrations with workplace tools",
+      "High-quality semantic retrieval",
+      "Security-focused architecture",
+    ],
+    weaknesses: [
+      "Not designed for consumer use",
+      "Requires enterprise setup and onboarding",
+      "Limited flexibility outside workplace contexts",
+    ],
+    models: [
+      {
+        name: "Glean Search Engine",
+        description:
+          "AI-powered semantic search system across enterprise data sources.",
+      },
+      {
+        name: "Glean Assistant",
+        description:
+          "Conversational AI layer for querying and retrieving internal company knowledge.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      enterpriseSearch: true,
+      workplaceAI: true,
+      ragSystem: true,
+      secureIndexing: true,
+    },
+  },
+  {
+    id: "you-com",
+    slug: "you-com",
+    name: "You.com",
+    company: "You.com",
+    logo: "you-com.svg",
+    accentColor: "#10b981",
+    shortDescription:
+      "AI-powered search engine combining web search, chat, and productivity tools into a unified interface.",
+    description:
+      "You.com is an AI-first search engine that blends traditional web search with conversational AI, summarization, and productivity tools. It provides customizable search modes, AI chat answers, and integrated apps for writing, coding, and research workflows, aiming to replace or augment traditional search engines with AI-driven results.",
+    categories: ["search", "research", "productivity"],
+    tags: [
+      "ai-search",
+      "semantic-search",
+      "chat-search",
+      "web-retrieval",
+      "productivity-tools",
+      "rag",
+    ],
+    bestFor: [
+      "AI web search",
+      "Research and summaries",
+      "Coding assistance",
+      "Productivity workflows",
+      "General knowledge retrieval",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; Pro plans unlock advanced models and higher usage limits.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://you.com",
+    documentation: "https://docs.you.com",
+    strengths: [
+      "Strong AI search + chat hybrid experience",
+      "Customizable search modes",
+      "Good for research workflows",
+      "Integrated productivity tools",
+    ],
+    weaknesses: [
+      "Less accurate than specialized enterprise search tools",
+      "Interface can feel cluttered",
+      "Model quality varies by mode",
+    ],
+    models: [
+      {
+        name: "YouChat",
+        description:
+          "Conversational AI system for answering queries and summarizing web results.",
+      },
+      {
+        name: "YouSearch",
+        description:
+          "AI-enhanced search engine that combines web indexing with semantic ranking.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      aiSearch: true,
+      hybridSearchChat: true,
+      webRetrieval: true,
+      productivityIntegration: true,
+    },
+  },
+  {
+    id: "notebooklm",
+    slug: "notebooklm",
+    name: "NotebookLM",
+    company: "Google",
+    logo: "notebooklm.svg",
+    accentColor: "#4285f4",
+    shortDescription:
+      "AI research and note-taking assistant that builds contextual understanding from user-provided documents.",
+    description:
+      "NotebookLM is an AI-powered research and note-taking tool from Google that allows users to upload documents and interact with them through grounded, source-aware AI responses. It is designed for deep comprehension, summarization, and synthesis across personal knowledge bases, making it useful for study, research, and writing workflows.",
+    categories: ["knowledge-base", "research", "productivity"],
+    tags: [
+      "rag",
+      "document-ai",
+      "note-taking",
+      "research-assistant",
+      "summarization",
+      "google-ai",
+    ],
+    bestFor: [
+      "Document analysis",
+      "Research synthesis",
+      "Study notes",
+      "Knowledge grounding",
+      "Writing assistance",
+    ],
+    pricing: {
+      free: true,
+      paid: false,
+      notes: "Currently free as part of Google Labs / experimental rollout.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://notebooklm.google",
+    documentation: "https://notebooklm.google",
+    strengths: [
+      "Strong document-grounded responses",
+      "Excellent for research workflows",
+      "Clean and simple UX",
+      "High-quality summarization",
+    ],
+    weaknesses: [
+      "Limited integrations outside Google ecosystem",
+      "Not designed for team collaboration at scale",
+      "No public API",
+    ],
+    models: [
+      {
+        name: "NotebookLM Engine",
+        description:
+          "Document-grounded AI system for retrieval, summarization, and synthesis across uploaded sources.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      ragBased: true,
+      documentGrounding: true,
+      googleLabsProduct: true,
+      personalKnowledgeBase: true,
+    },
+  },
+  {
+    id: "mem-ai",
+    slug: "mem-ai",
+    name: "Mem",
+    company: "Mem Labs",
+    logo: "mem.svg",
+    accentColor: "#f97316",
+    shortDescription:
+      "Self-organizing AI knowledge base that captures, connects, and surfaces notes automatically.",
+    description:
+      "Mem is an AI-powered knowledge management platform that automatically organizes notes, emails, and content into a connected knowledge graph. It uses AI to surface relevant information, generate summaries, and create a self-updating personal or team knowledge base without requiring manual folder structures or tagging.",
+    categories: ["knowledge-base", "productivity", "research"],
+    tags: [
+      "personal-knowledge-management",
+      "ai-notes",
+      "knowledge-graph",
+      "rag",
+      "productivity",
+      "memory-system",
+    ],
+    bestFor: [
+      "Personal knowledge management",
+      "Automatic note organization",
+      "Research capture",
+      "Knowledge retrieval",
+      "Meeting notes and summaries",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; paid plans unlock advanced AI memory and collaboration features.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://mem.ai",
+    documentation: "https://mem.ai/help",
+    strengths: [
+      "Automatic knowledge organization",
+      "Strong AI-powered retrieval",
+      "Minimal manual structure required",
+      "Good personal productivity system",
+    ],
+    weaknesses: [
+      "Less suitable for large enterprise setups",
+      "Limited external integrations compared to competitors",
+      "Still evolving collaboration features",
+    ],
+    models: [
+      {
+        name: "Mem AI Engine",
+        description:
+          "Core system that organizes and retrieves user knowledge using semantic indexing and AI memory structures.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      personalKnowledgeGraph: true,
+      aiMemorySystem: true,
+      autoOrganization: true,
+    },
+  },
+  {
+    id: "guru-ai",
+    slug: "guru-ai",
+    name: "Guru",
+    company: "Guru Technologies",
+    logo: "guru.svg",
+    accentColor: "#22c55e",
+    shortDescription:
+      "Enterprise AI knowledge management platform that centralizes company information and delivers verified answers.",
+    description:
+      "Guru is an enterprise knowledge management platform that combines AI search, verified knowledge cards, and internal documentation into a unified system. It is designed to ensure teams always access accurate, up-to-date information across tools like Slack, Salesforce, and internal wikis.",
+    categories: ["knowledge-base", "search", "productivity"],
+    tags: [
+      "enterprise-knowledge",
+      "internal-wiki",
+      "ai-search",
+      "documentation",
+      "team-collaboration",
+      "rag",
+    ],
+    bestFor: [
+      "Enterprise knowledge sharing",
+      "Internal documentation",
+      "Support team knowledge bases",
+      "Sales enablement",
+      "Company-wide AI search",
+    ],
+    pricing: {
+      free: false,
+      paid: true,
+      notes: "Enterprise pricing based on team size and feature requirements.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://www.getguru.com",
+    documentation: "https://docs.getguru.com",
+    strengths: [
+      "Strong enterprise knowledge management",
+      "Verified content system",
+      "Good integrations with business tools",
+      "Reliable AI search layer",
+    ],
+    weaknesses: [
+      "Enterprise-focused (not ideal for individuals)",
+      "Setup and governance required",
+      "Less flexible for personal use cases",
+    ],
+    models: [
+      {
+        name: "Guru AI Search",
+        description:
+          "AI system for retrieving verified answers from enterprise knowledge sources.",
+      },
+      {
+        name: "Knowledge Cards Engine",
+        description:
+          "Structured knowledge storage system ensuring accurate and up-to-date company information.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      enterpriseKnowledgeBase: true,
+      verifiedAnswers: true,
+      internalWiki: true,
+    },
+  },
+  {
+    id: "notion-ai",
+    slug: "notion-ai",
+    name: "Notion AI",
+    company: "Notion Labs",
+    logo: "notion-ai.svg",
+    accentColor: "#000000",
+    shortDescription:
+      "AI assistant embedded in Notion for writing, summarizing, organizing, and managing knowledge workflows.",
+    description:
+      "Notion AI is an integrated AI assistant inside Notion that enhances note-taking, documentation, and workspace organization. It helps users write content, summarize pages, generate ideas, and extract insights from structured and unstructured workspace data.",
+    categories: ["knowledge-base", "productivity", "text-generation"],
+    tags: [
+      "workspace-ai",
+      "note-taking",
+      "documentation",
+      "summarization",
+      "productivity",
+      "rag",
+    ],
+    bestFor: [
+      "Team documentation",
+      "Note summarization",
+      "Content creation",
+      "Project organization",
+      "Knowledge management",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free Notion plan available; AI features require paid add-on or higher tiers.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://www.notion.so/product/ai",
+    documentation: "https://www.notion.so/help",
+    strengths: [
+      "Seamless integration with workspace",
+      "Strong writing and summarization tools",
+      "Great for team collaboration",
+      "Flexible knowledge system",
+    ],
+    weaknesses: [
+      "AI features are secondary to core Notion system",
+      "Limited deep reasoning compared to standalone AI tools",
+      "Requires structured workspace setup for best results",
+    ],
+    models: [
+      {
+        name: "Notion AI Writer",
+        description:
+          "Generative AI system for writing, editing, and summarizing workspace content.",
+      },
+      {
+        name: "Notion Knowledge Engine",
+        description:
+          "Context-aware retrieval system operating across workspace pages and databases.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      workspaceAI: true,
+      documentationTool: true,
+      aiWritingAssistant: true,
+    },
+  },
+  {
+    id: "gamma",
+    slug: "gamma",
+    name: "Gamma",
+    company: "Gamma Tech",
+    logo: "gamma.svg",
+    accentColor: "#8b5cf6",
+    shortDescription:
+      "AI-powered presentation and document generator that creates decks, webpages, and visual stories from prompts.",
+    description:
+      "Gamma is an AI-native presentation platform that transforms text prompts into structured presentations, documents, and simple webpages. It focuses on fast content generation with clean design layouts, enabling users to create pitch decks, reports, and visual narratives without manual formatting.",
+    categories: ["presentation", "text-generation", "productivity"],
+    tags: [
+      "ai-presentations",
+      "pitch-decks",
+      "document-generation",
+      "storytelling",
+      "design-automation",
+    ],
+    bestFor: [
+      "Pitch decks",
+      "Business presentations",
+      "Reports and summaries",
+      "Marketing slides",
+      "Quick visual storytelling",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; paid plans unlock advanced customization and branding.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://gamma.app",
+    documentation: "https://help.gamma.app",
+    strengths: [
+      "Very fast presentation generation",
+      "Clean modern design output",
+      "Good storytelling structure",
+      "Easy to use for non-designers",
+    ],
+    weaknesses: [
+      "Limited deep slide-level customization",
+      "Less control than traditional tools like PowerPoint",
+      "AI-generated structure sometimes needs refinement",
+    ],
+    models: [
+      {
+        name: "Gamma Content Engine",
+        description:
+          "AI system that converts prompts into structured presentations and visual documents.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      aiPresentations: true,
+      documentGeneration: true,
+      storytellingAI: true,
+    },
+  },
+  {
+    id: "tome",
+    slug: "tome",
+    name: "Tome",
+    company: "Tome",
+    logo: "tome.svg",
+    accentColor: "#06b6d4",
+    shortDescription:
+      "AI storytelling platform for generating narrative-driven presentations and interactive visual content.",
+    description:
+      "Tome is an AI-powered storytelling and presentation tool designed to create narrative-driven decks and visual stories from simple prompts. It focuses on combining text, visuals, and structure into interactive presentations, often used for pitching ideas, product storytelling, and creative communication.",
+    categories: ["presentation", "text-generation", "productivity"],
+    tags: [
+      "ai-presentations",
+      "storytelling",
+      "pitch-decks",
+      "visual-narratives",
+      "content-creation",
+    ],
+    bestFor: [
+      "Startup pitch decks",
+      "Story-driven presentations",
+      "Product storytelling",
+      "Creative narratives",
+      "Sales presentations",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free plan available; paid tiers unlock advanced AI features and branding control.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://tome.app",
+    documentation: "https://tome.app/help",
+    strengths: [
+      "Strong narrative-driven design",
+      "Good for storytelling presentations",
+      "Simple AI generation flow",
+      "Visually engaging output",
+    ],
+    weaknesses: [
+      "Less flexible for structured corporate slides",
+      "Limited fine-grained design control",
+      "Not ideal for data-heavy presentations",
+    ],
+    models: [
+      {
+        name: "Tome Story Engine",
+        description:
+          "AI system for generating narrative-driven slides and visual storytelling structures.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      storytellingAI: true,
+      aiPresentations: true,
+      narrativeGeneration: true,
+    },
+  },
+  {
+    id: "beautiful-ai",
+    slug: "beautiful-ai",
+    name: "Beautiful.ai",
+    company: "Beautiful.ai",
+    logo: "beautiful-ai.svg",
+    accentColor: "#f43f5e",
+    shortDescription:
+      "AI-assisted presentation design tool that automatically formats slides with smart layouts and design rules.",
+    description:
+      "Beautiful.ai is an AI-enhanced presentation design platform that focuses on automated slide formatting using smart templates and design rules. Instead of freeform editing, it enforces consistent layout logic, making it easy to create polished, professional presentations quickly.",
+    categories: ["presentation", "productivity"],
+    tags: [
+      "presentation-design",
+      "auto-formatting",
+      "pitch-decks",
+      "smart-slides",
+      "business-presentations",
+    ],
+    bestFor: [
+      "Corporate presentations",
+      "Sales decks",
+      "Investor decks",
+      "Business reporting",
+      "Structured slide design",
+    ],
+    pricing: {
+      free: false,
+      paid: true,
+      notes:
+        "Paid-only platform with business and team-oriented pricing plans.",
+    },
+    apiAvailable: false,
+    openSource: false,
+    website: "https://www.beautiful.ai",
+    documentation: "https://support.beautiful.ai",
+    strengths: [
+      "Highly polished slide layouts",
+      "Automatic design consistency",
+      "Great for business use cases",
+      "Fast presentation creation",
+    ],
+    weaknesses: [
+      "Limited creative flexibility",
+      "Less AI content generation compared to competitors",
+      "More template-driven than generative",
+    ],
+    models: [
+      {
+        name: "Smart Slide Engine",
+        description:
+          "Rule-based AI system that automatically formats and structures presentation slides.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      autoFormatting: true,
+      smartTemplates: true,
+      businessPresentations: true,
+    },
+  },
+  {
+    id: "meshy",
+    slug: "meshy",
+    name: "Meshy",
+    company: "Meshy AI",
+    logo: "meshy.svg",
+    accentColor: "#22c55e",
+    shortDescription:
+      "AI-powered 3D generation platform that converts text and images into textured 3D models.",
+    description:
+      "Meshy is an AI 3D generation platform that enables users to create detailed 3D assets from text prompts or images. It automatically generates meshes, textures, and UV maps, making it useful for game development, product visualization, and digital content creation workflows.",
+    categories: ["3d-generation", "image-generation", "developer-tools"],
+    tags: [
+      "text-to-3d",
+      "image-to-3d",
+      "game-assets",
+      "model-generation",
+      "texturing",
+      "ai-3d",
+    ],
+    bestFor: [
+      "Game asset creation",
+      "3D modeling automation",
+      "Product visualization",
+      "Concept-to-3D workflows",
+      "Rapid prototyping of assets",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available with limited generations; paid plans scale by usage and quality.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://www.meshy.ai",
+    documentation: "https://docs.meshy.ai",
+    strengths: [
+      "Fast text-to-3D generation",
+      "Automatic texturing and UV mapping",
+      "Good quality for game-ready assets",
+      "Developer API available",
+    ],
+    weaknesses: [
+      "Limited fine-grained mesh control",
+      "Complex assets may need manual refinement",
+      "Quality varies depending on prompt specificity",
+    ],
+    models: [
+      {
+        name: "Meshy 3D Generator",
+        description:
+          "Core AI system for generating textured 3D models from text and image inputs.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      textTo3D: true,
+      imageTo3D: true,
+      autoTexturing: true,
+    },
+  },
+  {
+    id: "spline-ai",
+    slug: "spline-ai",
+    name: "Spline AI",
+    company: "Spline",
+    logo: "spline-ai.svg",
+    accentColor: "#6366f1",
+    shortDescription:
+      "Interactive 3D design platform with AI assistance for creating web-ready 3D scenes and animations.",
+    description:
+      "Spline AI is a browser-based 3D design platform that allows users to create interactive 3D scenes, animations, and objects with AI assistance. It focuses on real-time 3D design for web experiences, enabling exportable interactive content for websites, product demos, and UI-enhanced visuals.",
+    categories: ["3d-generation", "ui-design", "developer-tools"],
+    tags: [
+      "3d-design",
+      "webgl",
+      "interactive-3d",
+      "animation",
+      "product-design",
+      "real-time-3d",
+    ],
+    bestFor: [
+      "Interactive web 3D",
+      "Product visualizations",
+      "3D UI elements",
+      "Animations for websites",
+      "Design prototyping",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free plan available; paid tiers unlock collaboration, exports, and advanced features.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://spline.design",
+    documentation: "https://docs.spline.design",
+    strengths: [
+      "Real-time browser-based 3D editing",
+      "Strong web integration capabilities",
+      "Good for interactive experiences",
+      "Easy learning curve for designers",
+    ],
+    weaknesses: [
+      "Less suited for high-end cinematic 3D",
+      "Limited compared to Blender-level control",
+      "Performance constraints for complex scenes",
+    ],
+    models: [
+      {
+        name: "Spline AI Assistant",
+        description:
+          "AI system for generating and modifying 3D scenes, objects, and animations.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      realTime3D: true,
+      web3D: true,
+      interactiveDesign: true,
+    },
+  },
+  {
+    id: "luma-ai",
+    slug: "luma-ai",
+    name: "Luma AI",
+    company: "Luma Labs",
+    logo: "luma-ai.svg",
+    accentColor: "#0ea5e9",
+    shortDescription:
+      "AI-powered 3D capture and generation platform for realistic scenes, objects, and neural reconstruction.",
+    description:
+      "Luma AI is a 3D capture and generation platform that uses neural rendering and AI models to create highly realistic 3D scenes and objects from video or text inputs. It specializes in photorealistic reconstruction and immersive 3D environments for creative, gaming, and visual effects workflows.",
+    categories: ["3d-generation", "video-generation"],
+    tags: [
+      "neural-rendering",
+      "3d-capture",
+      "photorealistic-3d",
+      "gaussian-splatting",
+      "scene-reconstruction",
+      "ai-3d",
+    ],
+    bestFor: [
+      "Photorealistic 3D scenes",
+      "Neural capture from video",
+      "Game environment creation",
+      "Visual effects workflows",
+      "Immersive experiences",
+    ],
+    pricing: {
+      free: true,
+      paid: true,
+      notes:
+        "Free tier available; paid plans for higher-quality outputs and commercial usage.",
+    },
+    apiAvailable: true,
+    openSource: false,
+    website: "https://lumalabs.ai",
+    documentation: "https://docs.lumalabs.ai",
+    strengths: [
+      "Highly realistic 3D reconstruction",
+      "Strong neural rendering quality",
+      "Good for cinematic environments",
+      "Fast capture-to-3D workflow",
+    ],
+    weaknesses: [
+      "Requires good input data for best results",
+      "Less controllable than traditional 3D tools",
+      "Heavy compute requirements for high fidelity outputs",
+    ],
+    models: [
+      {
+        name: "Neural Capture Engine",
+        description:
+          "AI system for reconstructing 3D scenes from video and image inputs.",
+      },
+      {
+        name: "Gaussian Splatting Renderer",
+        description:
+          "Advanced rendering system for producing photorealistic 3D environments.",
+      },
+    ],
+    featured: true,
+    trending: true,
+    lastUpdated: "2026-05-15",
+    metadata: {
+      neural3D: true,
+      gaussianSplatting: true,
+      photorealisticReconstruction: true,
     },
   },
 ];

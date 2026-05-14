@@ -50,6 +50,19 @@ export function PlatformLogo({
       "v0",
       "bolt",
       "googleaistudio",
+      "autogpt",
+      "pomelli-ai",
+      "stitch-ai",
+      "langsmith",
+      "windsurf",
+      "continue",
+      "guru",
+      "notion-ai",
+      "notebooklm",
+      "gamma",
+      "tome",
+      "beautiful-ai",
+      "spline-ai",
     ].some(
       (key) =>
         platform.slug.toLowerCase().includes(key) ||
