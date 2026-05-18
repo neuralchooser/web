@@ -63,6 +63,16 @@ export function PlatformLogo({
       "tome",
       "beautiful-ai",
       "spline-ai",
+      "apollo",
+      "clay",
+      "zoominfo",
+      "seamless-ai",
+      "6sense",
+      "contactout",
+      "smartlead",
+      "reply-io",
+      "lemlist",
+      "mailshake",
     ].some(
       (key) =>
         platform.slug.toLowerCase().includes(key) ||

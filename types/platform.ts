@@ -64,10 +64,10 @@ export interface AIPlatform {
   apiAvailable?: boolean;
   openSource?: boolean;
   website?: string;
-  documentation?: string;
+  documentation?: string | null;
   strengths?: string[];
   weaknesses?: string[];
-  models?: PlatformModel[];
+  models?: PlatformModel[] | null;
   featured?: boolean;
   trending?: boolean;
   lastUpdated?: string;
