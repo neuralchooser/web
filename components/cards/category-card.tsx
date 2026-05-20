@@ -1,44 +1,117 @@
-import Link from "next/link";
 import {
-  AudioWaveform,
+  AppWindow,
+  BadgeDollarSign,
+  Bot,
   Boxes,
   Clapperboard,
   Code2,
+  Globe,
+  Headset,
   Image,
+  LayoutTemplate,
+  Megaphone,
   MessageSquareText,
   Music2,
+  NotebookPen,
+  Presentation,
   SearchCheck,
+  Users,
+  Workflow,
 } from "lucide-react";
-
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Category } from "@/types/platform";
 
 const icons = {
-  MessageSquareText,
-  Image,
-  Clapperboard,
-  Code2,
-  AudioWaveform,
-  Music2,
-  SearchCheck,
+  "text-generation": {
+    icon: MessageSquareText,
+    color: "from-sky-500 to-cyan-400",
+  },
+  "image-generation": {
+    icon: Image,
+    color: "from-fuchsia-500 to-rose-400",
+  },
+  "video-generation": {
+    icon: Clapperboard,
+    color: "from-amber-500 to-orange-400",
+  },
+  coding: {
+    icon: Code2,
+    color: "from-emerald-500 to-teal-400",
+  },
+  "app-builder": {
+    icon: AppWindow,
+    color: "from-green-500 to-emerald-400",
+  },
+  "website-builder": {
+    icon: Globe,
+    color: "from-cyan-500 to-blue-400",
+  },
+  "ui-design": {
+    icon: LayoutTemplate,
+    color: "from-violet-500 to-fuchsia-400",
+  },
+  agents: {
+    icon: Bot,
+    color: "from-indigo-500 to-violet-400",
+  },
+  automation: {
+    icon: Workflow,
+    color: "from-orange-500 to-red-400",
+  },
+  research: {
+    icon: SearchCheck,
+    color: "from-blue-500 to-indigo-400",
+  },
+  "lead-generation": {
+    icon: Users,
+    color: "from-yellow-500 to-amber-400",
+  },
+  marketing: {
+    icon: Megaphone,
+    color: "from-pink-500 to-rose-400",
+  },
+  sales: {
+    icon: BadgeDollarSign,
+    color: "from-lime-500 to-green-40<PASSWORD>",
+  },
+  "customer-support": {
+    icon: Headset,
+    color: "from-sky-5<PASSWORD> to-blue-4<PASSWORD>",
+  },
+  productivity: {
+    icon: NotebookPen,
+    color: "from-stone-5<PASSWORD> to-zinc-4<PASSWORD>",
+  },
+  presentation: {
+    icon: Presentation,
+    color: "from-rose-500 to-pink-400",
+  },
+  "data-analysis": {
+    icon: Music2,
+    color: "from-purple-500 to-violet-400",
+  },
+  "search-check": {
+    icon: SearchCheck,
+    color: "from-blue-500 to-indigo-400",
+  },
   Boxes,
-};
+} as any;
 
 export function CategoryCard({
   category,
   count,
 }: {
-  category: Category;
+  category: any;
   count?: number;
 }) {
-  const Icon = icons[category.icon as keyof typeof icons] ?? Boxes;
+  const Icon = icons[category.slug]?.icon ?? Boxes;
 
   return (
     <Link href={`/categories/${category.slug}`} className="group block h-full">
       <Card className="h-full overflow-hidden bg-card/80 transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
         <CardContent className="p-5">
           <div
-            className={`flex size-11 items-center justify-center rounded-lg bg-gradient-to-br ${category.color} text-white shadow-sm`}
+            className={`flex size-11 items-center justify-center rounded-lg bg-gradient-to-br ${icons[category.slug]?.color} text-white shadow-sm`}
           >
             <Icon className="size-5" />
           </div>

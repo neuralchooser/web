@@ -19,7 +19,7 @@ export function SiteLogo({
   return (
     <Link href={href} className={className}>
       <span className="border border-border overflow-hidden rounded-md">
-        <Image src={logoSrc} alt="NeuralChooser Logo" width={32} height={32} />
+        {/* <Image src={logoSrc} alt="NeuralChooser Logo" width={32} height={32} /> */}
       </span>
       <span>NeuralChooser</span>
     </Link>
