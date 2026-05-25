@@ -277,7 +277,6 @@ export function PlatformSearch({
 
         <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
           <span>{filteredPlatforms.length} platforms found</span>
-          <span>Client-side instant filtering</span>
         </div>
 
         {filteredPlatforms.length ? (

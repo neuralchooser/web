@@ -1,11 +1,12 @@
 import { CategoryCard } from "@/components/cards/category-card";
 import { getAllPlatforms } from "@/lib/platforms";
-import { categories } from "@/content/models/categories";
-import type { Category, PlatformCategorySlug } from "@/types/platform";
+import { getAllCategories } from "@/lib/services/categories";
+import type { PlatformCategorySlug } from "@/types/platform";
 
 export async function FeaturedCategories() {
   const platforms = await getAllPlatforms();
-  const featuredCategories = categories.filter((category) => category.featured);
+  const featuredCategories = await getAllCategories();
+  // const featuredCategories = categories.filter((category) => category.featured);
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -19,7 +20,7 @@ export async function FeaturedCategories() {
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {featuredCategories.map((category: Category) => (
+        {featuredCategories.map((category: any) => (
           <CategoryCard
             key={category.slug}
             category={category}

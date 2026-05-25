@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import type { AIPlatform } from "@/types/platform";
 
@@ -16,7 +16,13 @@ export function PlatformLogo({
   className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-sm font-semibold",
 }: PlatformLogoProps) {
   const [imageFailed, setImageFailed] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const logoFile = useMemo(() => {
     if (platform.logo) {
       return platform.logo.startsWith("/")
@@ -27,8 +33,8 @@ export function PlatformLogo({
   }, [platform.logo]);
 
   const initials = platform.name.slice(0, 2).toUpperCase();
-  const logoSrc = logoFile ? `/logos/models/${logoFile}` : null;
   const darkMode = resolvedTheme === "dark";
+
   const shouldInvertLogo =
     darkMode &&
     logoFile &&
@@ -81,9 +87,9 @@ export function PlatformLogo({
 
   return (
     <div className={className} style={{ color: platform.accentColor }}>
-      {logoSrc && !imageFailed ? (
+      {mounted && platform.logo && !imageFailed ? (
         <Image
-          src={logoSrc}
+          src={platform.logo!}
           alt={`${platform.name} logo`}
           width={28}
           height={28}
