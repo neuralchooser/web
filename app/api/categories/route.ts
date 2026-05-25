@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    let categories = await getAllCategories();
+    const categories = await getAllCategories();
 
     return NextResponse.json(categories);
   } catch (error) {

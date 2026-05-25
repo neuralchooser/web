@@ -17,11 +17,13 @@ import {
   SearchCheck,
   Users,
   Workflow,
+  type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import type { PlatformCategory } from "@/types/platform";
 
-const icons = {
+const icons: Record<string, { icon: LucideIcon; color: string }> = {
   "text-generation": {
     icon: MessageSquareText,
     color: "from-sky-500 to-cyan-400",
@@ -94,24 +96,27 @@ const icons = {
     icon: SearchCheck,
     color: "from-blue-500 to-indigo-400",
   },
-  Boxes,
-} as any;
+};
 
 export function CategoryCard({
   category,
   count,
 }: {
-  category: any;
+  category: PlatformCategory;
   count?: number;
 }) {
-  const Icon = icons[category.slug]?.icon ?? Boxes;
+  const iconMeta = icons[category.slug] ?? {
+    icon: Boxes,
+    color: "from-slate-500 to-gray-400",
+  };
+  const Icon = iconMeta.icon;
 
   return (
     <Link href={`/categories/${category.slug}`} className="group block h-full">
       <Card className="h-full overflow-hidden bg-card/80 transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
         <CardContent className="p-5">
           <div
-            className={`flex size-11 items-center justify-center rounded-lg bg-gradient-to-br ${icons[category.slug]?.color} text-white shadow-sm`}
+            className={`flex size-11 items-center justify-center rounded-lg bg-gradient-to-br ${iconMeta.color} text-white shadow-sm`}
           >
             <Icon className="size-5" />
           </div>

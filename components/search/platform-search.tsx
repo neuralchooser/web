@@ -205,7 +205,7 @@ export function PlatformSearch({
       if (filters.apiAvailable && !platform.apiAvailable) return false;
       return true;
     });
-  }, [filters, platforms, query]);
+  }, [categoryLookup, filters, platforms, query]);
 
   const activeFilterCount = [
     filters.category !== "all",

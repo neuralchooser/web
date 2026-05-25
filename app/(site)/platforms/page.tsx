@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { PlatformSearch } from "@/components/search/platform-search";
 import { getAllCategories, getAllPlatforms } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
-import type { AIPlatform } from "@/types/platform";
 
 export const metadata: Metadata = createMetadata({
   title: "AI Platform Directory",

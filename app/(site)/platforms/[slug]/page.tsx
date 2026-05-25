@@ -14,7 +14,7 @@ import {
   getRelatedPlatforms,
 } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
-import type { AIPlatform, PlatformCategorySlug } from "@/types/platform";
+import type { PlatformCategorySlug } from "@/types/platform";
 
 export async function generateStaticParams() {
   const platforms = await getAllPlatforms();
@@ -58,7 +58,7 @@ export default async function PlatformPage(
             <div className="flex flex-wrap gap-2">
               {platform.categories.map((category: PlatformCategorySlug) => (
                 <Badge key={category} variant="secondary">
-                  {formatCategoryName(category) as any}
+                  {formatCategoryName(category)}
                 </Badge>
               ))}
             </div>

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
 interface SiteLogoProps {
   href?: string;
@@ -15,24 +14,12 @@ export function SiteLogo({
   className = "flex items-center gap-2 font-semibold tracking-tight",
 }: SiteLogoProps) {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Only render after mount to avoid SSR mismatch
-  useEffect(() => setMounted(true), []);
-
-  const logoSrc = `/logos/brand/logo-${resolvedTheme || "light"}.png`;
+  const logoSrc = `/logos/brand/logo-${resolvedTheme === "dark" ? "dark" : "light"}.png`;
 
   return (
     <Link href={href} className={className}>
       <span className="border border-border overflow-hidden rounded-md">
-        {mounted && (
-          <Image
-            src={logoSrc}
-            alt="NeuralChooser Logo"
-            width={32}
-            height={32}
-          />
-        )}
+        <Image src={logoSrc} alt="NeuralChooser Logo" width={32} height={32} />
       </span>
       <span>NeuralChooser</span>
     </Link>

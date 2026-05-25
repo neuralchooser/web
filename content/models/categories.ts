@@ -1,4 +1,6 @@
-export const categories: any[] = [
+import type { Category } from "@/types/platform";
+
+export const categories: Category[] = [
   {
     slug: "text-generation",
     name: "Text Generation",

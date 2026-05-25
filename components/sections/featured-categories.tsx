@@ -1,7 +1,7 @@
 import { CategoryCard } from "@/components/cards/category-card";
 import { getAllPlatforms } from "@/lib/platforms";
 import { getAllCategories } from "@/lib/services/categories";
-import type { PlatformCategorySlug } from "@/types/platform";
+import type { PlatformCategory, PlatformCategorySlug } from "@/types/platform";
 
 export async function FeaturedCategories() {
   const platforms = await getAllPlatforms();
@@ -20,7 +20,7 @@ export async function FeaturedCategories() {
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {featuredCategories.map((category: any) => (
+        {featuredCategories.map((category: PlatformCategory) => (
           <CategoryCard
             key={category.slug}
             category={category}
