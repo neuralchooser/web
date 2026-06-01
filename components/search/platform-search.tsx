@@ -6,12 +6,21 @@ import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
 import { PlatformCard } from "@/components/cards/platform-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { getCategoryBySlug } from "@/lib/platforms";
-import type { AIPlatform, Category, PlatformCategory } from "@/types/platform";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import type {
+  AIPlatform,
+  PlatformCategory,
+  PlatformCategorySlug,
+} from "@/types/platform";
 
 interface Filters {
-  category: "all" | PlatformCategory;
+  category: "all" | string;
   pricing: "all" | "free" | "paid";
   openSource: boolean;
   apiAvailable: boolean;
@@ -24,7 +33,11 @@ const defaultFilters: Filters = {
   apiAvailable: false,
 };
 
-function matchesSearch(platform: AIPlatform, query: string) {
+function matchesSearch(
+  platform: AIPlatform,
+  query: string,
+  categoryLookup: Record<string, string>,
+) {
   const haystack = [
     platform.name,
     platform.company,
@@ -33,7 +46,9 @@ function matchesSearch(platform: AIPlatform, query: string) {
     ...(platform.tags ?? []),
     ...(platform.bestFor ?? []),
     ...(platform.models ?? []).map((model) => model.name),
-    ...platform.categories.map((category) => getCategoryBySlug(category)?.name ?? category),
+    ...platform.categories.map(
+      (category) => categoryLookup[category] ?? category,
+    ),
   ]
     .join(" ")
     .toLowerCase();
@@ -46,7 +61,7 @@ function FilterPanel({
   filters,
   setFilters,
 }: {
-  categories: Category[];
+  categories: PlatformCategory[];
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }) {
@@ -63,9 +78,13 @@ function FilterPanel({
         <div className="grid gap-2">
           <button
             type="button"
-            onClick={() => setFilters((current) => ({ ...current, category: "all" }))}
+            onClick={() =>
+              setFilters((current) => ({ ...current, category: "all" }))
+            }
             className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-              filters.category === "all" ? "border-foreground bg-foreground text-background" : "border-border hover:bg-muted"
+              filters.category === "all"
+                ? "border-foreground bg-foreground text-background"
+                : "border-border hover:bg-muted"
             }`}
           >
             All categories
@@ -74,7 +93,12 @@ function FilterPanel({
             <button
               key={category.slug}
               type="button"
-              onClick={() => setFilters((current) => ({ ...current, category: category.slug }))}
+              onClick={() =>
+                setFilters((current) => ({
+                  ...current,
+                  category: category.slug,
+                }))
+              }
               className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
                 filters.category === category.slug
                   ? "border-foreground bg-foreground text-background"
@@ -94,7 +118,9 @@ function FilterPanel({
             <button
               key={option.value}
               type="button"
-              onClick={() => setFilters((current) => ({ ...current, pricing: option.value }))}
+              onClick={() =>
+                setFilters((current) => ({ ...current, pricing: option.value }))
+              }
               className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
                 filters.pricing === option.value
                   ? "border-foreground bg-foreground text-background"
@@ -114,7 +140,10 @@ function FilterPanel({
             ["openSource", "Open source"],
             ["apiAvailable", "API available"],
           ].map(([key, label]) => (
-            <label key={key} className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm">
+            <label
+              key={key}
+              className="flex items-center justify-between rounded-md border border-border px-3 py-2 text-sm"
+            >
               <span>{label}</span>
               <input
                 type="checkbox"
@@ -141,23 +170,42 @@ export function PlatformSearch({
   initialCategory = "all",
 }: {
   platforms: AIPlatform[];
-  categories: Category[];
+  categories: PlatformCategory[];
   initialCategory?: Filters["category"];
 }) {
   const [query, setQuery] = React.useState("");
-  const [filters, setFilters] = React.useState<Filters>({ ...defaultFilters, category: initialCategory });
+  const [filters, setFilters] = React.useState<Filters>({
+    ...defaultFilters,
+    category: initialCategory,
+  });
+
+  const categoryLookup = React.useMemo(
+    () =>
+      Object.fromEntries(
+        categories.map((category) => [category.slug, category.name]),
+      ),
+    [categories],
+  );
 
   const filteredPlatforms = React.useMemo(() => {
     return platforms.filter((platform) => {
-      if (query.trim() && !matchesSearch(platform, query.trim())) return false;
-      if (filters.category !== "all" && !platform.categories.includes(filters.category)) return false;
+      if (
+        query.trim() &&
+        !matchesSearch(platform, query.trim(), categoryLookup)
+      )
+        return false;
+      if (
+        filters.category !== "all" &&
+        !platform.categories.includes(filters.category as PlatformCategorySlug)
+      )
+        return false;
       if (filters.pricing === "free" && !platform.pricing.free) return false;
       if (filters.pricing === "paid" && !platform.pricing.paid) return false;
       if (filters.openSource && !platform.openSource) return false;
       if (filters.apiAvailable && !platform.apiAvailable) return false;
       return true;
     });
-  }, [filters, platforms, query]);
+  }, [categoryLookup, filters, platforms, query]);
 
   const activeFilterCount = [
     filters.category !== "all",
@@ -179,7 +227,11 @@ export function PlatformSearch({
             <SlidersHorizontal className="size-4" />
             <h2 className="font-medium">Filters</h2>
           </div>
-          <FilterPanel categories={categories} filters={filters} setFilters={setFilters} />
+          <FilterPanel
+            categories={categories}
+            filters={filters}
+            setFilters={setFilters}
+          />
         </div>
       </aside>
 
@@ -207,7 +259,11 @@ export function PlatformSearch({
                 <SheetTitle>Filters</SheetTitle>
               </SheetHeader>
               <div className="mt-6">
-                <FilterPanel categories={categories} filters={filters} setFilters={setFilters} />
+                <FilterPanel
+                  categories={categories}
+                  filters={filters}
+                  setFilters={setFilters}
+                />
               </div>
             </SheetContent>
           </Sheet>
@@ -221,7 +277,6 @@ export function PlatformSearch({
 
         <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
           <span>{filteredPlatforms.length} platforms found</span>
-          <span>Client-side instant filtering</span>
         </div>
 
         {filteredPlatforms.length ? (
@@ -233,7 +288,9 @@ export function PlatformSearch({
         ) : (
           <div className="rounded-lg border border-dashed border-border p-10 text-center">
             <p className="font-medium">No platforms match these filters.</p>
-            <p className="mt-2 text-sm text-muted-foreground">Reset filters or try a broader search term.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Reset filters or try a broader search term.
+            </p>
             <Button className="mt-5" variant="outline" onClick={resetFilters}>
               Reset filters
             </Button>

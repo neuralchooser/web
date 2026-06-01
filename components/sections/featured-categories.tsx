@@ -1,8 +1,12 @@
 import { CategoryCard } from "@/components/cards/category-card";
-import { getAllCategories, getPlatformsByCategory } from "@/lib/platforms";
+import { getAllPlatforms } from "@/lib/platforms";
+import { getAllCategories } from "@/lib/services/categories";
+import type { PlatformCategory, PlatformCategorySlug } from "@/types/platform";
 
-export function FeaturedCategories() {
-  const categories = getAllCategories().filter((category) => category.featured);
+export async function FeaturedCategories() {
+  const platforms = await getAllPlatforms();
+  const categories = await getAllCategories();
+  const featuredCategories = categories.filter((category) => category.featured);
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -16,11 +20,17 @@ export function FeaturedCategories() {
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {categories.map((category) => (
+        {featuredCategories.map((category: PlatformCategory) => (
           <CategoryCard
             key={category.slug}
             category={category}
-            count={getPlatformsByCategory(category.slug).length}
+            count={
+              platforms.filter((platform) =>
+                platform.categories.includes(
+                  category.slug as PlatformCategorySlug,
+                ),
+              ).length
+            }
           />
         ))}
       </div>

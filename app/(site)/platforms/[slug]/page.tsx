@@ -14,16 +14,24 @@ import {
   getRelatedPlatforms,
 } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
+import type { PlatformCategorySlug } from "@/types/platform";
 
-export function generateStaticParams() {
-  return getAllPlatforms().map((platform) => ({ slug: platform.slug }));
+export async function generateStaticParams() {
+  const platforms = await getAllPlatforms();
+  return platforms.map((platform) => ({ slug: platform.slug }));
 }
 
-export async function generateMetadata(props: PageProps<"/platforms/[slug]">): Promise<Metadata> {
+export async function generateMetadata(
+  props: PageProps<"/platforms/[slug]">,
+): Promise<Metadata> {
   const { slug } = await props.params;
-  const platform = getPlatformBySlug(slug);
+  const platform = await getPlatformBySlug(slug);
 
-  if (!platform) return createMetadata({ title: "Platform not found", path: `/platforms/${slug}` });
+  if (!platform)
+    return createMetadata({
+      title: "Platform not found",
+      path: `/platforms/${slug}`,
+    });
 
   return createMetadata({
     title: `${platform.name} AI Platform`,
@@ -32,13 +40,15 @@ export async function generateMetadata(props: PageProps<"/platforms/[slug]">): P
   });
 }
 
-export default async function PlatformPage(props: PageProps<"/platforms/[slug]">) {
+export default async function PlatformPage(
+  props: PageProps<"/platforms/[slug]">,
+) {
   const { slug } = await props.params;
-  const platform = getPlatformBySlug(slug);
+  const platform = await getPlatformBySlug(slug);
 
   if (!platform) notFound();
 
-  const relatedPlatforms = getRelatedPlatforms(platform);
+  const relatedPlatforms = await getRelatedPlatforms(platform);
 
   return (
     <article>
@@ -46,20 +56,29 @@ export default async function PlatformPage(props: PageProps<"/platforms/[slug]">
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
           <div>
             <div className="flex flex-wrap gap-2">
-              {platform.categories.map((category) => (
+              {platform.categories.map((category: PlatformCategorySlug) => (
                 <Badge key={category} variant="secondary">
                   {formatCategoryName(category)}
                 </Badge>
               ))}
             </div>
             <div className="mt-6 flex items-center gap-4">
-              <PlatformLogo platform={platform} className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm" />
+              <PlatformLogo
+                platform={platform}
+                className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm"
+              />
               <div>
-                <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">{platform.name}</h1>
-                <p className="mt-2 text-lg text-muted-foreground">{platform.company}</p>
+                <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+                  {platform.name}
+                </h1>
+                <p className="mt-2 text-lg text-muted-foreground">
+                  {platform.company}
+                </p>
               </div>
             </div>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">{platform.description}</p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+              {platform.description}
+            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               {platform.website ? (
                 <Button asChild>
@@ -71,7 +90,11 @@ export default async function PlatformPage(props: PageProps<"/platforms/[slug]">
               ) : null}
               {platform.documentation ? (
                 <Button asChild variant="outline">
-                  <a href={platform.documentation} target="_blank" rel="noreferrer">
+                  <a
+                    href={platform.documentation}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Documentation
                   </a>
                 </Button>
@@ -82,11 +105,21 @@ export default async function PlatformPage(props: PageProps<"/platforms/[slug]">
           <Card className="bg-card/90">
             <CardContent className="grid gap-4 p-6">
               {[
-                ["Pricing", platform.pricing.free && platform.pricing.paid ? "Free + paid" : platform.pricing.free ? "Free" : "Paid"],
+                [
+                  "Pricing",
+                  platform.pricing.free && platform.pricing.paid
+                    ? "Free + paid"
+                    : platform.pricing.free
+                      ? "Free"
+                      : "Paid",
+                ],
                 ["API", platform.apiAvailable ? "Available" : "Unavailable"],
                 ["Open source", platform.openSource ? "Yes" : "No"],
               ].map(([label, value]) => (
-                <div key={label} className="flex items-center justify-between gap-4 text-sm">
+                <div
+                  key={label}
+                  className="flex items-center justify-between gap-4 text-sm"
+                >
                   <span className="text-muted-foreground">{label}</span>
                   <span className="text-right font-medium">{value}</span>
                 </div>
@@ -105,7 +138,9 @@ export default async function PlatformPage(props: PageProps<"/platforms/[slug]">
         <div className="grid gap-8">
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold tracking-tight">Best use cases</h2>
+              <h2 className="text-xl font-semibold tracking-tight">
+                Best use cases
+              </h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {(platform.bestFor ?? []).map((item) => (
                   <Badge key={item} variant="outline">
@@ -154,10 +189,15 @@ export default async function PlatformPage(props: PageProps<"/platforms/[slug]">
                 </h2>
                 <div className="mt-5 grid gap-3">
                   {platform.models.map((model) => (
-                    <div key={model.name} className="rounded-lg border border-border bg-muted/20 p-4">
+                    <div
+                      key={model.name}
+                      className="rounded-lg border border-border bg-muted/20 p-4"
+                    >
                       <p className="font-medium">{model.name}</p>
                       {model.description ? (
-                        <p className="mt-1 text-sm leading-6 text-muted-foreground">{model.description}</p>
+                        <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                          {model.description}
+                        </p>
                       ) : null}
                     </div>
                   ))}
@@ -168,7 +208,9 @@ export default async function PlatformPage(props: PageProps<"/platforms/[slug]">
 
           {relatedPlatforms.length ? (
             <div>
-              <h2 className="mb-4 text-2xl font-semibold tracking-tight">Related platforms</h2>
+              <h2 className="mb-4 text-2xl font-semibold tracking-tight">
+                Related platforms
+              </h2>
               <div className="grid gap-4 sm:grid-cols-2">
                 {relatedPlatforms.map((related) => (
                   <PlatformCard key={related.slug} platform={related} compact />

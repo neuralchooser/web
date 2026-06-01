@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 interface SiteLogoProps {
   href?: string;
@@ -14,7 +15,14 @@ export function SiteLogo({
   className = "flex items-center gap-2 font-semibold tracking-tight",
 }: SiteLogoProps) {
   const { resolvedTheme } = useTheme();
-  const logoSrc = `/logos/brand/logo-${resolvedTheme || "light"}.png`;
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Use light logo on server and during hydration, switch to resolved theme after mount
+  const logoSrc = `/logos/brand/logo-${isMounted && resolvedTheme === "dark" ? "dark" : "light"}.png`;
 
   return (
     <Link href={href} className={className}>

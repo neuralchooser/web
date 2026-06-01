@@ -11,17 +11,23 @@ export const metadata: Metadata = createMetadata({
   path: "/platforms",
 });
 
-export default function PlatformsPage() {
+export default async function PlatformsPage() {
+  const platforms = await getAllPlatforms();
+  const categories = await getAllCategories();
+
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-10 max-w-3xl">
         <p className="text-sm font-medium text-muted-foreground">Directory</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Explore AI platforms</h1>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+          Explore AI platforms
+        </h1>
         <p className="mt-4 text-lg leading-8 text-muted-foreground">
-          Browse curated AI platforms by workflow, pricing, API access, and openness.
+          Browse curated AI platforms by workflow, pricing, API access, and
+          openness.
         </p>
       </div>
-      <PlatformSearch platforms={getAllPlatforms()} categories={getAllCategories()} />
+      <PlatformSearch platforms={platforms} categories={categories} />
     </section>
   );
 }

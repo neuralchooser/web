@@ -2,22 +2,23 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PlatformSearch } from "@/components/search/platform-search";
-import {
-  getAllCategories,
-  getCategoryBySlug,
-  getAllPlatforms,
-} from "@/lib/platforms";
+import { getAllCategories, getAllPlatforms } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
+import type { PlatformCategory } from "@/types/platform";
 
-export function generateStaticParams() {
-  return getAllCategories().map((category) => ({ category: category.slug }));
+export async function generateStaticParams() {
+  const categories = await getAllCategories();
+  return categories.map((category: PlatformCategory) => ({
+    category: category.slug,
+  }));
 }
 
 export async function generateMetadata(
   props: PageProps<"/categories/[category]">,
 ): Promise<Metadata> {
   const { category: slug } = await props.params;
-  const category = getCategoryBySlug(slug);
+  const categories = await getAllCategories();
+  const category = categories.find((category) => category.slug === slug);
 
   if (!category)
     return createMetadata({
@@ -27,7 +28,7 @@ export async function generateMetadata(
 
   return createMetadata({
     title: category.name,
-    description: category.description,
+    description: category.name,
     path: `/categories/${category.slug}`,
   });
 }
@@ -36,9 +37,12 @@ export default async function CategoryPage(
   props: PageProps<"/categories/[category]">,
 ) {
   const { category: slug } = await props.params;
-  const category = getCategoryBySlug(slug);
+  const categories = await getAllCategories();
+  const category = categories.find((category) => category.slug === slug);
 
   if (!category) notFound();
+
+  const platforms = await getAllPlatforms();
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -52,8 +56,8 @@ export default async function CategoryPage(
         </p>
       </div>
       <PlatformSearch
-        platforms={getAllPlatforms()}
-        categories={getAllCategories()}
+        platforms={platforms}
+        categories={categories}
         initialCategory={category.slug}
       />
     </section>
