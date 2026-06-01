@@ -5,7 +5,10 @@ import { SiteLogo } from "./site-logo";
 import { PlatformCategory } from "@/types/platform";
 
 export async function SiteFooter() {
-  const categories = (await getAllCategories()).slice(0, 5);
+  const categories = await getAllCategories();
+  const featuredCategories = categories
+    .filter((category) => category.featured)
+    .slice(0, 5);
 
   return (
     <footer className="border-t border-border bg-muted/20">
@@ -31,7 +34,7 @@ export async function SiteFooter() {
         <div>
           <p className="text-sm font-medium">Categories</p>
           <div className="mt-3 grid gap-2 text-sm text-muted-foreground">
-            {categories.map((category: PlatformCategory) => (
+            {featuredCategories.map((category: PlatformCategory) => (
               <Link
                 key={category.slug}
                 href={`/categories/${category.slug}`}
