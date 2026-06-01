@@ -32,6 +32,7 @@ const PLATFORM_SELECT = `
   open_source,
   featured,
   trending,
+  is_monochrome_logo,
   last_updated
 `;
 
@@ -69,6 +70,7 @@ function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
     openSource: Boolean(row.open_source),
     featured: Boolean(row.featured),
     trending: Boolean(row.trending),
+    isMonochromeLogo: Boolean(row.is_monochrome_logo),
     lastUpdated:
       row.last_updated === null ? undefined : String(row.last_updated ?? ""),
   };

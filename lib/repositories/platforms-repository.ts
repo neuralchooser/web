@@ -21,6 +21,7 @@ const PLATFORM_SELECT = `
   api_available,
   open_source,
   featured,
+  is_monochrome_logo,
   trending,
   last_updated
 `;
@@ -60,6 +61,7 @@ function mapPlatform(row: Record<string, unknown>): PlatformRow {
     open_source: Boolean(row.open_source),
     featured: Boolean(row.featured),
     trending: Boolean(row.trending),
+    is_monochrome_logo: Boolean(row.is_monochrome_logo),
     last_updated:
       row.last_updated === null ? null : String(row.last_updated ?? ""),
   };

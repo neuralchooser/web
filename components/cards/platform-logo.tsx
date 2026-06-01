@@ -23,68 +23,12 @@ export function PlatformLogo({
     setIsMounted(true);
   }, []);
 
-  const logoFile = useMemo(() => {
-    if (platform.logo) {
-      return platform.logo.startsWith("/")
-        ? platform.logo.slice(1)
-        : platform.logo;
-    }
-    return null;
-  }, [platform.logo]);
-
   const initials = platform.name.slice(0, 2).toUpperCase();
   // Only apply dark mode logic after hydration
   const darkMode = isMounted && resolvedTheme === "dark";
 
   const shouldInvertLogo =
-    darkMode &&
-    logoFile &&
-    [
-      "open-ai",
-      "openai",
-      "cursor",
-      "elevenlabs",
-      "flux",
-      "grok",
-      "llama",
-      "midjourney",
-      "runway",
-      "suno",
-      "kimi",
-      "ideogram",
-      "recraft",
-      "manus",
-      "v0",
-      "bolt",
-      "googleaistudio",
-      "autogpt",
-      "pomelli-ai",
-      "stitch-ai",
-      "langsmith",
-      "windsurf",
-      "continue",
-      "guru",
-      "notion-ai",
-      "notebooklm",
-      "gamma",
-      "tome",
-      "beautiful-ai",
-      "spline-ai",
-      "apollo",
-      "clay",
-      "zoominfo",
-      "seamless-ai",
-      "6sense",
-      "contactout",
-      "smartlead",
-      "reply-io",
-      "lemlist",
-      "mailshake",
-    ].some(
-      (key) =>
-        platform.slug.toLowerCase().includes(key) ||
-        platform.company.toLowerCase().includes(key),
-    );
+    darkMode && platform.logo && platform.isMonochromeLogo;
 
   return (
     <div className={className} style={{ color: platform.accentColor }}>

@@ -86,6 +86,7 @@ export interface AIPlatform {
   models?: PlatformModel[] | null;
   featured?: boolean;
   trending?: boolean;
+  isMonochromeLogo?: boolean;
   lastUpdated?: string;
   metadata?: Record<string, string | number | boolean | null>;
 }

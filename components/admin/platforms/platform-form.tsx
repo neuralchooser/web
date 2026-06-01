@@ -1,13 +1,14 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 
 import { CategoryMultiSelect } from "@/components/admin/platforms/category-multi-select";
 import { TagsInput } from "@/components/admin/platforms/tags-input";
 import { SubmitButton } from "@/components/admin/submit-button";
+import { PlatformLogo } from "@/components/cards/platform-logo";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -26,8 +27,6 @@ import {
   type PlatformFormValues,
 } from "@/lib/validators/platform-schema";
 import type { AdminActionState, CategoryRow, PlatformRow } from "@/types/admin";
-import { PlatformLogo } from "@/components/cards/platform-logo";
-import { AIPlatform } from "@/types/platform";
 
 const defaultValues: PlatformFormValues = {
   slug: "",
@@ -48,6 +47,7 @@ const defaultValues: PlatformFormValues = {
   open_source: false,
   featured: false,
   trending: false,
+  is_monochrome_logo: false,
   last_updated: new Date().toISOString().slice(0, 10),
 };
 
@@ -73,6 +73,7 @@ function valuesFromPlatform(platform?: PlatformRow): PlatformFormValues {
     open_source: platform.open_source,
     featured: platform.featured,
     trending: platform.trending,
+    is_monochrome_logo: platform.is_monochrome_logo,
     last_updated: platform.last_updated ?? "",
   };
 }
@@ -263,6 +264,7 @@ export function PlatformForm({
       }
     });
   }
+  console.log(form, "form");
 
   return (
     <Form {...form}>
@@ -404,6 +406,11 @@ export function PlatformForm({
           <BooleanField form={form} name="open_source" label="Open source" />
           <BooleanField form={form} name="featured" label="Featured" />
           <BooleanField form={form} name="trending" label="Trending" />
+          <BooleanField
+            form={form}
+            name="is_monochrome_logo"
+            label="Monochrome logo"
+          />
         </div>
 
         <div className="flex justify-end gap-2">
