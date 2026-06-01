@@ -20,7 +20,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { platformSchema, type PlatformFormValues } from "@/lib/validators/platform-schema";
+import { supabaseClient } from "@/lib/supabase/client";
+import {
+  platformSchema,
+  type PlatformFormValues,
+} from "@/lib/validators/platform-schema";
 import type { AdminActionState, CategoryRow, PlatformRow } from "@/types/admin";
 
 const defaultValues: PlatformFormValues = {
@@ -99,6 +103,101 @@ function TextField({
   );
 }
 
+function LogoUploadField({
+  form,
+}: {
+  form: ReturnType<typeof useForm<PlatformFormValues>>;
+}) {
+  const [uploading, setUploading] = React.useState(false);
+  const [uploadError, setUploadError] = React.useState<string | null>(null);
+  const slug = form.watch("slug");
+
+  function sanitizeFileName(value: string) {
+    return value
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9-_]/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  async function handleFileUpload(file: File) {
+    setUploadError(null);
+    setUploading(true);
+
+    const extension = file.name.split(".").pop() ?? "png";
+    const name = slug ? sanitizeFileName(slug) : `${Date.now()}`;
+    const filePath = `platform-logos/${name}-${Date.now()}.${extension}`;
+
+    const { error: uploadError } = await supabaseClient.storage
+      .from("neural-chooser")
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) {
+      setUploadError(uploadError.message);
+      setUploading(false);
+      return;
+    }
+
+    const { data } = supabaseClient.storage
+      .from("neural-chooser")
+      .getPublicUrl(filePath);
+
+    if (!data?.publicUrl) {
+      setUploadError("Unable to get public URL for uploaded logo.");
+      setUploading(false);
+      return;
+    }
+
+    form.setValue("logo", data.publicUrl);
+    setUploading(false);
+  }
+
+  return (
+    <FormField
+      control={form.control}
+      name="logo"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Logo upload</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) return;
+                  await handleFileUpload(file);
+                  event.target.value = "";
+                }}
+                disabled={uploading}
+              />
+              {field.value ? (
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    Current logo URL:
+                  </p>
+                  <p className="break-all text-sm font-medium text-foreground">
+                    {field.value}
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          </FormControl>
+          <FormMessage />
+          {uploadError ? (
+            <p className="text-sm text-destructive">{uploadError}</p>
+          ) : null}
+          {uploading ? (
+            <p className="text-sm text-muted-foreground">Uploading logo…</p>
+          ) : null}
+        </FormItem>
+      )}
+    />
+  );
+}
+
 function BooleanField({
   name,
   label,
@@ -115,7 +214,10 @@ function BooleanField({
       render={({ field }) => (
         <FormItem className="flex items-center gap-3 rounded-md border border-border p-3">
           <FormControl>
-            <Checkbox checked={Boolean(field.value)} onCheckedChange={field.onChange} />
+            <Checkbox
+              checked={Boolean(field.value)}
+              onCheckedChange={field.onChange}
+            />
           </FormControl>
           <FormLabel className="!mt-0">{label}</FormLabel>
         </FormItem>
@@ -148,13 +250,15 @@ export function PlatformForm({
       const result = await action(values);
       if (!result.ok) {
         setFormError(result.message ?? "Unable to save platform.");
-        Object.entries(result.fieldErrors ?? {}).forEach(([field, messages]) => {
-          if (messages?.[0]) {
-            form.setError(field as keyof PlatformFormValues, {
-              message: messages[0],
-            });
-          }
-        });
+        Object.entries(result.fieldErrors ?? {}).forEach(
+          ([field, messages]) => {
+            if (messages?.[0]) {
+              form.setError(field as keyof PlatformFormValues, {
+                message: messages[0],
+              });
+            }
+          },
+        );
       }
     });
   }
@@ -178,14 +282,23 @@ export function PlatformForm({
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
-          <TextField form={form} name="logo" label="Logo path" />
+          <LogoUploadField form={form} />
           <TextField form={form} name="accent_color" label="Accent color" />
-          <TextField form={form} name="last_updated" label="Last updated" type="date" />
+          <TextField
+            form={form}
+            name="last_updated"
+            label="Last updated"
+            type="date"
+          />
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
           <TextField form={form} name="website" label="Website URL" />
-          <TextField form={form} name="documentation" label="Documentation URL" />
+          <TextField
+            form={form}
+            name="documentation"
+            label="Documentation URL"
+          />
         </div>
 
         <FormField
@@ -195,7 +308,11 @@ export function PlatformForm({
             <FormItem>
               <FormLabel>Short description</FormLabel>
               <FormControl>
-                <Textarea {...field} value={String(field.value ?? "")} className="min-h-20" />
+                <Textarea
+                  {...field}
+                  value={String(field.value ?? "")}
+                  className="min-h-20"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -209,7 +326,11 @@ export function PlatformForm({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea {...field} value={String(field.value ?? "")} className="min-h-40" />
+                <Textarea
+                  {...field}
+                  value={String(field.value ?? "")}
+                  className="min-h-40"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -242,7 +363,10 @@ export function PlatformForm({
               <FormItem>
                 <FormLabel>Tags</FormLabel>
                 <FormControl>
-                  <TagsInput value={field.value ?? []} onChange={field.onChange} />
+                  <TagsInput
+                    value={field.value ?? []}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -257,7 +381,11 @@ export function PlatformForm({
             <FormItem>
               <FormLabel>Pricing notes</FormLabel>
               <FormControl>
-                <Textarea {...field} value={String(field.value ?? "")} className="min-h-20" />
+                <Textarea
+                  {...field}
+                  value={String(field.value ?? "")}
+                  className="min-h-20"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -267,7 +395,11 @@ export function PlatformForm({
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <BooleanField form={form} name="pricing_free" label="Free tier" />
           <BooleanField form={form} name="pricing_paid" label="Paid plans" />
-          <BooleanField form={form} name="api_available" label="API available" />
+          <BooleanField
+            form={form}
+            name="api_available"
+            label="API available"
+          />
           <BooleanField form={form} name="open_source" label="Open source" />
           <BooleanField form={form} name="featured" label="Featured" />
           <BooleanField form={form} name="trending" label="Trending" />

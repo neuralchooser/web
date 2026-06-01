@@ -7,10 +7,10 @@ const CATEGORY_SELECT = "id, slug, name, featured, description";
 function assertSupabaseConfig() {
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    !process.env.SUPABASE_SERVICE_ROLE_KEY
   ) {
     throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables",
+      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables",
     );
   }
 }
@@ -21,7 +21,8 @@ function mapCategory(row: Record<string, unknown>): CategoryRow {
     slug: String(row.slug ?? ""),
     name: String(row.name ?? ""),
     featured: Boolean(row.featured),
-    description: row.description === null ? null : String(row.description ?? ""),
+    description:
+      row.description === null ? null : String(row.description ?? ""),
   };
 }
 
@@ -98,6 +99,9 @@ export async function updateCategory(id: string, input: CategoryInput) {
 export async function deleteCategory(id: string) {
   assertSupabaseConfig();
 
-  const { error } = await supabaseServer.from("categories").delete().eq("id", id);
+  const { error } = await supabaseServer
+    .from("categories")
+    .delete()
+    .eq("id", id);
   if (error) throw new Error(error.message);
 }

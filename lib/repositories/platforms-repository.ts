@@ -28,10 +28,10 @@ const PLATFORM_SELECT = `
 function assertSupabaseConfig() {
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    !process.env.SUPABASE_SERVICE_ROLE_KEY
   ) {
     throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables",
+      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables",
     );
   }
 }
@@ -43,7 +43,8 @@ function mapPlatform(row: Record<string, unknown>): PlatformRow {
     name: String(row.name ?? ""),
     company: String(row.company ?? ""),
     logo: row.logo === null ? null : String(row.logo ?? ""),
-    accent_color: row.accent_color === null ? null : String(row.accent_color ?? ""),
+    accent_color:
+      row.accent_color === null ? null : String(row.accent_color ?? ""),
     short_description: String(row.short_description ?? ""),
     description: String(row.description ?? ""),
     website: row.website === null ? null : String(row.website ?? ""),
@@ -59,7 +60,8 @@ function mapPlatform(row: Record<string, unknown>): PlatformRow {
     open_source: Boolean(row.open_source),
     featured: Boolean(row.featured),
     trending: Boolean(row.trending),
-    last_updated: row.last_updated === null ? null : String(row.last_updated ?? ""),
+    last_updated:
+      row.last_updated === null ? null : String(row.last_updated ?? ""),
   };
 }
 
@@ -149,13 +151,19 @@ export async function createPlatform(input: PlatformInput) {
 export async function updatePlatform(id: string, input: PlatformInput) {
   assertSupabaseConfig();
 
-  const { error } = await supabaseServer.from("platforms").update(input).eq("id", id);
+  const { error } = await supabaseServer
+    .from("platforms")
+    .update(input)
+    .eq("id", id);
   if (error) throw new Error(error.message);
 }
 
 export async function deletePlatform(id: string) {
   assertSupabaseConfig();
 
-  const { error } = await supabaseServer.from("platforms").delete().eq("id", id);
+  const { error } = await supabaseServer
+    .from("platforms")
+    .delete()
+    .eq("id", id);
   if (error) throw new Error(error.message);
 }

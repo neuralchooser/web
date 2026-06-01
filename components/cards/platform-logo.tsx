@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import type { AIPlatform } from "@/types/platform";
 
@@ -16,7 +16,12 @@ export function PlatformLogo({
   className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-sm font-semibold",
 }: PlatformLogoProps) {
   const [imageFailed, setImageFailed] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const logoFile = useMemo(() => {
     if (platform.logo) {
@@ -28,7 +33,8 @@ export function PlatformLogo({
   }, [platform.logo]);
 
   const initials = platform.name.slice(0, 2).toUpperCase();
-  const darkMode = resolvedTheme === "dark";
+  // Only apply dark mode logic after hydration
+  const darkMode = isMounted && resolvedTheme === "dark";
 
   const shouldInvertLogo =
     darkMode &&
@@ -90,8 +96,8 @@ export function PlatformLogo({
           height={28}
           style={
             shouldInvertLogo
-              ? { filter: "invert(1) brightness(1.3)" }
-              : undefined
+              ? { filter: "invert(1) brightness(1.3)", color: "transparent" }
+              : { color: "transparent" }
           }
           className="max-h-7 max-w-7 object-contain"
           onError={() => setImageFailed(true)}

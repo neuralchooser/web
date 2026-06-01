@@ -5,8 +5,8 @@ import type { PlatformCategory, PlatformCategorySlug } from "@/types/platform";
 
 export async function FeaturedCategories() {
   const platforms = await getAllPlatforms();
-  const featuredCategories = await getAllCategories();
-  // const featuredCategories = categories.filter((category) => category.featured);
+  const categories = await getAllCategories();
+  const featuredCategories = categories.filter((category) => category.featured);
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
