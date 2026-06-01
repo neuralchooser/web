@@ -1,6 +1,6 @@
+import { ExternalLink, Layers3 } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CheckCircle2, ExternalLink, Layers3, XCircle } from "lucide-react";
 
 import { PlatformCard } from "@/components/cards/platform-card";
 import { PlatformLogo } from "@/components/cards/platform-logo";
@@ -136,50 +136,6 @@ export default async function PlatformPage(
 
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
         <div className="grid gap-8">
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-xl font-semibold tracking-tight">
-                Best use cases
-              </h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {(platform.bestFor ?? []).map((item) => (
-                  <Badge key={item} variant="outline">
-                    {item}
-                  </Badge>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-                  <CheckCircle2 className="size-5 text-emerald-500" />
-                  Strengths
-                </h2>
-                <ul className="mt-4 grid gap-3 text-sm leading-6 text-muted-foreground">
-                  {(platform.strengths ?? []).map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-                  <XCircle className="size-5 text-amber-500" />
-                  Tradeoffs
-                </h2>
-                <ul className="mt-4 grid gap-3 text-sm leading-6 text-muted-foreground">
-                  {(platform.weaknesses ?? []).map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-
           {platform.models?.length ? (
             <Card>
               <CardContent className="p-6">
