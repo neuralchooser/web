@@ -4,10 +4,10 @@ import type { AIPlatform, PlatformCategorySlug } from "@/types/platform";
 function assertSupabaseConfig() {
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
+    !process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
   ) {
     throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables",
+      "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY environment variables",
     );
   }
 }

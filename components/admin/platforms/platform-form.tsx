@@ -26,6 +26,8 @@ import {
   type PlatformFormValues,
 } from "@/lib/validators/platform-schema";
 import type { AdminActionState, CategoryRow, PlatformRow } from "@/types/admin";
+import { PlatformLogo } from "@/components/cards/platform-logo";
+import { AIPlatform } from "@/types/platform";
 
 const defaultValues: PlatformFormValues = {
   slug: "",
@@ -174,13 +176,12 @@ function LogoUploadField({
                 disabled={uploading}
               />
               {field.value ? (
-                <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">
-                    Current logo URL:
-                  </p>
-                  <p className="break-all text-sm font-medium text-foreground">
-                    {field.value}
-                  </p>
+                <div className="space-y-2 flex items-center gap-2">
+                  <p className="text-sm text-muted-foreground">Logo:</p>
+                  <PlatformLogo
+                    platform={{ ...form.getValues(), logo: field.value } as any}
+                    className="h-10 w-10 object-contain"
+                  />
                 </div>
               ) : null}
             </div>
