@@ -264,7 +264,6 @@ export function PlatformForm({
       }
     });
   }
-  console.log(form, "form");
 
   return (
     <Form {...form}>
