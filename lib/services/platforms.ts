@@ -1,4 +1,5 @@
 import { supabaseServer } from "@/lib/supabase/server";
+import type { PlatformRow } from "@/types/admin";
 import type { AIPlatform, PlatformCategorySlug } from "@/types/platform";
 
 function assertSupabaseConfig() {
@@ -36,7 +37,7 @@ const PLATFORM_SELECT = `
   last_updated
 `;
 
-function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
+export function mapPlatformRow(row: PlatformRow | Record<string, unknown>): AIPlatform {
   return {
     id: String(row.id ?? ""),
     slug: String(row.slug ?? ""),

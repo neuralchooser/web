@@ -76,6 +76,16 @@ export interface PlatformListFilters {
   openSource?: "all" | "true" | "false";
 }
 
+export interface PlatformFilters {
+  categories?: string[];
+  tags?: string[];
+  featured?: boolean;
+  trending?: boolean;
+  apiAvailable?: boolean;
+  openSource?: boolean;
+  pricingFree?: boolean;
+}
+
 function filterBoolean<T extends PlatformRow>(
   items: T[],
   value: "all" | "true" | "false" | undefined,
@@ -127,6 +137,69 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
   platforms = filterBoolean(platforms, filters.openSource, "open_source");
 
   return platforms;
+}
+
+export async function getPlatforms(filters: PlatformFilters = {}) {
+  assertSupabaseConfig();
+
+  let query = supabaseServer
+    .from("platforms")
+    .select(PLATFORM_SELECT)
+    .order("name", { ascending: true });
+
+  if (filters.categories?.length) {
+    query = query.contains("categories", filters.categories);
+  }
+
+  if (filters.tags?.length) {
+    query = query.contains("tags", filters.tags);
+  }
+
+  if (typeof filters.featured === "boolean") {
+    query = query.eq("featured", filters.featured);
+  }
+
+  if (typeof filters.trending === "boolean") {
+    query = query.eq("trending", filters.trending);
+  }
+
+  if (typeof filters.apiAvailable === "boolean") {
+    query = query.eq("api_available", filters.apiAvailable);
+  }
+
+  if (typeof filters.openSource === "boolean") {
+    query = query.eq("open_source", filters.openSource);
+  }
+
+  if (typeof filters.pricingFree === "boolean") {
+    query = query.eq("pricing_free", filters.pricingFree);
+  }
+
+  const { data, error } = await query;
+
+  if (error) throw new Error(error.message);
+
+  return (data ?? []).map(mapPlatform);
+}
+
+export async function getAllUniqueTags() {
+  assertSupabaseConfig();
+
+  const { data, error } = await supabaseServer
+    .from("platforms")
+    .select("tags")
+    .order("name", { ascending: true });
+
+  if (error) throw new Error(error.message);
+
+  return Array.from(
+    new Set(
+      (data ?? [])
+        .flatMap((row) => (Array.isArray(row.tags) ? row.tags : []))
+        .filter(Boolean)
+        .map(String),
+    ),
+  ).sort((left, right) => left.localeCompare(right));
 }
 
 export async function getPlatformById(id: string) {

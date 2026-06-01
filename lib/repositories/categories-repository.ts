@@ -64,6 +64,10 @@ export async function listCategories(filters: CategoryListFilters = {}) {
   return categories;
 }
 
+export async function getCategories() {
+  return listCategories();
+}
+
 export async function getCategoryById(id: string) {
   assertSupabaseConfig();
 
