@@ -1,27 +1,36 @@
-import { categories } from "@/content/models/categories";
-import { platforms } from "@/content/platforms/platforms";
-import type { AIPlatform, PlatformCategory } from "@/types/platform";
+import type {
+  AIPlatform,
+  PlatformCategory,
+  PlatformCategorySlug,
+} from "@/types/platform";
+import {
+  getAllPlatforms as getAllPlatformsFromDb,
+  getFeaturedPlatforms as getFeaturedPlatformsFromDb,
+  getPlatformBySlug as getPlatformBySlugFromDb,
+  getTrendingPlatforms as getTrendingPlatformsFromDb,
+} from "@/lib/services/platforms";
+import { categories as categoryMetadata } from "@/content/models/categories";
 
-export function getAllPlatforms() {
-  return [...platforms].sort((a, b) => a.name.localeCompare(b.name));
+import { getAllCategories as getAllCategoriesFromDb } from "@/lib/services/categories";
+
+export async function getAllPlatforms() {
+  return getAllPlatformsFromDb();
 }
 
-export function getPlatformBySlug(slug: string) {
-  return platforms.find((platform) => platform.slug === slug);
+export async function getPlatformBySlug(slug: string) {
+  return getPlatformBySlugFromDb(slug);
 }
 
-export function getFeaturedPlatforms(limit?: number) {
-  const items = platforms.filter((platform) => platform.featured);
-  return typeof limit === "number" ? items.slice(0, limit) : items;
+export async function getFeaturedPlatforms(limit?: number) {
+  return getFeaturedPlatformsFromDb(limit);
 }
 
-export function getTrendingPlatforms(limit?: number) {
-  const items = platforms.filter((platform) => platform.trending || platform.featured);
-  return typeof limit === "number" ? items.slice(0, limit) : items;
+export async function getTrendingPlatforms(limit?: number) {
+  return getTrendingPlatformsFromDb(limit);
 }
 
-export function getRecentlyAddedPlatforms(limit?: number) {
-  const items = [...platforms].sort((a, b) => {
+export async function getRecentlyAddedPlatforms(limit?: number) {
+  const items = [...(await getAllPlatforms())].sort((a, b) => {
     const left = a.lastUpdated ?? "1900-01-01";
     const right = b.lastUpdated ?? "1900-01-01";
     return right.localeCompare(left);
@@ -30,34 +39,50 @@ export function getRecentlyAddedPlatforms(limit?: number) {
   return typeof limit === "number" ? items.slice(0, limit) : items;
 }
 
-export function getPlatformsByCategory(category: PlatformCategory) {
-  return platforms.filter((platform) => platform.categories.includes(category));
+export async function getPlatformsByCategory(category: PlatformCategorySlug) {
+  return (await getAllPlatforms()).filter((platform) =>
+    platform.categories.includes(category),
+  );
 }
 
-export function getAllCategories() {
-  return categories;
+export async function getAllCategories(): Promise<PlatformCategory[]> {
+  return getAllCategoriesFromDb();
 }
 
-export function getCategoryBySlug(slug: string) {
-  return categories.find((category) => category.slug === slug);
+export async function getCategoryBySlug(slug: string) {
+  return (await getAllCategoriesFromDb()).find(
+    (category) => category.slug === slug,
+  );
 }
 
-export function getRelatedPlatforms(platform: AIPlatform, limit = 4) {
-  return platforms
+export async function getRelatedPlatforms(platform: AIPlatform, limit = 4) {
+  return (await getAllPlatforms())
     .filter((candidate) => candidate.slug !== platform.slug)
     .map((candidate) => ({
       platform: candidate,
       score:
-        candidate.categories.filter((category) => platform.categories.includes(category)).length * 3 +
-        (candidate.tags ?? []).filter((tag) => (platform.tags ?? []).includes(tag)).length +
-        (candidate.bestFor ?? []).filter((useCase) => (platform.bestFor ?? []).includes(useCase)).length,
+        candidate.categories.filter((category) =>
+          platform.categories.includes(category),
+        ).length *
+          3 +
+        (candidate.tags ?? []).filter((tag) =>
+          (platform.tags ?? []).includes(tag),
+        ).length +
+        (candidate.bestFor ?? []).filter((useCase) =>
+          (platform.bestFor ?? []).includes(useCase),
+        ).length,
     }))
     .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score || a.platform.name.localeCompare(b.platform.name))
+    .sort(
+      (a, b) =>
+        b.score - a.score || a.platform.name.localeCompare(b.platform.name),
+    )
     .slice(0, limit)
     .map((item) => item.platform);
 }
 
-export function formatCategoryName(category: PlatformCategory) {
-  return getCategoryBySlug(category)?.name ?? category;
+export function formatCategoryName(category: PlatformCategorySlug) {
+  return (
+    categoryMetadata.find((item) => item.slug === category)?.name ?? category
+  );
 }

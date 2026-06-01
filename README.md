@@ -1,303 +1,259 @@
-NeuralChooser
+# NeuralChooser
 
-Discover, compare, and choose the right AI models for your workflow.
+NeuralChooser is a public AI platform directory built with Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui, and Supabase.
 
-NeuralChooser is a modern AI model discovery platform built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
-It helps developers, creators, researchers, and businesses explore AI models across categories like:
+The public site lets visitors browse, search, and filter AI platforms by category, pricing, API availability, open-source status, and editorial signals such as featured or trending.
 
-Text Generation
-Image Generation
-Video Generation
-Coding
-Audio & Speech
-Music
-Open Source Models
-Research Models
+The same project also includes a hidden production-oriented admin panel at `/admin` for managing platform and category records.
 
-The platform is designed to be:
+## Features
 
-fast
-scalable
-SEO-friendly
-fully data-driven
-visually premium
-easy to extend
-✨ Features
-⚡ Built with Next.js App Router
-🎨 Beautiful responsive UI
-🌙 Dark / Light theme support
-🔍 Instant search and filtering
-📊 AI model comparison pages
-🧠 Extensible type-safe model schema
-📄 Dynamically generated model pages
-🚀 Vercel optimized deployment
-🧩 Reusable component architecture
-📈 SEO optimized structure
-📱 Mobile-first design
-🛠 TypeScript-first architecture
-🏗 Tech Stack
-Next.js
-TypeScript
-Tailwind CSS
-shadcn/ui
-next-themes
-Lucide Icons
-Vercel
-📂 Project Structure
-.
-├── app
-│ ├── (marketing)
-│ ├── about
-│ ├── categories
-│ ├── compare
-│ ├── models
-│ ├── layout.tsx
-│ └── page.tsx
-│
-├── components
-│ ├── cards
-│ ├── filters
-│ ├── layout
-│ ├── search
-│ ├── sections
-│ └── ui
-│
-├── content
-│ └── models
-│
-├── lib
-│ ├── data
-│ ├── utils
-│ └── constants
-│
-├── types
-│
-├── public
-│ └── logos
-│ ├── brand
-│ └── models
-│
-├── styles
-│
-└── README.md
-🧠 Data-Driven Architecture
+- Public AI platform directory with SEO-optimized pages
+- Dynamic platform and category pages
+- Supabase-backed platform and category data
+- Client-side public search and filtering
+- Dark and light theme support with `next-themes`
+- Hidden admin panel under `/admin`
+- Static server-side admin login using env credentials
+- Secure HTTP-only signed admin cookie
+- Admin CRUD for platforms and categories
+- Admin search, filters, tables, dialogs, loading states, and reusable forms
+- Zod validation on both client and server
+- React Hook Form admin forms
 
-NeuralChooser is fully data-driven.
+## Tech Stack
 
-All AI models are stored as structured data files instead of hardcoded JSX.
+- Next.js `16.2.6` App Router
+- React `19`
+- TypeScript
+- Tailwind CSS `4`
+- shadcn/ui-style components
+- Supabase
+- Zod
+- React Hook Form
+- Lucide Icons
 
-Example:
+## Project Structure
 
-export interface AIModel {
-id: string;
-slug: string;
-name: string;
-company: string;
-description: string;
+```txt
+app/
+  (site)/
+    layout.tsx
+    page.tsx
+    about/
+    platforms/
+    categories/
 
-categories: string[];
-tags: string[];
-bestFor: string[];
-modalities: string[];
+  (admin)/
+    admin/
+      layout.tsx
+      page.tsx
+      login/
+      platforms/
+      categories/
 
-pricing: {
-type: "free" | "freemium" | "paid";
-startingPrice?: string;
-};
+  api/
+  layout.tsx
+  globals.css
+  robots.ts
+  sitemap.ts
 
-apiAvailable: boolean;
-openSource: boolean;
-localRunnable?: boolean;
+components/
+  admin/
+  cards/
+  layout/
+  search/
+  sections/
+  ui/
 
-contextWindow?: number;
-releaseDate?: string;
+lib/
+  actions/
+  auth/
+  repositories/
+  services/
+  supabase/
+  validators/
 
-website?: string;
-documentation?: string;
+types/
+  admin.ts
+  platform.ts
 
-strengths?: string[];
-weaknesses?: string[];
+proxy.ts
+```
 
-featured?: boolean;
-}
+The public site and admin panel are separated with route groups. Public navigation does not link to `/admin`.
 
-This architecture allows:
+## Admin Panel
 
-future expansion
-API integration
-rankings
-benchmarks
-analytics
-user voting
-advanced filtering
+Admin is available only by manually visiting:
 
-without major refactors.
+```txt
+http://localhost:3000/admin
+```
 
-🚀 Getting Started
+Unauthenticated requests are redirected to:
 
-1. Clone the repository
-   git clone https://github.com/neuralchooser/web.git
-2. Navigate into the project
-   cd web
-3. Install dependencies
-   npm install
-4. Run development server
-   npm run dev
+```txt
+http://localhost:3000/admin/login
+```
 
-Visit:
+The admin panel supports:
 
+- Dashboard counts and recently updated platforms
+- Platform list, search, filters, create, edit, delete
+- Category list, search, filters, create, edit, delete
+- Category multi-select for platform forms
+- Tags input for platform forms
+- Server actions for mutations
+- Supabase repositories for all database operations
+
+## Admin Auth
+
+This project intentionally does not use Supabase Auth, OAuth, JWT, NextAuth, Clerk, database sessions, or user management.
+
+Admin auth is static and env-based:
+
+- Credentials are read server-side only.
+- Valid login creates a signed HTTP-only cookie.
+- `proxy.ts` protects all `/admin` routes.
+- Every admin server action also checks admin auth.
+- Credentials are never stored in localStorage or exposed to the client.
+
+Required env vars:
+
+```env
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=your-admin-password
+ADMIN_COOKIE_SECRET=your-long-random-cookie-secret
+```
+
+## Supabase Data Model
+
+`categories`
+
+- `id`
+- `slug`
+- `name`
+- `featured`
+- `description`
+
+`platforms`
+
+- `id`
+- `slug`
+- `name`
+- `company`
+- `logo`
+- `accent_color`
+- `short_description`
+- `description`
+- `website`
+- `documentation`
+- `categories`
+- `tags`
+- `pricing_free`
+- `pricing_paid`
+- `pricing_notes`
+- `api_available`
+- `open_source`
+- `featured`
+- `trending`
+- `last_updated`
+
+## Environment Variables
+
+Create `.env.local` with:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=your-admin-password
+ADMIN_COOKIE_SECRET=your-long-random-cookie-secret
+```
+
+If Supabase Row Level Security blocks admin mutations with the anon key, add a server-only service role client before enabling production writes.
+
+## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```txt
 http://localhost:3000
-🌙 Theme Support
+```
 
-NeuralChooser supports:
+Admin:
 
-Dark mode
-Light mode
-System theme detection
+```txt
+http://localhost:3000/admin/login
+```
 
-Implemented using:
+## Scripts
 
-next-themes
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run start
+```
 
-Brand logos automatically switch depending on theme.
+## Validation And Data Flow
 
-🖼 Logo Structure
-/public/logos
-/brand
-logo-light.svg
-logo-dark.svg
-icon-light.svg
-icon-dark.svg
+Admin forms use React Hook Form with Zod validation to catch invalid input before submission.
 
-/models
-openai.svg
-claude.svg
-gemini.svg
-🔍 Search & Filtering
+Server actions validate again before writing to Supabase:
 
-Users can filter models by:
+```txt
+admin form -> server action -> zod schema -> repository -> Supabase
+```
 
-category
-pricing
-open source
-API availability
-local runnable support
+Repositories own Supabase reads and writes. Server actions own auth checks, validation, mutation flow, cache revalidation, and redirects.
 
-Search is implemented with fast client-side filtering.
+## SEO
 
-📊 Comparison Pages
+The public site includes:
 
-Dynamic comparison pages are generated automatically.
+- Metadata helpers
+- Dynamic platform metadata
+- Sitemap generation
+- Robots configuration
+- Static generation where applicable
+- Semantic public pages
 
-Example:
+Admin routes are marked `noindex`.
 
-/compare/gpt-4o-vs-claude-3-7-sonnet
+## Next.js Version Note
 
-Comparison pages include:
+This project uses Next.js `16.2.6`. Next 16 uses `proxy.ts` for route protection where older versions used `middleware.ts`.
 
-strengths
-weaknesses
-pricing
-speed
-API support
-use cases
-📈 SEO Strategy
+Before changing App Router behavior, read the local Next docs in:
 
-NeuralChooser is optimized for:
+```txt
+node_modules/next/dist/docs/
+```
 
-static generation
-semantic HTML
-metadata generation
-OpenGraph previews
-sitemap generation
-robots.txt
-canonical URLs
+## Deployment
 
-The architecture prioritizes:
+The app is optimized for Vercel deployment.
 
-Lighthouse performance
-Core Web Vitals
-fast navigation
-minimal JavaScript
-🎨 Design Philosophy
+Before deploying, verify:
 
-The UI is inspired by:
+```bash
+npm run lint
+npm run build
+```
 
-Vercel
-Linear
-Raycast
-OpenRouter
-
-Design principles:
-
-clean typography
-spacious layouts
-subtle gradients
-minimal UI noise
-premium dark mode
-smooth micro-interactions
-
-No overused “AI cyberpunk” aesthetics.
-
-🛣 Roadmap
-Phase 1
-Homepage
-Model pages
-Search
-Filters
-Dark mode
-SEO setup
-Phase 2
-Advanced comparisons
-AI benchmarks
-User favorites
-Model rankings
-Related model recommendations
-Phase 3
-API access
-Personalized recommendations
-AI workflow builder
-Community voting
-Newsletter integration
-🧩 Future Expansion
-
-Planned future capabilities:
-
-CMS integration
-AI model APIs
-benchmark ingestion
-analytics dashboard
-recommendation engine
-browser extension
-public API
-
-The project structure is intentionally built for scalability.
-
-🚀 Deployment
-
-The project is optimized for deployment on:
-
-Vercel
-
-Deploy instantly:
-
-vercel
-🤝 Contributing
-
-Contributions, suggestions, and improvements are welcome.
-
-Please:
-
-Fork the repository
-Create a feature branch
-Commit changes
-Open a pull request
-📜 License
-
-MIT License
-
-🌐 NeuralChooser
-
-Find the right AI model for your workflow.
-
-Built with ❤️ using Next.js and TypeScript.
+Make sure all required Supabase and admin environment variables are configured in the deployment environment.

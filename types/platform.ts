@@ -1,4 +1,4 @@
-export type PlatformCategory =
+export type PlatformCategorySlug =
   | "text-generation"
   | "image-generation"
   | "video-generation"
@@ -37,6 +37,22 @@ export type PlatformCategory =
   | "api-platform"
   | "open-source";
 
+export interface BaseCategory {
+  slug: PlatformCategorySlug | string;
+  name: string;
+  description?: string;
+  featured?: boolean;
+}
+
+export interface PlatformCategory extends BaseCategory {
+  id: string;
+}
+
+export interface Category extends BaseCategory {
+  icon: string;
+  color: string;
+}
+
 export interface PlatformPricing {
   free: boolean;
   paid: boolean;
@@ -57,7 +73,7 @@ export interface AIPlatform {
   accentColor?: string;
   shortDescription: string;
   description: string;
-  categories: PlatformCategory[];
+  categories: PlatformCategorySlug[];
   tags?: string[];
   bestFor?: string[];
   pricing: PlatformPricing;
@@ -72,13 +88,4 @@ export interface AIPlatform {
   trending?: boolean;
   lastUpdated?: string;
   metadata?: Record<string, string | number | boolean | null>;
-}
-
-export interface Category {
-  slug: PlatformCategory;
-  name: string;
-  description: string;
-  icon: string;
-  color: string;
-  featured?: boolean;
 }

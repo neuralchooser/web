@@ -1,24 +1,26 @@
-import type { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
 
-import { getAllCategories, getAllPlatforms } from "@/lib/platforms"
-import { siteConfig } from "@/lib/site"
+import { getAllCategories, getAllPlatforms } from "@/lib/platforms";
+import { siteConfig } from "@/lib/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date()
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
+  const platforms = await getAllPlatforms();
   const staticRoutes = ["", "/platforms", "/about"].map((route) => ({
     url: `${siteConfig.url}${route}`,
     lastModified: now,
-  }))
+  }));
 
-  const platformRoutes = getAllPlatforms().map((platform) => ({
+  const platformRoutes = platforms.map((platform) => ({
     url: `${siteConfig.url}/platforms/${platform.slug}`,
     lastModified: platform.lastUpdated ? new Date(platform.lastUpdated) : now,
-  }))
+  }));
 
-  const categoryRoutes = getAllCategories().map((category) => ({
+  const categories = await getAllCategories();
+  const categoryRoutes = categories.map((category) => ({
     url: `${siteConfig.url}/categories/${category.slug}`,
     lastModified: now,
-  }))
+  }));
 
-  return [...staticRoutes, ...platformRoutes, ...categoryRoutes]
+  return [...staticRoutes, ...platformRoutes, ...categoryRoutes];
 }
