@@ -36,7 +36,7 @@ const PLATFORM_SELECT = `
   last_updated
 `;
 
-function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
+export function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
   return {
     id: String(row.id ?? ""),
     slug: String(row.slug ?? ""),

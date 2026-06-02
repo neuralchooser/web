@@ -34,8 +34,8 @@ export default async function AdminDashboardPage() {
   ];
   const recentlyUpdated = [...platforms]
     .sort((left, right) =>
-      (right.last_updated ?? "1900-01-01").localeCompare(
-        left.last_updated ?? "1900-01-01",
+      (right.lastUpdated ?? "1900-01-01").localeCompare(
+        left.lastUpdated ?? "1900-01-01",
       ),
     )
     .slice(0, 6);
@@ -52,7 +52,9 @@ export default async function AdminDashboardPage() {
           return (
             <Card key={card.label}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{card.label}</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  {card.label}
+                </CardTitle>
                 <Icon className="size-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -75,9 +77,11 @@ export default async function AdminDashboardPage() {
             >
               <div>
                 <p className="font-medium">{platform.name}</p>
-                <p className="text-sm text-muted-foreground">{platform.company}</p>
+                <p className="text-sm text-muted-foreground">
+                  {platform.company}
+                </p>
               </div>
-              <Badge variant="muted">{platform.last_updated ?? "No date"}</Badge>
+              <Badge variant="muted">{platform.lastUpdated ?? "No date"}</Badge>
             </div>
           ))}
         </div>

@@ -22,9 +22,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deletePlatformAction } from "@/lib/actions/platform-actions";
-import type { PlatformRow } from "@/types/admin";
+import type { AIPlatform } from "@/types/platform";
 
-export function PlatformsTable({ platforms }: { platforms: PlatformRow[] }) {
+export function PlatformsTable({ platforms }: { platforms: AIPlatform[] }) {
   if (!platforms.length) {
     return (
       <EmptyState
@@ -64,30 +64,44 @@ export function PlatformsTable({ platforms }: { platforms: PlatformRow[] }) {
                     </Badge>
                   ))}
                   {platform.categories.length > 3 ? (
-                    <Badge variant="outline">+{platform.categories.length - 3}</Badge>
+                    <Badge variant="outline">
+                      +{platform.categories.length - 3}
+                    </Badge>
                   ) : null}
                 </div>
               </TableCell>
               <TableCell className="hidden md:table-cell">
                 <div className="flex flex-wrap gap-1">
                   {platform.featured ? <Badge>Featured</Badge> : null}
-                  {platform.trending ? <Badge variant="secondary">Trending</Badge> : null}
-                  {platform.api_available ? <Badge variant="outline">API</Badge> : null}
+                  {platform.trending ? (
+                    <Badge variant="secondary">Trending</Badge>
+                  ) : null}
+                  {platform.apiAvailable ? (
+                    <Badge variant="outline">API</Badge>
+                  ) : null}
                 </div>
               </TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" aria-label="Open row actions">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Open row actions"
+                    >
                       <MoreHorizontal className="size-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href={`/admin/platforms/${platform.id}/edit`}>Edit</Link>
+                      <Link href={`/admin/platforms/${platform.id}/edit`}>
+                        Edit
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href={`/platforms/${platform.slug}`}>View public page</Link>
+                      <Link href={`/platforms/${platform.slug}`}>
+                        View public page
+                      </Link>
                     </DropdownMenuItem>
                     <div className="px-1 py-1">
                       <DeleteDialog
