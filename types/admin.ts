@@ -24,6 +24,7 @@ export interface PlatformRow {
   open_source: boolean;
   featured: boolean;
   trending: boolean;
+  is_monochrome_logo: boolean;
   last_updated: string | null;
 }
 

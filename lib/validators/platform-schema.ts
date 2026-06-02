@@ -64,6 +64,7 @@ export const platformSchema = z.object({
   open_source: z.boolean().default(false),
   featured: z.boolean().default(false),
   trending: z.boolean().default(false),
+  is_monochrome_logo: z.boolean().default(false),
   last_updated: dateString,
 });
 

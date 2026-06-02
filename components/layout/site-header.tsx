@@ -17,6 +17,7 @@ import {
 const navItems = [
   { href: "/platforms", label: "Platforms" },
   { href: "/categories/coding", label: "Coding" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
 ];
 
@@ -38,11 +39,16 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
           <Button asChild variant="ghost" size="sm">
             <Link href="/platforms">
               <Search className="size-4" />
               Browse
+            </Link>
+          </Button>
+          <Button asChild size="sm" className="font-semibold shadow-sm transition-all hover:scale-[1.02]">
+            <Link href="/submit">
+              Submit Tool
             </Link>
           </Button>
           <ThemeToggle />
@@ -71,6 +77,13 @@ export function SiteHeader() {
                     <Link href={item.href}>{item.label}</Link>
                   </Button>
                 ))}
+                <Button
+                  asChild
+                  size="sm"
+                  className="mt-4 w-full font-semibold"
+                >
+                  <Link href="/submit">Submit Tool</Link>
+                </Button>
               </nav>
             </SheetContent>
           </Sheet>
