@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useMemo, useState, useEffect } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import type { AIPlatform } from "@/types/platform";
 

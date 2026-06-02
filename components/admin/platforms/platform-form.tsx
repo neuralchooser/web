@@ -181,7 +181,8 @@ function LogoUploadField({
                   <p className="text-sm text-muted-foreground">Logo:</p>
                   <PlatformLogo
                     platform={{ ...form.getValues(), logo: field.value } as any}
-                    className="h-10 w-10 object-contain"
+                    // className="h-10 w-10 object-contain"
+                    className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm"
                   />
                 </div>
               ) : null}

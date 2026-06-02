@@ -782,6 +782,7 @@ export const platforms: AIPlatform[] = [
     trending: true,
     lastUpdated: "2026-05-14",
   },
+
   {
     id: "leonardo-ai",
     slug: "leonardo-ai",
@@ -1478,6 +1479,7 @@ export const platforms: AIPlatform[] = [
       research_paper: null,
     },
   },
+
   {
     id: "veo-3-1",
     slug: "veo-3-1",
