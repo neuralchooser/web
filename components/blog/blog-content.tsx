@@ -6,7 +6,6 @@ interface BlogContentProps {
 }
 
 export function BlogContent({ content }: BlogContentProps) {
-  // Configure marked options
   const htmlContent = marked.parse(content, {
     gfm: true,
     breaks: true,
@@ -29,7 +28,12 @@ export function BlogContent({ content }: BlogContentProps) {
         [&>blockquote]:my-6 [&>blockquote]:border-l-4 [&>blockquote]:border-border [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-muted-foreground
         [&>pre]:my-6 [&>pre]:overflow-x-auto [&>pre]:rounded-lg [&>pre]:border [&>pre]:border-border [&>pre]:bg-muted/30 [&>pre]:p-4 [&>pre_code]:text-sm
         [&>code]:rounded [&>code]:bg-muted/40 [&>code]:px-1.5 [&>code]:py-0.5 [&>code]:text-sm [&>code]:font-mono [&>code]:text-foreground
-        [&>a]:font-medium [&>a]:text-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a]:transition-colors hover:[&>a]:text-primary"
+        [&>a]:font-medium [&>a]:text-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a]:transition-colors hover:[&>a]:text-primary
+        [&>table]:w-full [&>table]:my-4 [&>table]:border-collapse
+        [&>table_th]:border [&>table_th]:border-border [&>table_th]:px-4 [&>table_th]:py-2 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:bg-muted/50
+        [&>table_td]:border [&>table_td]:border-border [&>table_td]:px-4 [&>table_td]:py-2 [&>table_td]:text-muted-foreground
+        [&>table_tr]:border-b [&>table_tr]:border-border
+        [&_table_tr]:even:bg-muted/20"
       dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
     />
   );
