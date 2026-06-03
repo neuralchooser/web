@@ -7,7 +7,11 @@ import Image from "next/image";
 
 import { BlogContent } from "@/components/blog/blog-content";
 import { BlogCard } from "@/components/blog/blog-card";
-import { getBlogBySlug, getPublishedBlogs, getRelatedBlogs } from "@/lib/services/blogs";
+import {
+  getBlogBySlug,
+  getPublishedBlogs,
+  getRelatedBlogs,
+} from "@/lib/services/blogs";
 import { createMetadata } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
 
@@ -49,9 +53,7 @@ export async function generateMetadata(
   return meta;
 }
 
-export default async function BlogPostPage(
-  props: PageProps<"/blog/[slug]">,
-) {
+export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   const { slug } = await props.params;
   const blog = await getBlogBySlug(slug);
 
@@ -92,7 +94,10 @@ export default async function BlogPostPage(
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-y border-border py-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <User className="size-4 text-foreground/75" />
-            <span>By <span className="font-medium text-foreground">{blog.author}</span></span>
+            <span>
+              By{" "}
+              <span className="font-medium text-foreground">{blog.author}</span>
+            </span>
           </div>
           {publishedDate && (
             <div className="flex items-center gap-2">

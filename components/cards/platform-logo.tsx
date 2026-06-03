@@ -29,23 +29,52 @@ export function PlatformLogo({
 
   const shouldInvertLogo =
     darkMode && platform.logo && platform.isMonochromeLogo;
+  // Reset failure state when a new logo URL is provided so re-tries can show
+  // the image (for example when a blob preview or new public URL appears).
+  useEffect(() => {
+    setImageFailed(false);
+  }, [platform.logo]);
+
+  // Some preview URLs (blob: or data:) are not supported by next/image —
+  // render a normal <img> for those so local previews display immediately.
+  const isBlobOrData =
+    typeof platform.logo === "string" &&
+    (platform.logo.startsWith("blob:") || platform.logo.startsWith("data:"));
 
   return (
     <div className={className} style={{ color: platform.accentColor }}>
       {platform.logo && !imageFailed ? (
-        <Image
-          src={platform.logo!}
-          alt={`${platform.name} logo`}
-          width={28}
-          height={28}
-          style={
-            shouldInvertLogo
-              ? { filter: "invert(1) brightness(1.3)", color: "transparent" }
-              : { color: "transparent" }
-          }
-          className="max-h-7 max-w-7 object-contain"
-          onError={() => setImageFailed(true)}
-        />
+        isBlobOrData ? (
+          // use native img for blob/data URLs
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={platform.logo!}
+            alt={`${platform.name} logo`}
+            width={28}
+            height={28}
+            style={
+              shouldInvertLogo
+                ? { filter: "invert(1) brightness(1.3)", color: "transparent" }
+                : { color: "transparent" }
+            }
+            className="max-h-7 max-w-7 object-contain"
+            onError={() => setImageFailed(true)}
+          />
+        ) : (
+          <Image
+            src={platform.logo!}
+            alt={`${platform.name} logo`}
+            width={28}
+            height={28}
+            style={
+              shouldInvertLogo
+                ? { filter: "invert(1) brightness(1.3)", color: "transparent" }
+                : { color: "transparent" }
+            }
+            className="max-h-7 max-w-7 object-contain"
+            onError={() => setImageFailed(true)}
+          />
+        )
       ) : (
         initials
       )}

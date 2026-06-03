@@ -26,6 +26,9 @@ export async function SiteFooter() {
             <Link href="/platforms" className="hover:text-foreground">
               All platforms
             </Link>
+            <Link href="/blog" className="hover:text-foreground">
+              Blog
+            </Link>
             <Link href="/about" className="hover:text-foreground">
               About
             </Link>
