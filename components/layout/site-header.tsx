@@ -16,9 +16,9 @@ import {
 
 const navItems = [
   { href: "/platforms", label: "Platforms" },
-  { href: "/categories/coding", label: "Coding" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
