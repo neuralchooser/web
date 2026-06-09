@@ -83,50 +83,6 @@ proxy.ts
 
 The public site and admin panel are separated with route groups. Public navigation does not link to `/admin`.
 
-## Admin Panel
-
-Admin is available only by manually visiting:
-
-```txt
-http://localhost:3000/admin
-```
-
-Unauthenticated requests are redirected to:
-
-```txt
-http://localhost:3000/admin/login
-```
-
-The admin panel supports:
-
-- Dashboard counts and recently updated platforms
-- Platform list, search, filters, create, edit, delete
-- Category list, search, filters, create, edit, delete
-- Category multi-select for platform forms
-- Tags input for platform forms
-- Server actions for mutations
-- Supabase repositories for all database operations
-
-## Admin Auth
-
-This project intentionally does not use Supabase Auth, OAuth, JWT, NextAuth, Clerk, database sessions, or user management.
-
-Admin auth is static and env-based:
-
-- Credentials are read server-side only.
-- Valid login creates a signed HTTP-only cookie.
-- `proxy.ts` protects all `/admin` routes.
-- Every admin server action also checks admin auth.
-- Credentials are never stored in localStorage or exposed to the client.
-
-Required env vars:
-
-```env
-ADMIN_EMAIL=your-admin-email@example.com
-ADMIN_PASSWORD=your-admin-password
-ADMIN_COOKIE_SECRET=your-long-random-cookie-secret
-```
-
 ## Supabase Data Model
 
 `categories`

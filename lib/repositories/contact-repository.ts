@@ -1,5 +1,6 @@
 import { supabaseServer } from "@/lib/supabase/server";
 import type { ContactInput } from "@/lib/validators/contact";
+import type { ContactMessageRow } from "@/types/admin";
 
 function assertSupabaseConfig() {
   if (
@@ -25,4 +26,19 @@ export async function createContactMessage(input: ContactInput) {
   if (error) {
     throw new Error(error.message);
   }
+}
+
+export async function listContactMessages() {
+  assertSupabaseConfig();
+
+  const { data, error } = await supabaseServer
+    .from("contact_messages")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data as ContactMessageRow[];
 }
