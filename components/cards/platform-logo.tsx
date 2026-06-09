@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { AIPlatform } from "@/types/platform";
 import { CanvasLogo } from "./canvas-logo";
 
@@ -28,7 +28,9 @@ export function PlatformLogo({
 
   const initials = platform.name.slice(0, 2).toUpperCase();
 
-  const darkMode = isMounted && resolvedTheme === "dark";
+  const darkMode = isMounted
+    ? resolvedTheme === "dark"
+    : typeof document !== "undefined" && document.documentElement.classList.contains("dark");
 
   const shouldInvertLogo =
     darkMode && platform.logo && platform.isMonochromeLogo as any;

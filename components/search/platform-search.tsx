@@ -81,11 +81,10 @@ function FilterPanel({
             onClick={() =>
               setFilters((current) => ({ ...current, category: "all" }))
             }
-            className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-              filters.category === "all"
-                ? "border-foreground bg-foreground text-background"
-                : "border-border hover:bg-muted"
-            }`}
+            className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${filters.category === "all"
+              ? "border-foreground bg-foreground text-background"
+              : "border-border hover:bg-muted"
+              }`}
           >
             All categories
           </button>
@@ -99,11 +98,10 @@ function FilterPanel({
                   category: category.slug,
                 }))
               }
-              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-                filters.category === category.slug
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border hover:bg-muted"
-              }`}
+              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${filters.category === category.slug
+                ? "border-foreground bg-foreground text-background"
+                : "border-border hover:bg-muted"
+                }`}
             >
               {category.name}
             </button>
@@ -121,11 +119,10 @@ function FilterPanel({
               onClick={() =>
                 setFilters((current) => ({ ...current, pricing: option.value }))
               }
-              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-                filters.pricing === option.value
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border hover:bg-muted"
-              }`}
+              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${filters.pricing === option.value
+                ? "border-foreground bg-foreground text-background"
+                : "border-border hover:bg-muted"
+                }`}
             >
               {option.label}
             </button>
@@ -227,11 +224,14 @@ export function PlatformSearch({
             <SlidersHorizontal className="size-4" />
             <h2 className="font-medium">Filters</h2>
           </div>
-          <FilterPanel
-            categories={categories}
-            filters={filters}
-            setFilters={setFilters}
-          />
+
+          <div className="max-h-[calc(100vh-6rem-5rem)] overflow-y-auto pr-1 scrollbar-none">
+            <FilterPanel
+              categories={categories}
+              filters={filters}
+              setFilters={setFilters}
+            />
+          </div>
         </div>
       </aside>
 
