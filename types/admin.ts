@@ -37,6 +37,26 @@ export interface ContactMessageRow {
   created_at: string;
 }
 
+export interface ToolSubmissionRow {
+  id: string;
+  name: string;
+  company: string | null;
+  website: string;
+  documentation: string | null;
+  short_description: string;
+  description: string | null;
+  categories: string[];
+  tags: string[];
+  pricing_free: boolean;
+  pricing_paid: boolean;
+  api_available: boolean;
+  open_source: boolean;
+  founder_email: string;
+  status: "pending" | "approved" | "rejected";
+  created_at: string;
+  updated_at: string;
+}
+
 export interface CategoryRow {
   id: string;
   slug: string;

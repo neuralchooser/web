@@ -1,5 +1,6 @@
 import { supabaseServer } from "@/lib/supabase/server";
 import type { ToolSubmissionInput } from "@/lib/validators/tool-submission-schema";
+import type { ToolSubmissionRow } from "@/types/admin";
 
 function assertSupabaseConfig() {
   if (
@@ -23,4 +24,19 @@ export async function createToolSubmission(input: ToolSubmissionInput) {
   if (error) {
     throw new Error(error.message);
   }
+}
+
+export async function listToolSubmissions() {
+  assertSupabaseConfig();
+
+  const { data, error } = await supabaseServer
+    .from("tool_submissions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data as ToolSubmissionRow[];
 }
