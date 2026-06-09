@@ -28,6 +28,15 @@ export interface PlatformRow {
   last_updated: string | null;
 }
 
+export interface ContactMessageRow {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  created_at: string;
+}
+
 export interface CategoryRow {
   id: string;
   slug: string;
