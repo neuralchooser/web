@@ -9,6 +9,7 @@ const titles: Array<[string, string]> = [
   ["/admin/platforms", "Platforms"],
   ["/admin/categories/new", "New category"],
   ["/admin/categories", "Categories"],
+  ["/admin/submissions", "Tool submissions"],
   ["/admin/contact", "Contact messages"],
   ["/admin", "Dashboard"],
 ];
