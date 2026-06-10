@@ -6,16 +6,30 @@ const optionalText = z
   .transform((value) => value.trim())
   .transform((value) => (value.length ? value : null));
 
+const safeHttpUrl = z
+  .string()
+  .url("Enter a valid URL")
+  .refine((url) => /^https?:\/\//i.test(url), {
+    message: "URL must use http or https",
+  });
+
 const optionalUrl = z
   .union([z.string(), z.null()])
   .transform((value) => value ?? "")
   .transform((value) => value.trim())
   .transform((value) => (value.length ? value : null))
-  .pipe(z.string().url("Enter a valid URL").nullable());
+  .pipe(safeHttpUrl.nullable());
 
 export const toolSubmissionSchema = z.object({
   name: z.string().trim().min(2, "Tool name must be at least 2 characters"),
-  website: z.string().trim().min(1, "Website URL is required").url("Enter a valid website URL"),
+  website: z
+    .string()
+    .trim()
+    .min(1, "Website URL is required")
+    .url("Enter a valid website URL")
+    .refine((url) => /^https?:\/\//i.test(url), {
+      message: "URL must use http or https",
+    }),
   company: optionalText,
   short_description: z
     .string()

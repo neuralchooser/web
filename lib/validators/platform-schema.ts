@@ -6,12 +6,19 @@ const optionalText = z
   .transform((value) => value.trim())
   .transform((value) => (value.length ? value : null));
 
+const safeHttpUrl = z
+  .string()
+  .url("Enter a valid URL")
+  .refine((url) => /^https?:\/\//i.test(url), {
+    message: "URL must use http or https",
+  });
+
 const optionalUrl = z
   .union([z.string(), z.null()])
   .transform((value) => value ?? "")
   .transform((value) => value.trim())
   .transform((value) => (value.length ? value : null))
-  .pipe(z.string().url("Enter a valid URL").nullable());
+  .pipe(safeHttpUrl.nullable());
 
 const dateString = z
   .union([z.string(), z.null()])

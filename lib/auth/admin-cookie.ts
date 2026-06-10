@@ -12,7 +12,7 @@ export const adminCookieOptions = {
   httpOnly: true,
   maxAge: COOKIE_MAX_AGE_SECONDS,
   path: "/admin",
-  sameSite: "lax" as const,
+  sameSite: "strict" as const,
   secure: process.env.NODE_ENV === "production",
 };
 
