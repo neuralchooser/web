@@ -8,7 +8,7 @@ export async function SiteFooter() {
   const categories = await getAllCategories();
   const featuredCategories = categories
     .filter((category) => category.featured)
-    .slice(0, 5);
+    .slice(0, 4);
 
   return (
     <footer className="border-t border-border bg-muted/20">
@@ -26,8 +26,14 @@ export async function SiteFooter() {
             <Link href="/platforms" className="hover:text-foreground">
               All platforms
             </Link>
+            <Link href="/blog" className="hover:text-foreground">
+              Blog
+            </Link>
             <Link href="/about" className="hover:text-foreground">
               About
+            </Link>
+            <Link href="/contact" className="hover:text-foreground">
+              Contact
             </Link>
           </div>
         </div>

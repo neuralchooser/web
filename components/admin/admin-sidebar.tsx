@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, FolderTree, LayoutDashboard, LogOut, Menu } from "lucide-react";
+import { BarChart3, FileText, FolderTree, LayoutDashboard, LogOut, Menu, MessageSquare, Send } from "lucide-react";
 
 import { logoutAdminAction } from "@/lib/actions/auth-actions";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,9 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/platforms", label: "Platforms", icon: BarChart3 },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
+  { href: "/admin/blog", label: "Blogs", icon: FileText },
+  { href: "/admin/submissions", label: "Submissions", icon: Send },
+  { href: "/admin/contact", label: "Contact", icon: MessageSquare },
 ];
 
 function Navigation() {

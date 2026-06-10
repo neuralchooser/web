@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Filter, Search, SlidersHorizontal, X } from "lucide-react";
 
 import { PlatformCard } from "@/components/cards/platform-card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,8 @@ import type {
   PlatformCategory,
   PlatformCategorySlug,
 } from "@/types/platform";
+
+const PAGE_SIZE = 24;
 
 interface Filters {
   category: "all" | string;
@@ -81,11 +83,10 @@ function FilterPanel({
             onClick={() =>
               setFilters((current) => ({ ...current, category: "all" }))
             }
-            className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-              filters.category === "all"
-                ? "border-foreground bg-foreground text-background"
-                : "border-border hover:bg-muted"
-            }`}
+            className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${filters.category === "all"
+              ? "border-foreground bg-foreground text-background"
+              : "border-border hover:bg-muted"
+              }`}
           >
             All categories
           </button>
@@ -99,11 +100,10 @@ function FilterPanel({
                   category: category.slug,
                 }))
               }
-              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-                filters.category === category.slug
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border hover:bg-muted"
-              }`}
+              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${filters.category === category.slug
+                ? "border-foreground bg-foreground text-background"
+                : "border-border hover:bg-muted"
+                }`}
             >
               {category.name}
             </button>
@@ -121,11 +121,10 @@ function FilterPanel({
               onClick={() =>
                 setFilters((current) => ({ ...current, pricing: option.value }))
               }
-              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-                filters.pricing === option.value
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border hover:bg-muted"
-              }`}
+              className={`rounded-md border px-3 py-2 text-left text-sm transition-colors ${filters.pricing === option.value
+                ? "border-foreground bg-foreground text-background"
+                : "border-border hover:bg-muted"
+                }`}
             >
               {option.label}
             </button>
@@ -178,6 +177,7 @@ export function PlatformSearch({
     ...defaultFilters,
     category: initialCategory,
   });
+  const [page, setPage] = React.useState(1);
 
   const categoryLookup = React.useMemo(
     () =>
@@ -207,6 +207,15 @@ export function PlatformSearch({
     });
   }, [categoryLookup, filters, platforms, query]);
 
+  React.useEffect(() => {
+    setPage(1);
+  }, [query, filters]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredPlatforms.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const start = (safePage - 1) * PAGE_SIZE;
+  const paginatedPlatforms = filteredPlatforms.slice(start, start + PAGE_SIZE);
+
   const activeFilterCount = [
     filters.category !== "all",
     filters.pricing !== "all",
@@ -227,11 +236,14 @@ export function PlatformSearch({
             <SlidersHorizontal className="size-4" />
             <h2 className="font-medium">Filters</h2>
           </div>
-          <FilterPanel
-            categories={categories}
-            filters={filters}
-            setFilters={setFilters}
-          />
+
+          <div className="max-h-[calc(100vh-6rem-5rem)] overflow-y-auto pr-1 scrollbar-none">
+            <FilterPanel
+              categories={categories}
+              filters={filters}
+              setFilters={setFilters}
+            />
+          </div>
         </div>
       </aside>
 
@@ -276,15 +288,49 @@ export function PlatformSearch({
         </div>
 
         <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
-          <span>{filteredPlatforms.length} platforms found</span>
+          <span>
+            {filteredPlatforms.length === 0
+              ? "0 platforms found"
+              : `Showing ${start + 1}–${Math.min(start + PAGE_SIZE, filteredPlatforms.length)} of ${filteredPlatforms.length} platforms`}
+          </span>
         </div>
 
-        {filteredPlatforms.length ? (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredPlatforms.map((platform) => (
-              <PlatformCard key={platform.slug} platform={platform} />
-            ))}
-          </div>
+        {paginatedPlatforms.length ? (
+          <>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {paginatedPlatforms.map((platform) => (
+                <PlatformCard key={platform.slug} platform={platform} />
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={safePage <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft className="size-4" />
+                  Previous
+                </Button>
+                <span className="text-sm text-muted-foreground">
+                  Page {safePage} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={safePage >= totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  aria-label="Next page"
+                >
+                  Next
+                  <ChevronRight className="size-4" />
+                </Button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="rounded-lg border border-dashed border-border p-10 text-center">
             <p className="font-medium">No platforms match these filters.</p>

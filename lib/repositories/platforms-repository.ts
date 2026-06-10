@@ -1,6 +1,7 @@
 import { supabaseServer } from "@/lib/supabase/server";
+import { mapPlatformRow } from "@/lib/services/platforms";
 import type { PlatformInput } from "@/lib/validators/platform-schema";
-import type { PlatformRow } from "@/types/admin";
+import type { AIPlatform, PlatformCategorySlug } from "@/types/platform";
 
 const PLATFORM_SELECT = `
   id,
@@ -23,7 +24,8 @@ const PLATFORM_SELECT = `
   featured,
   is_monochrome_logo,
   trending,
-  last_updated
+  last_updated,
+  is_deleted
 `;
 
 function assertSupabaseConfig() {
@@ -37,36 +39,6 @@ function assertSupabaseConfig() {
   }
 }
 
-function mapPlatform(row: Record<string, unknown>): PlatformRow {
-  return {
-    id: String(row.id ?? ""),
-    slug: String(row.slug ?? ""),
-    name: String(row.name ?? ""),
-    company: String(row.company ?? ""),
-    logo: row.logo === null ? null : String(row.logo ?? ""),
-    accent_color:
-      row.accent_color === null ? null : String(row.accent_color ?? ""),
-    short_description: String(row.short_description ?? ""),
-    description: String(row.description ?? ""),
-    website: row.website === null ? null : String(row.website ?? ""),
-    documentation:
-      row.documentation === null ? null : String(row.documentation ?? ""),
-    categories: Array.isArray(row.categories) ? row.categories.map(String) : [],
-    tags: Array.isArray(row.tags) ? row.tags.map(String) : [],
-    pricing_free: Boolean(row.pricing_free),
-    pricing_paid: Boolean(row.pricing_paid),
-    pricing_notes:
-      row.pricing_notes === null ? null : String(row.pricing_notes ?? ""),
-    api_available: Boolean(row.api_available),
-    open_source: Boolean(row.open_source),
-    featured: Boolean(row.featured),
-    trending: Boolean(row.trending),
-    is_monochrome_logo: Boolean(row.is_monochrome_logo),
-    last_updated:
-      row.last_updated === null ? null : String(row.last_updated ?? ""),
-  };
-}
-
 export interface PlatformListFilters {
   search?: string;
   category?: string;
@@ -76,20 +48,13 @@ export interface PlatformListFilters {
   openSource?: "all" | "true" | "false";
 }
 
-export interface PlatformFilters {
-  categories?: string[];
-  tags?: string[];
-  featured?: boolean;
-  trending?: boolean;
-  apiAvailable?: boolean;
-  openSource?: boolean;
-  pricingFree?: boolean;
-}
-
-function filterBoolean<T extends PlatformRow>(
+function filterBoolean<T extends AIPlatform>(
   items: T[],
   value: "all" | "true" | "false" | undefined,
-  key: keyof T,
+  key: keyof Pick<
+    AIPlatform,
+    "featured" | "trending" | "apiAvailable" | "openSource"
+  >,
 ) {
   if (!value || value === "all") return items;
   return items.filter((item) => Boolean(item[key]) === (value === "true"));
@@ -101,11 +66,12 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
   const { data, error } = await supabaseServer
     .from("platforms")
     .select(PLATFORM_SELECT)
+    .is("is_deleted", false)
     .order("name", { ascending: true });
 
   if (error) throw new Error(error.message);
 
-  let platforms = (data ?? []).map(mapPlatform);
+  let platforms = (data ?? []).map(mapPlatformRow);
   const search = filters.search?.trim().toLowerCase();
 
   if (search) {
@@ -114,9 +80,9 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
         platform.name,
         platform.slug,
         platform.company,
-        platform.short_description,
+        platform.shortDescription,
         platform.description,
-        platform.tags.join(" "),
+        (platform.tags ?? []).join(" "),
         platform.categories.join(" "),
       ]
         .join(" ")
@@ -127,93 +93,31 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
 
   if (filters.category && filters.category !== "all") {
     platforms = platforms.filter((platform) =>
-      platform.categories.includes(filters.category as string),
+      platform.categories.includes(filters.category as PlatformCategorySlug),
     );
   }
 
   platforms = filterBoolean(platforms, filters.featured, "featured");
   platforms = filterBoolean(platforms, filters.trending, "trending");
-  platforms = filterBoolean(platforms, filters.api, "api_available");
-  platforms = filterBoolean(platforms, filters.openSource, "open_source");
+  platforms = filterBoolean(platforms, filters.api, "apiAvailable");
+  platforms = filterBoolean(platforms, filters.openSource, "openSource");
 
   return platforms;
 }
 
-export async function getPlatforms(filters: PlatformFilters = {}) {
-  assertSupabaseConfig();
-
-  let query = supabaseServer
-    .from("platforms")
-    .select(PLATFORM_SELECT)
-    .order("name", { ascending: true });
-
-  if (filters.categories?.length) {
-    query = query.contains("categories", filters.categories);
-  }
-
-  if (filters.tags?.length) {
-    query = query.contains("tags", filters.tags);
-  }
-
-  if (typeof filters.featured === "boolean") {
-    query = query.eq("featured", filters.featured);
-  }
-
-  if (typeof filters.trending === "boolean") {
-    query = query.eq("trending", filters.trending);
-  }
-
-  if (typeof filters.apiAvailable === "boolean") {
-    query = query.eq("api_available", filters.apiAvailable);
-  }
-
-  if (typeof filters.openSource === "boolean") {
-    query = query.eq("open_source", filters.openSource);
-  }
-
-  if (typeof filters.pricingFree === "boolean") {
-    query = query.eq("pricing_free", filters.pricingFree);
-  }
-
-  const { data, error } = await query;
-
-  if (error) throw new Error(error.message);
-
-  return (data ?? []).map(mapPlatform);
-}
-
-export async function getAllUniqueTags() {
-  assertSupabaseConfig();
-
-  const { data, error } = await supabaseServer
-    .from("platforms")
-    .select("tags")
-    .order("name", { ascending: true });
-
-  if (error) throw new Error(error.message);
-
-  return Array.from(
-    new Set(
-      (data ?? [])
-        .flatMap((row) => (Array.isArray(row.tags) ? row.tags : []))
-        .filter(Boolean)
-        .map(String),
-    ),
-  ).sort((left, right) => left.localeCompare(right));
-}
-
-export async function getPlatformById(id: string) {
+export async function getPlatformById(id: string): Promise<AIPlatform | null> {
   assertSupabaseConfig();
 
   const { data, error } = await supabaseServer
     .from("platforms")
     .select(PLATFORM_SELECT)
     .eq("id", id)
+    .is("is_deleted", false)
     .maybeSingle();
 
   if (error) throw new Error(error.message);
 
-  return data ? mapPlatform(data) : null;
+  return data ? mapPlatformRow(data) : null;
 }
 
 export async function createPlatform(input: PlatformInput) {
@@ -238,7 +142,7 @@ export async function deletePlatform(id: string) {
 
   const { error } = await supabaseServer
     .from("platforms")
-    .delete()
+    .update({ is_deleted: true })
     .eq("id", id);
   if (error) throw new Error(error.message);
 }

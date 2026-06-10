@@ -26,7 +26,9 @@ import {
   platformSchema,
   type PlatformFormValues,
 } from "@/lib/validators/platform-schema";
-import type { AdminActionState, CategoryRow, PlatformRow } from "@/types/admin";
+import type { AdminActionState, CategoryRow } from "@/types/admin";
+import type { AIPlatform } from "@/types/platform";
+import { mapPlatformRow } from "@/lib/services/platforms";
 
 const defaultValues: PlatformFormValues = {
   slug: "",
@@ -51,7 +53,7 @@ const defaultValues: PlatformFormValues = {
   last_updated: new Date().toISOString().slice(0, 10),
 };
 
-function valuesFromPlatform(platform?: PlatformRow): PlatformFormValues {
+function valuesFromPlatform(platform?: AIPlatform): PlatformFormValues {
   if (!platform) return defaultValues;
 
   return {
@@ -59,22 +61,22 @@ function valuesFromPlatform(platform?: PlatformRow): PlatformFormValues {
     name: platform.name,
     company: platform.company,
     logo: platform.logo ?? "",
-    accent_color: platform.accent_color ?? "",
-    short_description: platform.short_description,
+    accent_color: platform.accentColor ?? "",
+    short_description: platform.shortDescription,
     description: platform.description,
     website: platform.website ?? "",
     documentation: platform.documentation ?? "",
     categories: platform.categories,
-    tags: platform.tags,
-    pricing_free: platform.pricing_free,
-    pricing_paid: platform.pricing_paid,
-    pricing_notes: platform.pricing_notes ?? "",
-    api_available: platform.api_available,
-    open_source: platform.open_source,
-    featured: platform.featured,
-    trending: platform.trending,
-    is_monochrome_logo: platform.is_monochrome_logo,
-    last_updated: platform.last_updated ?? "",
+    tags: platform.tags ?? [],
+    pricing_free: Boolean(platform.pricing?.free),
+    pricing_paid: Boolean(platform.pricing?.paid),
+    pricing_notes: platform.pricing?.notes ?? "",
+    api_available: Boolean(platform.apiAvailable),
+    open_source: Boolean(platform.openSource),
+    featured: Boolean(platform.featured),
+    trending: Boolean(platform.trending),
+    is_monochrome_logo: Boolean(platform.isMonochromeLogo),
+    last_updated: platform.lastUpdated ?? "",
   };
 }
 
@@ -180,8 +182,13 @@ function LogoUploadField({
                 <div className="space-y-2 flex items-center gap-2">
                   <p className="text-sm text-muted-foreground">Logo:</p>
                   <PlatformLogo
-                    platform={{ ...form.getValues(), logo: field.value } as any}
-                    className="h-10 w-10 object-contain"
+                    platform={
+                      {
+                        ...mapPlatformRow(form.getValues()),
+                        logo: field.value,
+                      } as any
+                    }
+                    className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm"
                   />
                 </div>
               ) : null}
@@ -234,7 +241,7 @@ export function PlatformForm({
   action,
   submitLabel,
 }: {
-  platform?: PlatformRow;
+  platform?: AIPlatform;
   categories: CategoryRow[];
   action: (values: PlatformFormValues) => Promise<AdminActionState>;
   submitLabel: string;
