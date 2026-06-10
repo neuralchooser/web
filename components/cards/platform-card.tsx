@@ -52,6 +52,11 @@ export function PlatformCard({
                 {formatCategoryName(category)}
               </Badge>
             ))}
+            {platform.categories.slice(2).length > 0 ? (
+              <Badge variant="outline">
+                +{platform.categories.slice(2).length}
+              </Badge>
+            ) : null}
           </div>
         ) : null}
 

@@ -225,4 +225,13 @@ export const categories: Category[] = [
     icon: "Boxes",
     color: "from-lime-500 to-emerald-400",
   },
+  {
+    slug: "vibe-coding",
+    name: "Vibe Coding",
+    featured: true,
+    icon: "Code2",
+    color: "from-emerald-500 to-teal-400",
+    description:
+      "AI-powered tools that turn natural language prompts into working software.",
+  },
 ];

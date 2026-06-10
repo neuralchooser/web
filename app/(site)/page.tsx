@@ -14,6 +14,7 @@ export default async function Home() {
     .slice(0, 4);
   const imagePlatforms = platforms
     .filter((platform) => platform.categories.includes("image-generation"))
+    .filter((platform) => platform.featured)
     .slice(0, 4);
   const researchPlatforms = platforms
     .filter((platform) => platform.categories.includes("research"))

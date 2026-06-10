@@ -96,6 +96,10 @@ const icons: Record<string, { icon: LucideIcon; color: string }> = {
     icon: SearchCheck,
     color: "from-blue-500 to-indigo-400",
   },
+  "vibe-coding": {
+    icon: Code2,
+    color: "from-emerald-500 to-teal-400",
+  },
 };
 
 export function CategoryCard({

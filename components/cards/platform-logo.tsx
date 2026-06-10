@@ -30,19 +30,19 @@ export function PlatformLogo({
 
   const darkMode = isMounted
     ? resolvedTheme === "dark"
-    : typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+    : typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark");
 
   const shouldInvertLogo =
-    darkMode && platform.logo && platform.isMonochromeLogo as any;
+    darkMode && platform.logo && (platform.isMonochromeLogo as any);
 
   const isBlobOrData =
     typeof platform.logo === "string" &&
-    (platform.logo.startsWith("blob:") ||
-      platform.logo.startsWith("data:"));
+    (platform.logo.startsWith("blob:") || platform.logo.startsWith("data:"));
 
   return (
     <div className={className} style={{ color: platform.accentColor }}>
-      {platform.logo && !imageFailed ? (
+      {platform.logo && !imageFailed && platform.logo.startsWith("https://") ? (
         isBlobOrData ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
