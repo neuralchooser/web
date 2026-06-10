@@ -33,7 +33,8 @@ const PLATFORM_SELECT = `
   featured,
   trending,
   is_monochrome_logo,
-  last_updated
+  last_updated,
+  is_deleted
 `;
 
 export function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
@@ -81,6 +82,7 @@ export async function getAllPlatforms(): Promise<AIPlatform[]> {
   const { data, error } = await supabaseServer
     .from("platforms")
     .select(PLATFORM_SELECT)
+    .is("is_deleted", false)
     .order("name", { ascending: true });
 
   if (error) {
@@ -98,6 +100,7 @@ export async function getPlatformBySlug(
     .from("platforms")
     .select(PLATFORM_SELECT)
     .eq("slug", slug)
+    .is("is_deleted", false)
     .maybeSingle();
 
   if (error) {
@@ -115,6 +118,7 @@ export async function getFeaturedPlatforms(
     .from("platforms")
     .select(PLATFORM_SELECT)
     .eq("featured", true)
+    .is("is_deleted", false)
     .order("name", { ascending: true });
 
   if (error) {
@@ -133,6 +137,7 @@ export async function getTrendingPlatforms(
     .from("platforms")
     .select(PLATFORM_SELECT)
     .or("trending.eq.true,featured.eq.true")
+    .is("is_deleted", false)
     .order("name", { ascending: true });
 
   if (error) {

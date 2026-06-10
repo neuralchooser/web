@@ -24,7 +24,8 @@ const PLATFORM_SELECT = `
   featured,
   is_monochrome_logo,
   trending,
-  last_updated
+  last_updated,
+  is_deleted
 `;
 
 function assertSupabaseConfig() {
@@ -65,6 +66,7 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
   const { data, error } = await supabaseServer
     .from("platforms")
     .select(PLATFORM_SELECT)
+    .is("is_deleted", false)
     .order("name", { ascending: true });
 
   if (error) throw new Error(error.message);
@@ -110,6 +112,7 @@ export async function getPlatformById(id: string): Promise<AIPlatform | null> {
     .from("platforms")
     .select(PLATFORM_SELECT)
     .eq("id", id)
+    .is("is_deleted", false)
     .maybeSingle();
 
   if (error) throw new Error(error.message);
@@ -139,7 +142,7 @@ export async function deletePlatform(id: string) {
 
   const { error } = await supabaseServer
     .from("platforms")
-    .delete()
+    .update({ is_deleted: true })
     .eq("id", id);
   if (error) throw new Error(error.message);
 }
