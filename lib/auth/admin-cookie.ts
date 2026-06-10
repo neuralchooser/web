@@ -11,7 +11,7 @@ export interface AdminCookiePayload {
 export const adminCookieOptions = {
   httpOnly: true,
   maxAge: COOKIE_MAX_AGE_SECONDS,
-  path: "/admin",
+  path: "/",
   sameSite: "strict" as const,
   secure: process.env.NODE_ENV === "production",
 };

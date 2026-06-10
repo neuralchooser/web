@@ -72,5 +72,11 @@ export async function loginAdminAction(
 export async function logoutAdminAction() {
   const cookieStore = await cookies();
   cookieStore.delete(ADMIN_COOKIE_NAME);
+  // Clear legacy path cookie if it exists
+  cookieStore.set(ADMIN_COOKIE_NAME, "", {
+    ...adminCookieOptions,
+    path: "/admin",
+    maxAge: 0,
+  });
   redirect("/admin/login");
 }
