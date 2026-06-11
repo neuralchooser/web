@@ -1,7 +1,7 @@
 import { supabaseServer } from "@/lib/supabase/server";
 import { mapPlatformRow } from "@/lib/services/platforms";
 import type { PlatformInput } from "@/lib/validators/platform-schema";
-import type { AIPlatform, PlatformCategorySlug } from "@/types/platform";
+import type { AIPlatform } from "@/types/platform";
 
 const PLATFORM_SELECT = `
   id,
@@ -14,7 +14,6 @@ const PLATFORM_SELECT = `
   description,
   website,
   documentation,
-  categories,
   tags,
   pricing_free,
   pricing_paid,
@@ -25,7 +24,8 @@ const PLATFORM_SELECT = `
   is_monochrome_logo,
   trending,
   last_updated,
-  is_deleted
+  is_deleted,
+  platform_categories(category:categories(id, slug, name))
 `;
 
 function assertSupabaseConfig() {
@@ -83,7 +83,7 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
         platform.shortDescription,
         platform.description,
         (platform.tags ?? []).join(" "),
-        platform.categories.join(" "),
+        platform.categories.map((c) => c.slug).join(" "),
       ]
         .join(" ")
         .toLowerCase()
@@ -93,7 +93,7 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
 
   if (filters.category && filters.category !== "all") {
     platforms = platforms.filter((platform) =>
-      platform.categories.includes(filters.category as PlatformCategorySlug),
+      platform.categories.some((c) => c.slug === filters.category),
     );
   }
 
@@ -123,18 +123,54 @@ export async function getPlatformById(id: string): Promise<AIPlatform | null> {
 export async function createPlatform(input: PlatformInput) {
   assertSupabaseConfig();
 
-  const { error } = await supabaseServer.from("platforms").insert(input);
+  const { category_ids, ...platformData } = input;
+
+  const { data, error } = await supabaseServer
+    .from("platforms")
+    .insert(platformData)
+    .select("id")
+    .single();
   if (error) throw new Error(error.message);
+
+  if (category_ids.length > 0) {
+    const relations = category_ids.map((category_id) => ({
+      platform_id: data.id as string,
+      category_id,
+    }));
+    const { error: relError } = await supabaseServer
+      .from("platform_categories")
+      .insert(relations);
+    if (relError) throw new Error(relError.message);
+  }
 }
 
 export async function updatePlatform(id: string, input: PlatformInput) {
   assertSupabaseConfig();
 
+  const { category_ids, ...platformData } = input;
+
   const { error } = await supabaseServer
     .from("platforms")
-    .update(input)
+    .update(platformData)
     .eq("id", id);
   if (error) throw new Error(error.message);
+
+  const { error: delError } = await supabaseServer
+    .from("platform_categories")
+    .delete()
+    .eq("platform_id", id);
+  if (delError) throw new Error(delError.message);
+
+  if (category_ids.length > 0) {
+    const relations = category_ids.map((category_id) => ({
+      platform_id: id,
+      category_id,
+    }));
+    const { error: insError } = await supabaseServer
+      .from("platform_categories")
+      .insert(relations);
+    if (insError) throw new Error(insError.message);
+  }
 }
 
 export async function deletePlatform(id: string) {

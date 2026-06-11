@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getAllPlatforms } from "@/lib/services/platforms";
-import type { PlatformCategorySlug } from "@/types/platform";
 
 function normalizeBoolean(value: string | null): boolean {
   return value === "true" || value === "1";
@@ -9,9 +8,7 @@ function normalizeBoolean(value: string | null): boolean {
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const category = url.searchParams.get(
-      "category",
-    ) as PlatformCategorySlug | null;
+    const category = url.searchParams.get("category");
     const pricing = url.searchParams.get("pricing");
     const openSource = url.searchParams.get("openSource");
     const apiAvailable = url.searchParams.get("apiAvailable");
@@ -21,7 +18,7 @@ export async function GET(request: Request) {
 
     if (category) {
       platforms = platforms.filter((platform) =>
-        platform.categories.includes(category),
+        platform.categories.some((c) => c.slug === category),
       );
     }
 
@@ -55,7 +52,7 @@ export async function GET(request: Request) {
           .join(" ")
           .toLowerCase();
         const tags = (platform.tags ?? []).join(" ").toLowerCase();
-        const categorySlugs = platform.categories.join(" ").toLowerCase();
+        const categorySlugs = platform.categories.map((c) => c.slug).join(" ").toLowerCase();
         return (
           properties.includes(query) ||
           tags.includes(query) ||

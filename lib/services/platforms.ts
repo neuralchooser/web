@@ -1,5 +1,5 @@
 import { supabaseServer } from "@/lib/supabase/server";
-import type { AIPlatform, PlatformCategorySlug } from "@/types/platform";
+import type { AIPlatform, PlatformCategory } from "@/types/platform";
 
 function assertSupabaseConfig() {
   if (
@@ -23,7 +23,6 @@ const PLATFORM_SELECT = `
   description,
   website,
   documentation,
-  categories,
   tags,
   pricing_free,
   pricing_paid,
@@ -34,7 +33,8 @@ const PLATFORM_SELECT = `
   trending,
   is_monochrome_logo,
   last_updated,
-  is_deleted
+  is_deleted,
+  platform_categories(category:categories(id, slug, name))
 `;
 
 export function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
@@ -51,10 +51,14 @@ export function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
     website: row.website === null ? undefined : String(row.website ?? ""),
     documentation:
       row.documentation === null ? undefined : String(row.documentation ?? ""),
-    categories: Array.isArray(row.categories)
-      ? (row.categories
-          .filter(Boolean)
-          .map((value) => String(value)) as PlatformCategorySlug[])
+    categories: Array.isArray(row.platform_categories)
+      ? (row.platform_categories as Array<{ category: { id: string; slug: string; name: string } | null }>)
+          .filter((pc) => pc.category)
+          .map((pc): PlatformCategory => ({
+            id: pc.category!.id,
+            slug: pc.category!.slug,
+            name: pc.category!.name,
+          }))
       : [],
     tags: Array.isArray(row.tags)
       ? row.tags.filter(Boolean).map(String)

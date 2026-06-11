@@ -13,11 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import type {
-  AIPlatform,
-  PlatformCategory,
-  PlatformCategorySlug,
-} from "@/types/platform";
+import type { AIPlatform, PlatformCategory } from "@/types/platform";
 
 const PAGE_SIZE = 24;
 
@@ -49,7 +45,7 @@ function matchesSearch(
     ...(platform.bestFor ?? []),
     ...(platform.models ?? []).map((model) => model.name),
     ...platform.categories.map(
-      (category) => categoryLookup[category] ?? category,
+      (category) => categoryLookup[category.slug] ?? category.name,
     ),
   ]
     .join(" ")
@@ -196,7 +192,7 @@ export function PlatformSearch({
         return false;
       if (
         filters.category !== "all" &&
-        !platform.categories.includes(filters.category as PlatformCategorySlug)
+        !platform.categories.some((c) => c.slug === filters.category)
       )
         return false;
       if (filters.pricing === "free" && !platform.pricing.free) return false;

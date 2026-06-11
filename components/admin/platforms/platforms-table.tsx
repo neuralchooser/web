@@ -59,8 +59,8 @@ export function PlatformsTable({ platforms }: { platforms: AIPlatform[] }) {
               <TableCell className="hidden max-w-sm lg:table-cell">
                 <div className="flex flex-wrap gap-1">
                   {platform.categories.slice(0, 3).map((category) => (
-                    <Badge key={category} variant="muted">
-                      {category}
+                    <Badge key={category.slug} variant="muted">
+                      {category.name}
                     </Badge>
                   ))}
                   {platform.categories.length > 3 ? (
