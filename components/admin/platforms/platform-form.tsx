@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { supabaseClient } from "@/lib/supabase/client";
 import {
   platformSchema,
   type PlatformFormValues,
@@ -134,27 +133,24 @@ function LogoUploadField({
     const name = slug ? sanitizeFileName(slug) : `${Date.now()}`;
     const filePath = `platform-logos/${name}-${Date.now()}.${extension}`;
 
-    const { error: uploadError } = await supabaseClient.storage
-      .from("neural-chooser")
-      .upload(filePath, file, { upsert: true });
+    const body = new FormData();
+    body.append("file", file);
+    body.append("filePath", filePath);
 
-    if (uploadError) {
-      setUploadError(uploadError.message);
+    const response = await fetch("/api/admin/upload", {
+      method: "POST",
+      body,
+    });
+
+    const json = (await response.json()) as { publicUrl?: string; error?: string };
+
+    if (!response.ok || !json.publicUrl) {
+      setUploadError(json.error ?? "Upload failed.");
       setUploading(false);
       return;
     }
 
-    const { data } = supabaseClient.storage
-      .from("neural-chooser")
-      .getPublicUrl(filePath);
-
-    if (!data?.publicUrl) {
-      setUploadError("Unable to get public URL for uploaded logo.");
-      setUploading(false);
-      return;
-    }
-
-    form.setValue("logo", data.publicUrl);
+    form.setValue("logo", json.publicUrl);
     setUploading(false);
   }
 

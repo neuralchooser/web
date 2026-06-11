@@ -35,13 +35,15 @@ export function mapBlog(row: Record<string, unknown>): Blog {
     title: String(row.title ?? ""),
     excerpt: String(row.excerpt ?? ""),
     content: String(row.content ?? ""),
-    coverImage: row.cover_image === null ? undefined : String(row.cover_image ?? ""),
+    coverImage:
+      row.cover_image === null ? undefined : String(row.cover_image ?? ""),
     author: String(row.author ?? ""),
     published: Boolean(row.published),
     featured: Boolean(row.featured),
     createdAt: String(row.created_at ?? ""),
     updatedAt: String(row.updated_at ?? ""),
-    publishedAt: row.published_at === null ? undefined : String(row.published_at ?? ""),
+    publishedAt:
+      row.published_at === null ? undefined : String(row.published_at ?? ""),
   };
 }
 
@@ -51,7 +53,9 @@ export interface BlogListFilters {
   search?: string;
 }
 
-export async function listBlogs(filters: BlogListFilters = {}): Promise<Blog[]> {
+export async function listBlogs(
+  filters: BlogListFilters = {},
+): Promise<Blog[]> {
   try {
     assertSupabaseConfig();
 
@@ -65,7 +69,9 @@ export async function listBlogs(filters: BlogListFilters = {}): Promise<Blog[]> 
       query = query.eq("featured", filters.featured);
     }
 
-    const { data, error } = await query.order("published_at", { ascending: false });
+    const { data, error } = await query.order("published_at", {
+      ascending: false,
+    });
 
     if (error) {
       console.warn("Database query warning in listBlogs:", error.message);
@@ -140,7 +146,10 @@ export async function createBlog(input: BlogInput): Promise<Blog> {
 
   const dataToInsert = {
     ...input,
-    published_at: input.published && !input.published_at ? new Date().toISOString() : input.published_at,
+    published_at:
+      input.published && !input.published_at
+        ? new Date().toISOString()
+        : input.published_at,
   };
 
   const { data, error } = await supabaseServer
@@ -159,7 +168,10 @@ export async function updateBlog(id: string, input: BlogInput): Promise<Blog> {
 
   const dataToUpdate = {
     ...input,
-    published_at: input.published && !input.published_at ? new Date().toISOString() : input.published_at,
+    published_at:
+      input.published && !input.published_at
+        ? new Date().toISOString()
+        : input.published_at,
     updated_at: new Date().toISOString(),
   };
 
@@ -178,10 +190,7 @@ export async function updateBlog(id: string, input: BlogInput): Promise<Blog> {
 export async function deleteBlog(id: string): Promise<void> {
   assertSupabaseConfig();
 
-  const { error } = await supabaseServer
-    .from("blogs")
-    .delete()
-    .eq("id", id);
+  const { error } = await supabaseServer.from("blogs").delete().eq("id", id);
 
   if (error) throw new Error(error.message);
 }
