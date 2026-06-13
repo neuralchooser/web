@@ -11,7 +11,6 @@ import {
 import { PlatformLogo } from "@/components/cards/platform-logo";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { formatCategoryName } from "@/lib/platforms";
 import type { AIPlatform } from "@/types/platform";
 
 export function PlatformCard({
@@ -48,8 +47,8 @@ export function PlatformCard({
         {!compact ? (
           <div className="mt-4 flex flex-wrap gap-2">
             {platform.categories.slice(0, 2).map((category) => (
-              <Badge key={category} variant="secondary">
-                {formatCategoryName(category)}
+              <Badge key={category.slug} variant="secondary">
+                {category.name}
               </Badge>
             ))}
             {platform.categories.slice(2).length > 0 ? (

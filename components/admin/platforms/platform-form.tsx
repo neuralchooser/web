@@ -39,7 +39,7 @@ const defaultValues: PlatformFormValues = {
   description: "",
   website: "",
   documentation: "",
-  categories: [],
+  category_ids: [],
   tags: [],
   pricing_free: false,
   pricing_paid: false,
@@ -65,7 +65,7 @@ function valuesFromPlatform(platform?: AIPlatform): PlatformFormValues {
     description: platform.description,
     website: platform.website ?? "",
     documentation: platform.documentation ?? "",
-    categories: platform.categories,
+    category_ids: platform.categories.map((c) => c.id),
     tags: platform.tags ?? [],
     pricing_free: Boolean(platform.pricing?.free),
     pricing_paid: Boolean(platform.pricing?.paid),
@@ -345,7 +345,7 @@ export function PlatformForm({
         <div className="grid gap-4 lg:grid-cols-2">
           <FormField
             control={form.control}
-            name="categories"
+            name="category_ids"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Categories</FormLabel>

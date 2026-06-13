@@ -73,7 +73,7 @@ export interface AIPlatform {
   accentColor?: string;
   shortDescription: string;
   description: string;
-  categories: PlatformCategorySlug[];
+  categories: PlatformCategory[];
   tags?: string[];
   bestFor?: string[];
   pricing: PlatformPricing;

@@ -10,14 +10,14 @@ export default async function Home() {
     .filter((platform) => platform.trending || platform.featured)
     .slice(0, 4);
   const codingPlatforms = platforms
-    .filter((platform) => platform.categories.includes("coding"))
+    .filter((platform) => platform.categories.some((c) => c.slug === "coding"))
     .slice(0, 4);
   const imagePlatforms = platforms
-    .filter((platform) => platform.categories.includes("image-generation"))
+    .filter((platform) => platform.categories.some((c) => c.slug === "image-generation"))
     .filter((platform) => platform.featured)
     .slice(0, 4);
   const researchPlatforms = platforms
-    .filter((platform) => platform.categories.includes("research"))
+    .filter((platform) => platform.categories.some((c) => c.slug === "research"))
     .slice(0, 4);
   const recentlyUpdated = [...platforms]
     .sort((a, b) => {

@@ -62,7 +62,7 @@ export const platformSchema = z.object({
     .min(24, "Description must be at least 24 characters"),
   website: optionalUrl,
   documentation: optionalUrl,
-  categories: z.array(z.string()).min(1, "Choose at least one category"),
+  category_ids: z.array(z.string()).min(1, "Choose at least one category"),
   tags: z.array(z.string()).default([]),
   pricing_free: z.boolean().default(false),
   pricing_paid: z.boolean().default(false),

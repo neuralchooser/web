@@ -15,7 +15,6 @@ export interface PlatformRow {
   description: string;
   website: string | null;
   documentation: string | null;
-  categories: string[];
   tags: string[];
   pricing_free: boolean;
   pricing_paid: boolean;

@@ -8,13 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  formatCategoryName,
   getAllPlatforms,
   getPlatformBySlug,
   getRelatedPlatforms,
 } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
-import type { PlatformCategorySlug } from "@/types/platform";
 
 export async function generateStaticParams() {
   const platforms = await getAllPlatforms();
@@ -56,9 +54,9 @@ export default async function PlatformPage(
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
           <div>
             <div className="flex flex-wrap gap-2">
-              {platform.categories.map((category: PlatformCategorySlug) => (
-                <Badge key={category} variant="secondary">
-                  {formatCategoryName(category)}
+              {platform.categories.map((category) => (
+                <Badge key={category.slug} variant="secondary">
+                  {category.name}
                 </Badge>
               ))}
             </div>
