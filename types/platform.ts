@@ -89,4 +89,21 @@ export interface AIPlatform {
   isMonochromeLogo?: boolean;
   lastUpdated?: string;
   metadata?: Record<string, string | number | boolean | null>;
+  analytics?: PlatformAnalytics;
 }
+
+export type PlatformEventType = "platform_view" | "website_click" | "documentation_click";
+
+export interface PlatformEvent {
+  id?: string;
+  platformId: string;
+  eventType: PlatformEventType;
+  createdAt?: string;
+}
+
+export interface PlatformAnalytics {
+  views: number;
+  websiteClicks: number;
+  documentationClicks: number;
+}
+

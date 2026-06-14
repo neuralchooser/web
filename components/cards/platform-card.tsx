@@ -90,7 +90,7 @@ export function PlatformCard({
           </Link>
           {platform.website ? (
             <a
-              href={platform.website}
+              href={`/go/${platform.slug}`}
               target="_blank"
               rel="noreferrer"
               aria-label={`${platform.name} website`}

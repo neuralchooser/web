@@ -1,6 +1,6 @@
 import type { AIPlatform } from "@/types/platform";
 
-export const platforms: AIPlatform[] = [
+export const platforms: any[] = [
   {
     id: "chatgpt",
     slug: "chatgpt",

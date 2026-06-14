@@ -182,3 +182,94 @@ export async function deletePlatform(id: string) {
     .eq("id", id);
   if (error) throw new Error(error.message);
 }
+
+export interface PlatformFilters {
+  categories?: string[];
+  tags?: string[];
+  featured?: boolean;
+  trending?: boolean;
+  apiAvailable?: boolean;
+  openSource?: boolean;
+  pricingFree?: boolean;
+}
+
+export async function getPlatforms(filters: PlatformFilters = {}): Promise<Record<string, unknown>[]> {
+  assertSupabaseConfig();
+
+  const { data, error } = await supabaseServer
+    .from("platforms")
+    .select(PLATFORM_SELECT)
+    .is("is_deleted", false)
+    .order("name", { ascending: true });
+
+  if (error) throw new Error(error.message);
+
+  let rows = (data ?? []) as unknown as Record<string, unknown>[];
+
+  if (filters.categories?.length) {
+    rows = rows.filter((row) => {
+      const cats = row.platform_categories;
+      return (
+        Array.isArray(cats) &&
+        cats.some((pc) => {
+          const catObj = pc as Record<string, unknown>;
+          const category = catObj?.category as Record<string, unknown>;
+          return category && filters.categories!.includes(String(category.slug));
+        })
+      );
+    });
+  }
+
+  if (filters.tags?.length) {
+    rows = rows.filter((row) => {
+      const tags = row.tags;
+      return Array.isArray(tags) && tags.some((t) => filters.tags!.includes(String(t)));
+    });
+  }
+
+  if (typeof filters.featured === "boolean") {
+    rows = rows.filter((row) => Boolean(row.featured) === filters.featured);
+  }
+
+  if (typeof filters.trending === "boolean") {
+    rows = rows.filter((row) => Boolean(row.trending) === filters.trending);
+  }
+
+  if (typeof filters.apiAvailable === "boolean") {
+    rows = rows.filter((row) => Boolean(row.api_available) === filters.apiAvailable);
+  }
+
+  if (typeof filters.openSource === "boolean") {
+    rows = rows.filter((row) => Boolean(row.open_source) === filters.openSource);
+  }
+
+  if (typeof filters.pricingFree === "boolean") {
+    rows = rows.filter((row) => Boolean(row.pricing_free) === filters.pricingFree);
+  }
+
+  return rows;
+}
+
+export async function getAllUniqueTags(): Promise<string[]> {
+  assertSupabaseConfig();
+
+  const { data, error } = await supabaseServer
+    .from("platforms")
+    .select("tags")
+    .is("is_deleted", false)
+    .order("name", { ascending: true });
+
+  if (error) throw new Error(error.message);
+
+  const rows = (data ?? []) as unknown as Record<string, unknown>[];
+
+  return Array.from(
+    new Set(
+      rows
+        .flatMap((row) => (Array.isArray(row.tags) ? row.tags : []))
+        .filter(Boolean)
+        .map(String),
+    ),
+  ).sort((left, right) => left.localeCompare(right));
+}
+
