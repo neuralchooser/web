@@ -10,12 +10,15 @@ interface PlatformLogoProps {
   className?: string;
 }
 
+const LOGO_SIZE = 32;
+
 export function PlatformLogo({
   platform,
-  className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-sm font-semibold",
+  className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted overflow-hidden",
 }: PlatformLogoProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
@@ -26,31 +29,47 @@ export function PlatformLogo({
     setImageFailed(false);
   }, [platform.logo]);
 
-  const initials = platform.name.slice(0, 2).toUpperCase();
+  const initials = platform.name
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
-  const darkMode = isMounted
-    ? resolvedTheme === "dark"
-    : typeof document !== "undefined" &&
-      document.documentElement.classList.contains("dark");
+  const darkMode = isMounted && resolvedTheme === "dark";
 
   const shouldInvertLogo =
-    darkMode && platform.logo && (platform.isMonochromeLogo as any);
+    darkMode && Boolean(platform.logo) && Boolean(platform.isMonochromeLogo);
+
+  const logoUrl = platform.logo ?? "";
 
   const isBlobOrData =
-    typeof platform.logo === "string" &&
-    (platform.logo.startsWith("blob:") || platform.logo.startsWith("data:"));
+    logoUrl.startsWith("blob:") || logoUrl.startsWith("data:");
+
+  const hasLogo =
+    typeof logoUrl === "string" &&
+    (logoUrl.startsWith("https://") ||
+      logoUrl.startsWith("http://") ||
+      logoUrl.startsWith("blob:") ||
+      logoUrl.startsWith("data:"));
 
   return (
-    <div className={className} style={{ color: platform.accentColor }}>
-      {platform.logo && !imageFailed && platform.logo.startsWith("https://") ? (
+    <div
+      className={className}
+      style={{ color: platform.accentColor }}
+      aria-label={`${platform.name} logo`}
+    >
+      {hasLogo && !imageFailed ? (
         isBlobOrData ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={platform.logo}
+            src={logoUrl}
             alt={`${platform.name} logo`}
-            width={28}
-            height={28}
-            className="max-h-7 max-w-7 object-contain"
+            width={LOGO_SIZE}
+            height={LOGO_SIZE}
+            loading="lazy"
+            decoding="async"
+            className="h-8 w-8 object-contain p-1"
             style={
               shouldInvertLogo
                 ? { filter: "invert(1) brightness(1.3)" }
@@ -60,15 +79,15 @@ export function PlatformLogo({
           />
         ) : (
           <CanvasLogo
-            src={platform.logo}
-            size={28}
+            src={logoUrl}
+            size={LOGO_SIZE}
             invert={shouldInvertLogo}
             brightness={shouldInvertLogo ? 1.3 : 1}
-            className="rounded-md"
+            className="rounded-md p-1"
           />
         )
       ) : (
-        initials
+        <span className="select-none">{initials}</span>
       )}
     </div>
   );

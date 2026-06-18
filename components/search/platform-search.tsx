@@ -244,6 +244,7 @@ export function PlatformSearch({
       </aside>
 
       <div>
+        <h2 className="sr-only">Platforms</h2>
         <div className="mb-6 flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
