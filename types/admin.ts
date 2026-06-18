@@ -61,5 +61,6 @@ export interface CategoryRow {
   slug: string;
   name: string;
   featured: boolean;
+  is_active: boolean;
   description: string | null;
 }

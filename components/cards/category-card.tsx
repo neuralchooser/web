@@ -17,6 +17,34 @@ import {
   SearchCheck,
   Users,
   Workflow,
+  Pencil,
+  AudioLines,
+  BookOpen,
+  Brain,
+  Building2,
+  Database,
+  FileSearch,
+  Gamepad2,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  Languages,
+  Layers3,
+  Mic,
+  Package,
+  Scale,
+  ScanSearch,
+  Shield,
+  Sparkles,
+  UserRoundSearch,
+  UsersRound,
+  Volume2,
+  Wrench,
+  Cpu,
+  Box,
+  ShoppingCart,
+  Camera,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -99,6 +127,129 @@ const icons: Record<string, { icon: LucideIcon; color: string }> = {
   "vibe-coding": {
     icon: Code2,
     color: "from-emerald-500 to-teal-400",
+  },
+  writing: {
+    icon: Pencil,
+    color: "from-purple-500 to-violet-400",
+  },
+  cybersecurity: {
+    icon: Shield,
+    color: "from-red-500 to-rose-400",
+  },
+  ecommerce: {
+    icon: ShoppingCart,
+    color: "from-green-500 to-lime-400",
+  },
+  search: {
+    icon: ScanSearch,
+    color: "from-blue-500 to-indigo-400",
+  },
+  "knowledge-base": {
+    icon: BookOpen,
+    color: "from-amber-500 to-yellow-400",
+  },
+  audio: {
+    icon: AudioLines,
+    color: "from-cyan-500 to-sky-400",
+  },
+  "voice-generation": {
+    icon: Mic,
+    color: "from-blue-500 to-cyan-400",
+  },
+  music: {
+    icon: Music2,
+    color: "from-purple-500 to-pink-400",
+  },
+  "avatar-generation": {
+    icon: Camera,
+    color: "from-fuchsia-500 to-pink-400",
+  },
+  "3d-generation": {
+    icon: Box,
+    color: "from-violet-500 to-purple-400",
+  },
+  "developer-tools": {
+    icon: Wrench,
+    color: "from-slate-500 to-zinc-400",
+  },
+  "api-platform": {
+    icon: Cpu,
+    color: "from-indigo-500 to-blue-400",
+  },
+
+  "open-source": {
+    icon: Package,
+    color: "from-orange-500 to-amber-400",
+  },
+
+  "hr-recruiting": {
+    icon: UserRoundSearch,
+    color: "from-pink-500 to-rose-400",
+  },
+
+  seo: {
+    icon: FileSearch,
+    color: "from-emerald-500 to-green-400",
+  },
+
+  chatbots: {
+    icon: Bot,
+    color: "from-violet-500 to-indigo-400",
+  },
+
+  transcription: {
+    icon: NotebookPen,
+    color: "from-sky-500 to-blue-400",
+  },
+
+  mlops: {
+    icon: Database,
+    color: "from-purple-500 to-indigo-400",
+  },
+
+  "video-editing": {
+    icon: Video,
+    color: "from-orange-500 to-red-400",
+  },
+
+  finance: {
+    icon: Landmark,
+    color: "from-emerald-500 to-green-400",
+  },
+
+  healthcare: {
+    icon: HeartPulse,
+    color: "from-red-500 to-pink-400",
+  },
+
+  gaming: {
+    icon: Gamepad2,
+    color: "from-violet-500 to-purple-400",
+  },
+
+  education: {
+    icon: GraduationCap,
+    color: "from-blue-500 to-sky-400",
+  },
+
+  science: {
+    icon: Brain,
+    color: "from-cyan-500 to-teal-400",
+  },
+
+  translation: {
+    icon: Languages,
+    color: "from-indigo-500 to-violet-400",
+  },
+
+  "real-estate": {
+    icon: Building2,
+    color: "from-amber-500 to-orange-400",
+  },
+
+  legal: {
+    icon: Scale,
+    color: "from-slate-500 to-gray-400",
   },
 };
 

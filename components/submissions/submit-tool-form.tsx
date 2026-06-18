@@ -90,6 +90,7 @@ export function SubmitToolForm({
     slug: cat.slug,
     name: cat.name,
     featured: cat.featured ?? false,
+    is_active: true,
     description: cat.description ?? null,
   }));
 
