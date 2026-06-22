@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -65,6 +66,9 @@ export function SiteHeader() {
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>NeuralChooser</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Site navigation menu
+                </SheetDescription>
               </SheetHeader>
               <nav className="mt-8 grid gap-2">
                 {navItems.map((item) => (

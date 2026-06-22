@@ -176,80 +176,69 @@ const icons: Record<string, { icon: LucideIcon; color: string }> = {
     icon: Cpu,
     color: "from-indigo-500 to-blue-400",
   },
-
   "open-source": {
     icon: Package,
     color: "from-orange-500 to-amber-400",
   },
-
   "hr-recruiting": {
     icon: UserRoundSearch,
     color: "from-pink-500 to-rose-400",
   },
-
   seo: {
     icon: FileSearch,
     color: "from-emerald-500 to-green-400",
   },
-
   chatbots: {
     icon: Bot,
     color: "from-violet-500 to-indigo-400",
   },
-
   transcription: {
     icon: NotebookPen,
     color: "from-sky-500 to-blue-400",
   },
-
   mlops: {
     icon: Database,
     color: "from-purple-500 to-indigo-400",
   },
-
   "video-editing": {
     icon: Video,
     color: "from-orange-500 to-red-400",
   },
-
   finance: {
     icon: Landmark,
     color: "from-emerald-500 to-green-400",
   },
-
   healthcare: {
     icon: HeartPulse,
     color: "from-red-500 to-pink-400",
   },
-
   gaming: {
     icon: Gamepad2,
     color: "from-violet-500 to-purple-400",
   },
-
   education: {
     icon: GraduationCap,
     color: "from-blue-500 to-sky-400",
   },
-
   science: {
     icon: Brain,
     color: "from-cyan-500 to-teal-400",
   },
-
   translation: {
     icon: Languages,
     color: "from-indigo-500 to-violet-400",
   },
-
   "real-estate": {
     icon: Building2,
     color: "from-amber-500 to-orange-400",
   },
-
   legal: {
     icon: Scale,
     color: "from-slate-500 to-gray-400",
+  },
+  "frontier-platforms": {
+    icon: Brain,
+    color: "from-cyan-500 to-teal-400",
   },
 };
 

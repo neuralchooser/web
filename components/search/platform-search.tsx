@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -266,6 +267,9 @@ export function PlatformSearch({
             <SheetContent side="left" className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Filters</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Filter platforms by category, pricing, and capabilities
+                </SheetDescription>
               </SheetHeader>
               <div className="mt-6">
                 <FilterPanel

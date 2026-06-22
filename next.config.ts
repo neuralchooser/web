@@ -4,8 +4,6 @@ const isDev = process.env.NODE_ENV === "development";
 
 const csp = [
   "default-src 'self'",
-  // Next.js App Router injects inline scripts for hydration; 'unsafe-inline' is required.
-  // For a stricter policy, implement nonce-based CSP via middleware.
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
@@ -30,6 +28,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Allow physical devices on the local network to reach the dev server.
+  // Without this, Next.js blocks cross-origin requests to dev-only resources
+  // (HMR, RSC, server actions) when the page is opened from a LAN IP, which
+  // prevents client components (e.g. the nav/filter sheets) from hydrating.
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.16.*.*", "172.17.*.*"],
   async headers() {
     return [
       {

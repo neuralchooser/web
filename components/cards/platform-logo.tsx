@@ -10,15 +10,12 @@ interface PlatformLogoProps {
   className?: string;
 }
 
-const LOGO_SIZE = 32;
-
 export function PlatformLogo({
   platform,
   className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted overflow-hidden",
 }: PlatformLogoProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
@@ -29,47 +26,31 @@ export function PlatformLogo({
     setImageFailed(false);
   }, [platform.logo]);
 
-  const initials = platform.name
-    .split(/\s+/)
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+  const initials = platform.name.slice(0, 2).toUpperCase();
 
-  const darkMode = isMounted && resolvedTheme === "dark";
+  const darkMode = isMounted
+    ? resolvedTheme === "dark"
+    : typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark");
 
   const shouldInvertLogo =
-    darkMode && Boolean(platform.logo) && Boolean(platform.isMonochromeLogo);
-
-  const logoUrl = platform.logo ?? "";
+    darkMode && platform.logo && (platform.isMonochromeLogo as any);
 
   const isBlobOrData =
-    logoUrl.startsWith("blob:") || logoUrl.startsWith("data:");
-
-  const hasLogo =
-    typeof logoUrl === "string" &&
-    (logoUrl.startsWith("https://") ||
-      logoUrl.startsWith("http://") ||
-      logoUrl.startsWith("blob:") ||
-      logoUrl.startsWith("data:"));
+    typeof platform.logo === "string" &&
+    (platform.logo.startsWith("blob:") || platform.logo.startsWith("data:"));
 
   return (
-    <div
-      className={className}
-      style={{ color: platform.accentColor }}
-      aria-label={`${platform.name} logo`}
-    >
-      {hasLogo && !imageFailed ? (
+    <div className={className} style={{ color: platform.accentColor }}>
+      {platform.logo && !imageFailed && platform.logo.startsWith("https://") ? (
         isBlobOrData ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={logoUrl}
+            src={platform.logo}
             alt={`${platform.name} logo`}
-            width={LOGO_SIZE}
-            height={LOGO_SIZE}
-            loading="lazy"
-            decoding="async"
-            className="h-8 w-8 object-contain p-1"
+            width={28}
+            height={28}
+            className="max-h-7 max-w-7 object-contain"
             style={
               shouldInvertLogo
                 ? { filter: "invert(1) brightness(1.3)" }
@@ -79,15 +60,15 @@ export function PlatformLogo({
           />
         ) : (
           <CanvasLogo
-            src={logoUrl}
-            size={LOGO_SIZE}
+            src={platform.logo}
+            size={28}
             invert={shouldInvertLogo}
             brightness={shouldInvertLogo ? 1.3 : 1}
-            className="rounded-md p-1"
+            className="rounded-md"
           />
         )
       ) : (
-        <span className="select-none">{initials}</span>
+        initials
       )}
     </div>
   );
