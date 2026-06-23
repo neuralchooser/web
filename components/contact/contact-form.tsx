@@ -156,7 +156,7 @@ export function ContactForm({ action, onSuccess }: ContactFormProps) {
 
         <Button
           type="submit"
-          className="w-full h-11 font-semibold text-base transition-all hover:scale-[1.01]"
+          className="cursor-pointer w-full h-11 font-semibold text-base transition-all hover:scale-[1.01]"
           disabled={pending}
         >
           {pending ? (
