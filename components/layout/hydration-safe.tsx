@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const emptySubscribe = () => () => {};
 
 /**
  * Wrapper component that defers rendering of children until after hydration.
  * This prevents hydration mismatches when content depends on client-side state.
  */
 export function HydrationSafe({ children }: { children: React.ReactNode }) {
-  const [isMounted, setIsMounted] = useState(false);
+  // Returns false on the server and during the initial client render, then true
+  // once hydrated — without setting state inside an effect.
+  const isHydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
+  if (!isHydrated) {
     return null;
   }
 

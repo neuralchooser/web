@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local one-off debug scripts (keep SQL schema files tracked)
+/scratch/check-*.ts
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

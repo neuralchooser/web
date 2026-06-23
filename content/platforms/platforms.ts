@@ -1,6 +1,4 @@
-import type { AIPlatform } from "@/types/platform";
-
-export const platforms: any[] = [
+export const platforms: Array<Record<string, unknown>> = [
   {
     id: "chatgpt",
     slug: "chatgpt",
