@@ -5,6 +5,7 @@ import { FilteredPlatformsPage } from "@/components/listings/filtered-platforms-
 import { getCategories } from "@/lib/repositories/categories-repository";
 import { getAllUniqueTags } from "@/lib/repositories/platforms-repository";
 import { createMetadata } from "@/lib/seo";
+import { siteConfig } from "@/lib/site";
 import { getSEOPlatforms } from "@/lib/services/seo-platforms";
 
 function formatSlug(slug: string) {
@@ -75,11 +76,28 @@ export async function generateMetadata(
 
   const copy = createSEOCopy(type, slug);
 
-  return createMetadata({
+  const meta = createMetadata({
     title: copy.title,
     description: copy.description,
     path: `/explore/${type}/${slug}`,
   });
+
+  // Category explore pages render the same listing as /categories/[slug].
+  // Point the canonical there so search engines consolidate ranking signals
+  // on a single URL instead of treating the two as duplicate content.
+  if (type === "category") {
+    meta.alternates = {
+      canonical: new URL(`/categories/${slug}`, siteConfig.url),
+    };
+  }
+
+  // Tag pages backed by a single platform carry little unique value; keep them
+  // out of the index while still letting crawlers follow their links.
+  if (type === "tag" && platforms.length < 2) {
+    meta.robots = { index: false, follow: true };
+  }
+
+  return meta;
 }
 
 export default async function Page(props: PageProps<"/explore/[type]/[slug]">) {

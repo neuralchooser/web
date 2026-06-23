@@ -1,9 +1,11 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import type { AIPlatform } from "@/types/platform";
 import { CanvasLogo } from "./canvas-logo";
+
+const emptySubscribe = () => () => {};
 
 interface PlatformLogoProps {
   platform: AIPlatform;
@@ -14,17 +16,23 @@ export function PlatformLogo({
   platform,
   className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted overflow-hidden",
 }: PlatformLogoProps) {
-  const [imageFailed, setImageFailed] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const { resolvedTheme } = useTheme();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // False on the server / initial render, true once hydrated.
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
-  useEffect(() => {
+  // Reset the failed-image flag when the logo source changes, adjusting state
+  // during render rather than in an effect.
+  const [imageFailed, setImageFailed] = useState(false);
+  const [lastLogo, setLastLogo] = useState(platform.logo);
+  if (platform.logo !== lastLogo) {
+    setLastLogo(platform.logo);
     setImageFailed(false);
-  }, [platform.logo]);
+  }
 
   const initials = platform.name.slice(0, 2).toUpperCase();
 
@@ -33,8 +41,11 @@ export function PlatformLogo({
     : typeof document !== "undefined" &&
       document.documentElement.classList.contains("dark");
 
-  const shouldInvertLogo =
-    darkMode && platform.logo && (platform.isMonochromeLogo as any);
+  const shouldInvertLogo = Boolean(
+    darkMode &&
+      platform.logo &&
+      (platform as { isMonochromeLogo?: boolean }).isMonochromeLogo,
+  );
 
   const isBlobOrData =
     typeof platform.logo === "string" &&

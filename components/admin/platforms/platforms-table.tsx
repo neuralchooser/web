@@ -31,9 +31,13 @@ const PAGE_SIZE = 10;
 export function PlatformsTable({ platforms }: { platforms: AIPlatform[] }) {
   const [page, setPage] = React.useState(1);
 
-  React.useEffect(() => {
+  // Reset to the first page when the platform list changes (e.g. after a
+  // filter or delete), adjusting state during render instead of in an effect.
+  const [prevPlatforms, setPrevPlatforms] = React.useState(platforms);
+  if (prevPlatforms !== platforms) {
+    setPrevPlatforms(platforms);
     setPage(1);
-  }, [platforms]);
+  }
 
   const totalPages = Math.max(1, Math.ceil(platforms.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);

@@ -176,6 +176,17 @@ export function PlatformSearch({
   });
   const [page, setPage] = React.useState(1);
 
+  // Reset to the first page whenever the query or filters change. Adjusting
+  // state during render (vs. in an effect) avoids an extra render pass.
+  // See https://react.dev/learn/you-might-not-need-an-effect
+  const filterSignature = `${query}|${JSON.stringify(filters)}`;
+  const [lastFilterSignature, setLastFilterSignature] =
+    React.useState(filterSignature);
+  if (filterSignature !== lastFilterSignature) {
+    setLastFilterSignature(filterSignature);
+    setPage(1);
+  }
+
   const categoryLookup = React.useMemo(
     () =>
       Object.fromEntries(
@@ -203,10 +214,6 @@ export function PlatformSearch({
       return true;
     });
   }, [categoryLookup, filters, platforms, query]);
-
-  React.useEffect(() => {
-    setPage(1);
-  }, [query, filters]);
 
   const totalPages = Math.max(1, Math.ceil(filteredPlatforms.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);

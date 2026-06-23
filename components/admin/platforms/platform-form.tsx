@@ -182,7 +182,7 @@ function LogoUploadField({
                       {
                         ...mapPlatformRow(form.getValues()),
                         logo: field.value,
-                      } as any
+                      } as AIPlatform
                     }
                     className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm"
                   />
