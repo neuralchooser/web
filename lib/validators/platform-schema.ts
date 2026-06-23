@@ -6,12 +6,19 @@ const optionalText = z
   .transform((value) => value.trim())
   .transform((value) => (value.length ? value : null));
 
+const safeHttpUrl = z
+  .string()
+  .url("Enter a valid URL")
+  .refine((url) => /^https?:\/\//i.test(url), {
+    message: "URL must use http or https",
+  });
+
 const optionalUrl = z
   .union([z.string(), z.null()])
   .transform((value) => value ?? "")
   .transform((value) => value.trim())
   .transform((value) => (value.length ? value : null))
-  .pipe(z.string().url("Enter a valid URL").nullable());
+  .pipe(safeHttpUrl.nullable());
 
 const dateString = z
   .union([z.string(), z.null()])
@@ -55,7 +62,7 @@ export const platformSchema = z.object({
     .min(24, "Description must be at least 24 characters"),
   website: optionalUrl,
   documentation: optionalUrl,
-  categories: z.array(z.string()).min(1, "Choose at least one category"),
+  category_ids: z.array(z.string()).min(1, "Choose at least one category"),
   tags: z.array(z.string()).default([]),
   pricing_free: z.boolean().default(false),
   pricing_paid: z.boolean().default(false),

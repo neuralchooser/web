@@ -90,6 +90,7 @@ export function SubmitToolForm({
     slug: cat.slug,
     name: cat.name,
     featured: cat.featured ?? false,
+    is_active: true,
     description: cat.description ?? null,
   }));
 
@@ -118,7 +119,11 @@ export function SubmitToolForm({
                 <FormItem>
                   <FormLabel className="font-medium">Tool Name *</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. ChatPDF" {...field} className="bg-background/50" />
+                    <Input
+                      placeholder="e.g. ChatPDF"
+                      {...field}
+                      className="bg-background/50"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,9 +135,16 @@ export function SubmitToolForm({
               name="company"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium">Company Name (Optional)</FormLabel>
+                  <FormLabel className="font-medium">
+                    Company Name (Optional)
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. AI Labs Inc." {...field} value={field.value ?? ""} className="bg-background/50" />
+                    <Input
+                      placeholder="e.g. AI Labs Inc."
+                      {...field}
+                      value={field.value ?? ""}
+                      className="bg-background/50"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -148,7 +160,12 @@ export function SubmitToolForm({
                 <FormItem>
                   <FormLabel className="font-medium">Website URL *</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://example.com" type="url" {...field} className="bg-background/50" />
+                    <Input
+                      placeholder="https://example.com"
+                      type="url"
+                      {...field}
+                      className="bg-background/50"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,9 +177,17 @@ export function SubmitToolForm({
               name="documentation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium">Documentation URL (Optional)</FormLabel>
+                  <FormLabel className="font-medium">
+                    Documentation URL (Optional)
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="https://docs.example.com" type="url" {...field} value={field.value ?? ""} className="bg-background/50" />
+                    <Input
+                      placeholder="https://docs.example.com"
+                      type="url"
+                      {...field}
+                      value={field.value ?? ""}
+                      className="bg-background/50"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,10 +202,16 @@ export function SubmitToolForm({
               <FormItem>
                 <FormLabel className="font-medium">Founder Email *</FormLabel>
                 <FormControl>
-                  <Input placeholder="you@example.com" type="email" {...field} className="bg-background/50" />
+                  <Input
+                    placeholder="you@example.com"
+                    type="email"
+                    {...field}
+                    className="bg-background/50"
+                  />
                 </FormControl>
                 <FormDescription className="text-xs text-muted-foreground">
-                  For notification purposes only. We won&apos;t display this publicly.
+                  For notification purposes only. We won&apos;t display this
+                  publicly.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -198,7 +229,9 @@ export function SubmitToolForm({
             name="short_description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-medium">Short Description *</FormLabel>
+                <FormLabel className="font-medium">
+                  Short Description *
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Brief 1-sentence summary of your tool (min 10 chars)"
@@ -216,7 +249,9 @@ export function SubmitToolForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-medium">Full Description (Optional)</FormLabel>
+                <FormLabel className="font-medium">
+                  Full Description (Optional)
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Describe what your tool does, features, target audience, and key benefits..."
@@ -236,7 +271,9 @@ export function SubmitToolForm({
               name="categories"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel className="font-medium mb-1">Categories *</FormLabel>
+                  <FormLabel className="font-medium mb-1">
+                    Categories *
+                  </FormLabel>
                   <FormControl>
                     <CategoryMultiSelect
                       categories={mappedCategories}
@@ -254,7 +291,9 @@ export function SubmitToolForm({
               name="tags"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel className="font-medium mb-1">Tags (Optional)</FormLabel>
+                  <FormLabel className="font-medium mb-1">
+                    Tags (Optional)
+                  </FormLabel>
                   <FormControl>
                     <TagsInput
                       value={field.value ?? []}
@@ -289,8 +328,12 @@ export function SubmitToolForm({
                     />
                   </FormControl>
                   <div className="space-y-0.5">
-                    <FormLabel className="font-medium cursor-pointer">Pricing Free</FormLabel>
-                    <p className="text-xs text-muted-foreground">Has a permanently free plan or tier.</p>
+                    <FormLabel className="font-medium cursor-pointer">
+                      Pricing Free
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Has a permanently free plan or tier.
+                    </p>
                   </div>
                 </FormItem>
               )}
@@ -308,8 +351,12 @@ export function SubmitToolForm({
                     />
                   </FormControl>
                   <div className="space-y-0.5">
-                    <FormLabel className="font-medium cursor-pointer">Pricing Paid</FormLabel>
-                    <p className="text-xs text-muted-foreground">Has paid subscription, usage, or commercial plans.</p>
+                    <FormLabel className="font-medium cursor-pointer">
+                      Pricing Paid
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Has paid subscription, usage, or commercial plans.
+                    </p>
                   </div>
                 </FormItem>
               )}
@@ -327,8 +374,12 @@ export function SubmitToolForm({
                     />
                   </FormControl>
                   <div className="space-y-0.5">
-                    <FormLabel className="font-medium cursor-pointer">API Available</FormLabel>
-                    <p className="text-xs text-muted-foreground">Exposes an API for programmatic integration.</p>
+                    <FormLabel className="font-medium cursor-pointer">
+                      API Available
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Exposes an API for programmatic integration.
+                    </p>
                   </div>
                 </FormItem>
               )}
@@ -346,8 +397,13 @@ export function SubmitToolForm({
                     />
                   </FormControl>
                   <div className="space-y-0.5">
-                    <FormLabel className="font-medium cursor-pointer">Open Source</FormLabel>
-                    <p className="text-xs text-muted-foreground">Source code is publicly available under open-source license.</p>
+                    <FormLabel className="font-medium cursor-pointer">
+                      Open Source
+                    </FormLabel>
+                    <p className="text-xs text-muted-foreground">
+                      Source code is publicly available under open-source
+                      license.
+                    </p>
                   </div>
                 </FormItem>
               )}
@@ -357,7 +413,7 @@ export function SubmitToolForm({
 
         <Button
           type="submit"
-          className="w-full h-11 font-semibold text-base transition-all hover:scale-[1.01]"
+          className="cursor-pointer w-full h-11 font-semibold text-base transition-all hover:scale-[1.01]"
           disabled={pending}
         >
           {pending ? (

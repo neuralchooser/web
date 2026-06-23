@@ -2,7 +2,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 import type { CategoryInput } from "@/lib/validators/category-schema";
 import type { CategoryRow } from "@/types/admin";
 
-const CATEGORY_SELECT = "id, slug, name, featured, description";
+const CATEGORY_SELECT = "id, slug, name, featured, is_active, description";
 
 function assertSupabaseConfig() {
   if (
@@ -21,6 +21,7 @@ function mapCategory(row: Record<string, unknown>): CategoryRow {
     slug: String(row.slug ?? ""),
     name: String(row.name ?? ""),
     featured: Boolean(row.featured),
+    is_active: Boolean(row.is_active ?? true),
     description:
       row.description === null ? null : String(row.description ?? ""),
   };

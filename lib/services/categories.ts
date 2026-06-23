@@ -35,6 +35,7 @@ export async function getAllCategories(): Promise<PlatformCategory[]> {
   const { data, error } = await supabaseServer
     .from("categories")
     .select(CATEGORY_SELECT)
+    .eq("is_active", true)
     .order("name", { ascending: true });
 
   if (error) {

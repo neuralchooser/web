@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { supabaseClient } from "@/lib/supabase/client";
 import {
   platformSchema,
   type PlatformFormValues,
@@ -40,7 +39,7 @@ const defaultValues: PlatformFormValues = {
   description: "",
   website: "",
   documentation: "",
-  categories: [],
+  category_ids: [],
   tags: [],
   pricing_free: false,
   pricing_paid: false,
@@ -66,7 +65,7 @@ function valuesFromPlatform(platform?: AIPlatform): PlatformFormValues {
     description: platform.description,
     website: platform.website ?? "",
     documentation: platform.documentation ?? "",
-    categories: platform.categories,
+    category_ids: platform.categories.map((c) => c.id),
     tags: platform.tags ?? [],
     pricing_free: Boolean(platform.pricing?.free),
     pricing_paid: Boolean(platform.pricing?.paid),
@@ -134,27 +133,24 @@ function LogoUploadField({
     const name = slug ? sanitizeFileName(slug) : `${Date.now()}`;
     const filePath = `platform-logos/${name}-${Date.now()}.${extension}`;
 
-    const { error: uploadError } = await supabaseClient.storage
-      .from("neural-chooser")
-      .upload(filePath, file, { upsert: true });
+    const body = new FormData();
+    body.append("file", file);
+    body.append("filePath", filePath);
 
-    if (uploadError) {
-      setUploadError(uploadError.message);
+    const response = await fetch("/api/admin/upload", {
+      method: "POST",
+      body,
+    });
+
+    const json = (await response.json()) as { publicUrl?: string; error?: string };
+
+    if (!response.ok || !json.publicUrl) {
+      setUploadError(json.error ?? "Upload failed.");
       setUploading(false);
       return;
     }
 
-    const { data } = supabaseClient.storage
-      .from("neural-chooser")
-      .getPublicUrl(filePath);
-
-    if (!data?.publicUrl) {
-      setUploadError("Unable to get public URL for uploaded logo.");
-      setUploading(false);
-      return;
-    }
-
-    form.setValue("logo", data.publicUrl);
+    form.setValue("logo", json.publicUrl);
     setUploading(false);
   }
 
@@ -349,7 +345,7 @@ export function PlatformForm({
         <div className="grid gap-4 lg:grid-cols-2">
           <FormField
             control={form.control}
-            name="categories"
+            name="category_ids"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Categories</FormLabel>

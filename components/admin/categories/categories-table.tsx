@@ -57,6 +57,7 @@ export function CategoriesTable({ categories }: { categories: CategoryRow[] }) {
               </TableCell>
               <TableCell className="hidden sm:table-cell">
                 {category.featured ? <Badge>Featured</Badge> : <Badge variant="muted">Standard</Badge>}
+                {!category.is_active && <Badge variant="destructive" className="ml-2">Inactive</Badge>}
               </TableCell>
               <TableCell>
                 <DropdownMenu>

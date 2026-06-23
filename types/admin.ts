@@ -15,7 +15,6 @@ export interface PlatformRow {
   description: string;
   website: string | null;
   documentation: string | null;
-  categories: string[];
   tags: string[];
   pricing_free: boolean;
   pricing_paid: boolean;
@@ -62,5 +61,6 @@ export interface CategoryRow {
   slug: string;
   name: string;
   featured: boolean;
+  is_active: boolean;
   description: string | null;
 }

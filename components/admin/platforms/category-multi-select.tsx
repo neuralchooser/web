@@ -12,11 +12,11 @@ export function CategoryMultiSelect({
   value: string[];
   onChange: (value: string[]) => void;
 }) {
-  function toggle(slug: string, checked: boolean) {
+  function toggle(id: string, checked: boolean) {
     if (checked) {
-      onChange(Array.from(new Set([...value, slug])));
+      onChange(Array.from(new Set([...value, id])));
     } else {
-      onChange(value.filter((item) => item !== slug));
+      onChange(value.filter((item) => item !== id));
     }
   }
 
@@ -28,8 +28,8 @@ export function CategoryMultiSelect({
           className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted"
         >
           <Checkbox
-            checked={value.includes(category.slug)}
-            onCheckedChange={(checked) => toggle(category.slug, checked === true)}
+            checked={value.includes(category.id)}
+            onCheckedChange={(checked) => toggle(category.id, checked === true)}
           />
           <span>{category.name}</span>
         </label>

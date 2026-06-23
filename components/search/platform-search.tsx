@@ -9,15 +9,12 @@ import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import type {
-  AIPlatform,
-  PlatformCategory,
-  PlatformCategorySlug,
-} from "@/types/platform";
+import type { AIPlatform, PlatformCategory } from "@/types/platform";
 
 const PAGE_SIZE = 24;
 
@@ -49,7 +46,7 @@ function matchesSearch(
     ...(platform.bestFor ?? []),
     ...(platform.models ?? []).map((model) => model.name),
     ...platform.categories.map(
-      (category) => categoryLookup[category] ?? category,
+      (category) => categoryLookup[category.slug] ?? category.name,
     ),
   ]
     .join(" ")
@@ -196,7 +193,7 @@ export function PlatformSearch({
         return false;
       if (
         filters.category !== "all" &&
-        !platform.categories.includes(filters.category as PlatformCategorySlug)
+        !platform.categories.some((c) => c.slug === filters.category)
       )
         return false;
       if (filters.pricing === "free" && !platform.pricing.free) return false;
@@ -248,6 +245,7 @@ export function PlatformSearch({
       </aside>
 
       <div>
+        <h2 className="sr-only">Platforms</h2>
         <div className="mb-6 flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -269,6 +267,9 @@ export function PlatformSearch({
             <SheetContent side="left" className="overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Filters</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Filter platforms by category, pricing, and capabilities
+                </SheetDescription>
               </SheetHeader>
               <div className="mt-6">
                 <FilterPanel

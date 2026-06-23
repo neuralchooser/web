@@ -41,7 +41,7 @@ export async function getRecentlyAddedPlatforms(limit?: number) {
 
 export async function getPlatformsByCategory(category: PlatformCategorySlug) {
   return (await getAllPlatforms()).filter((platform) =>
-    platform.categories.includes(category),
+    platform.categories.some((c) => c.slug === category),
   );
 }
 
@@ -61,8 +61,8 @@ export async function getRelatedPlatforms(platform: AIPlatform, limit = 4) {
     .map((candidate) => ({
       platform: candidate,
       score:
-        candidate.categories.filter((category) =>
-          platform.categories.includes(category),
+        candidate.categories.filter((c) =>
+          platform.categories.some((pc) => pc.slug === c.slug),
         ).length *
           3 +
         (candidate.tags ?? []).filter((tag) =>

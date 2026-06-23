@@ -15,6 +15,7 @@ export const categorySchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters"),
   description: optionalText,
   featured: z.boolean().default(false),
+  is_active: z.boolean().default(true),
 });
 
 export type CategoryFormValues = z.input<typeof categorySchema>;

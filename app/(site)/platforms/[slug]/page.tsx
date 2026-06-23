@@ -8,13 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  formatCategoryName,
   getAllPlatforms,
   getPlatformBySlug,
   getRelatedPlatforms,
 } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
-import type { PlatformCategorySlug } from "@/types/platform";
+import { TrackView } from "@/components/analytics/track-view";
+
 
 export async function generateStaticParams() {
   const platforms = await getAllPlatforms();
@@ -56,9 +56,9 @@ export default async function PlatformPage(
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
           <div>
             <div className="flex flex-wrap gap-2">
-              {platform.categories.map((category: PlatformCategorySlug) => (
-                <Badge key={category} variant="secondary">
-                  {formatCategoryName(category)}
+              {platform.categories.map((category) => (
+                <Badge key={category.slug} variant="secondary">
+                  {category.name}
                 </Badge>
               ))}
             </div>
@@ -82,7 +82,7 @@ export default async function PlatformPage(
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               {platform.website ? (
                 <Button asChild>
-                  <a href={platform.website} target="_blank" rel="noreferrer">
+                  <a href={`/go/${platform.slug}`} target="_blank" rel="noreferrer">
                     Official website
                     <ExternalLink className="size-4" />
                   </a>
@@ -91,7 +91,7 @@ export default async function PlatformPage(
               {platform.documentation ? (
                 <Button asChild variant="outline">
                   <a
-                    href={platform.documentation}
+                    href={`/docs/${platform.slug}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -100,6 +100,8 @@ export default async function PlatformPage(
                 </Button>
               ) : null}
             </div>
+            <TrackView platformId={platform.id} />
+
           </div>
 
           <Card className="bg-card/90">

@@ -1,7 +1,7 @@
 import { CategoryCard } from "@/components/cards/category-card";
 import { getAllPlatforms } from "@/lib/platforms";
 import { getAllCategories } from "@/lib/services/categories";
-import type { PlatformCategory, PlatformCategorySlug } from "@/types/platform";
+import type { PlatformCategory } from "@/types/platform";
 
 export async function FeaturedCategories() {
   const platforms = await getAllPlatforms();
@@ -26,9 +26,7 @@ export async function FeaturedCategories() {
             category={category}
             count={
               platforms.filter((platform) =>
-                platform.categories.includes(
-                  category.slug as PlatformCategorySlug,
-                ),
+                platform.categories.some((c) => c.slug === category.slug),
               ).length
             }
           />

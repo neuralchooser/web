@@ -11,6 +11,8 @@ import {
 import { requireAdmin } from "@/lib/auth/admin-session";
 import { listCategories } from "@/lib/repositories/categories-repository";
 import { listPlatforms, type PlatformListFilters } from "@/lib/repositories/platforms-repository";
+import { getPlatformEventCountsMap } from "@/lib/repositories/analytics-repository";
+
 
 export const metadata = {
   title: "Admin Platforms",
@@ -36,10 +38,17 @@ export default async function AdminPlatformsPage({
     api: firstParam(params.api) as PlatformListFilters["api"],
     openSource: firstParam(params.openSource) as PlatformListFilters["openSource"],
   };
-  const [platforms, categories] = await Promise.all([
+  const [platforms, categories, countsMap] = await Promise.all([
     listPlatforms(filters),
     listCategories(),
+    getPlatformEventCountsMap(),
   ]);
+
+  const platformsWithAnalytics = platforms.map((platform) => ({
+    ...platform,
+    analytics: countsMap[platform.id] || { views: 0, websiteClicks: 0, documentationClicks: 0 },
+  }));
+
 
   return (
     <>
@@ -71,7 +80,7 @@ export default async function AdminPlatformsPage({
           label="Open source"
         />
       </SearchFilterBar>
-      <PlatformsTable platforms={platforms} />
+      <PlatformsTable platforms={platformsWithAnalytics} />
     </>
   );
 }

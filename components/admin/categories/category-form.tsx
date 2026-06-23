@@ -26,6 +26,7 @@ const defaultValues: CategoryFormValues = {
   name: "",
   description: "",
   featured: false,
+  is_active: true,
 };
 
 export function CategoryForm({
@@ -47,6 +48,7 @@ export function CategoryForm({
           name: category.name,
           description: category.description ?? "",
           featured: category.featured,
+          is_active: category.is_active,
         }
       : defaultValues,
   });
@@ -123,18 +125,33 @@ export function CategoryForm({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="featured"
-          render={({ field }) => (
-            <FormItem className="flex items-center gap-3 rounded-md border border-border p-3">
-              <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-              </FormControl>
-              <FormLabel className="!mt-0">Featured category</FormLabel>
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-4">
+          <FormField
+            control={form.control}
+            name="featured"
+            render={({ field }) => (
+              <FormItem className="flex flex-1 items-center gap-3 rounded-md border border-border p-3">
+                <FormControl>
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+                <FormLabel className="!mt-0">Featured category</FormLabel>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="is_active"
+            render={({ field }) => (
+              <FormItem className="flex flex-1 items-center gap-3 rounded-md border border-border p-3">
+                <FormControl>
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+                <FormLabel className="!mt-0">Active</FormLabel>
+              </FormItem>
+            )}
+          />
+        </div>
 
         <div className="flex justify-end gap-2">
           <Button asChild type="button" variant="outline">

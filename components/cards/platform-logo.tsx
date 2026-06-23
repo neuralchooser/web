@@ -12,7 +12,7 @@ interface PlatformLogoProps {
 
 export function PlatformLogo({
   platform,
-  className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-sm font-semibold",
+  className = "flex size-11 shrink-0 items-center justify-center rounded-lg border border-border bg-muted overflow-hidden",
 }: PlatformLogoProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
