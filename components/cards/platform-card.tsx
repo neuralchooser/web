@@ -30,8 +30,11 @@ export function PlatformCard({
               <h3 className="truncate text-base font-semibold tracking-tight">
                 {platform.name}
               </h3>
-              {platform.featured ? (
+              {platform.homepageSections?.includes("featured") ? (
                 <Badge variant="muted">Featured</Badge>
+              ) : null}
+              {platform.homepageSections?.includes("trending") ? (
+                <Badge variant="secondary">Trending</Badge>
               ) : null}
             </div>
             <p className="mt-1 text-sm text-muted-foreground">

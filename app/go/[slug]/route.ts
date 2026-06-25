@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { getPlatformBySlug } from "@/lib/services/platforms";
 import { trackWebsiteClick } from "@/lib/repositories/analytics-repository";
+import { withUtmParams } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export async function GET(
@@ -21,6 +22,6 @@ export async function GET(
     console.error(`Error tracking website click for slug ${slug}:`, err);
   }
 
-  // Redirect to the external website
-  redirect(platform.website);
+  // Redirect to the external website with attribution
+  redirect(withUtmParams(platform.website));
 }
