@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { requireAdmin } from "@/lib/auth/admin-session";
+import { HOMEPAGE_SECTION_OPTIONS } from "@/lib/constants/homepage-sections";
 import { listCategories } from "@/lib/repositories/categories-repository";
 import { listPlatforms, type PlatformListFilters } from "@/lib/repositories/platforms-repository";
 import { getPlatformEventCountsMap } from "@/lib/repositories/analytics-repository";
@@ -33,8 +34,7 @@ export default async function AdminPlatformsPage({
   const filters: PlatformListFilters = {
     search: firstParam(params.search),
     category: firstParam(params.category),
-    featured: firstParam(params.featured) as PlatformListFilters["featured"],
-    trending: firstParam(params.trending) as PlatformListFilters["trending"],
+    homepageSection: firstParam(params.homepageSection),
     api: firstParam(params.api) as PlatformListFilters["api"],
     openSource: firstParam(params.openSource) as PlatformListFilters["openSource"],
   };
@@ -71,8 +71,22 @@ export default async function AdminPlatformsPage({
             ))}
           </SelectContent>
         </Select>
-        <BooleanFilter name="featured" value={filters.featured} label="Featured" />
-        <BooleanFilter name="trending" value={filters.trending} label="Trending" />
+        <Select
+          name="homepageSection"
+          defaultValue={filters.homepageSection ?? "all"}
+        >
+          <SelectTrigger className="min-w-44">
+            <SelectValue placeholder="Homepage section" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All homepage sections</SelectItem>
+            {HOMEPAGE_SECTION_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <BooleanFilter name="api" value={filters.api} label="API" />
         <BooleanFilter
           name="openSource"

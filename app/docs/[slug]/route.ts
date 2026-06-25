@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { getPlatformBySlug } from "@/lib/services/platforms";
 import { trackDocumentationClick } from "@/lib/repositories/analytics-repository";
+import { withUtmParams } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export async function GET(
@@ -21,6 +22,6 @@ export async function GET(
     console.error(`Error tracking documentation click for slug ${slug}:`, err);
   }
 
-  // Redirect to the external documentation URL
-  redirect(platform.documentation);
+  // Redirect to the external documentation URL with attribution
+  redirect(withUtmParams(platform.documentation));
 }

@@ -31,6 +31,7 @@ const PLATFORM_SELECT = `
   open_source,
   featured,
   trending,
+  homepage_sections,
   is_monochrome_logo,
   last_updated,
   is_deleted,
@@ -75,6 +76,9 @@ export function mapPlatformRow(row: Record<string, unknown>): AIPlatform {
     openSource: Boolean(row.open_source),
     featured: Boolean(row.featured),
     trending: Boolean(row.trending),
+    homepageSections: Array.isArray(row.homepage_sections)
+      ? row.homepage_sections.filter(Boolean).map(String)
+      : [],
     isMonochromeLogo: Boolean(row.is_monochrome_logo),
     lastUpdated:
       row.last_updated === null ? undefined : String(row.last_updated ?? ""),

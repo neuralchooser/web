@@ -6,6 +6,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 
 import { CategoryMultiSelect } from "@/components/admin/platforms/category-multi-select";
+import { HomepageSectionsSelect } from "@/components/admin/platforms/homepage-sections-select";
 import { TagsInput } from "@/components/admin/platforms/tags-input";
 import { SubmitButton } from "@/components/admin/submit-button";
 import { PlatformLogo } from "@/components/cards/platform-logo";
@@ -48,6 +49,7 @@ const defaultValues: PlatformFormValues = {
   open_source: false,
   featured: false,
   trending: false,
+  homepage_sections: [],
   is_monochrome_logo: false,
   last_updated: new Date().toISOString().slice(0, 10),
 };
@@ -74,6 +76,7 @@ function valuesFromPlatform(platform?: AIPlatform): PlatformFormValues {
     open_source: Boolean(platform.openSource),
     featured: Boolean(platform.featured),
     trending: Boolean(platform.trending),
+    homepage_sections: platform.homepageSections ?? [],
     is_monochrome_logo: Boolean(platform.isMonochromeLogo),
     last_updated: platform.lastUpdated ?? "",
   };
@@ -406,14 +409,29 @@ export function PlatformForm({
             label="API available"
           />
           <BooleanField form={form} name="open_source" label="Open source" />
-          <BooleanField form={form} name="featured" label="Featured" />
-          <BooleanField form={form} name="trending" label="Trending" />
           <BooleanField
             form={form}
             name="is_monochrome_logo"
             label="Monochrome logo"
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="homepage_sections"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Homepage Sections</FormLabel>
+              <FormControl>
+                <HomepageSectionsSelect
+                  value={field.value ?? []}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex justify-end gap-2">
           <Button asChild type="button" variant="outline">
