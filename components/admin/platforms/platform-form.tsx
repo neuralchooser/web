@@ -145,7 +145,10 @@ function LogoUploadField({
       body,
     });
 
-    const json = (await response.json()) as { publicUrl?: string; error?: string };
+    const json = (await response.json()) as {
+      publicUrl?: string;
+      error?: string;
+    };
 
     if (!response.ok || !json.publicUrl) {
       setUploadError(json.error ?? "Upload failed.");
@@ -227,7 +230,7 @@ function BooleanField({
               onCheckedChange={field.onChange}
             />
           </FormControl>
-          <FormLabel className="!mt-0">{label}</FormLabel>
+          <FormLabel className="mt-0!">{label}</FormLabel>
         </FormItem>
       )}
     />
