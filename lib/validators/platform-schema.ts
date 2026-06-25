@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { HOMEPAGE_SECTION_VALUES } from "@/lib/constants/homepage-sections";
+
 const optionalText = z
   .union([z.string(), z.null()])
   .transform((value) => value ?? "")
@@ -71,6 +73,9 @@ export const platformSchema = z.object({
   open_source: z.boolean().default(false),
   featured: z.boolean().default(false),
   trending: z.boolean().default(false),
+  homepage_sections: z
+    .array(z.enum(HOMEPAGE_SECTION_VALUES as [string, ...string[]]))
+    .default([]),
   is_monochrome_logo: z.boolean().default(false),
   last_updated: dateString,
 });

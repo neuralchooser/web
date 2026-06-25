@@ -23,6 +23,7 @@ const PLATFORM_SELECT = `
   featured,
   is_monochrome_logo,
   trending,
+  homepage_sections,
   last_updated,
   is_deleted,
   platform_categories(category:categories(id, slug, name))
@@ -42,6 +43,7 @@ function assertSupabaseConfig() {
 export interface PlatformListFilters {
   search?: string;
   category?: string;
+  homepageSection?: string;
   featured?: "all" | "true" | "false";
   trending?: "all" | "true" | "false";
   api?: "all" | "true" | "false";
@@ -94,6 +96,12 @@ export async function listPlatforms(filters: PlatformListFilters = {}) {
   if (filters.category && filters.category !== "all") {
     platforms = platforms.filter((platform) =>
       platform.categories.some((c) => c.slug === filters.category),
+    );
+  }
+
+  if (filters.homepageSection && filters.homepageSection !== "all") {
+    platforms = platforms.filter((platform) =>
+      platform.homepageSections?.includes(filters.homepageSection as string),
     );
   }
 

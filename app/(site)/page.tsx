@@ -6,25 +6,20 @@ import { getAllPlatforms } from "@/lib/platforms";
 
 export default async function Home() {
   const platforms = await getAllPlatforms();
+  // const featuredPlatforms = platforms
+  //   .filter((platform) => platform.homepageSections?.includes("featured"))
+  //   .slice(0, 4);
   const trendingPlatforms = platforms
-    .filter((platform) => platform.featured)
-    .slice(0, 4);
-  const featuredPlatforms = platforms
-    .filter((platform) => platform.trending || platform.featured)
+    .filter((platform) => platform.homepageSections?.includes("trending"))
     .slice(0, 4);
   const codingPlatforms = platforms
-    .filter((platform) => platform.categories.some((c) => c.slug === "coding"))
+    .filter((platform) => platform.homepageSections?.includes("coding"))
     .slice(0, 4);
   const imagePlatforms = platforms
-    .filter((platform) =>
-      platform.categories.some((c) => c.slug === "image-generation"),
-    )
-    .filter((platform) => platform.featured)
+    .filter((platform) => platform.homepageSections?.includes("image"))
     .slice(0, 4);
   const researchPlatforms = platforms
-    .filter((platform) =>
-      platform.categories.some((c) => c.slug === "research"),
-    )
+    .filter((platform) => platform.homepageSections?.includes("research"))
     .slice(0, 4);
   const recentlyUpdated = [...platforms]
     .sort((a, b) => {
@@ -38,11 +33,11 @@ export default async function Home() {
     <>
       <HeroSection />
       <FeaturedCategories />
-      <PlatformRail
+      {/* <PlatformRail
         title="Featured platforms"
         description="Featured AI platforms from team neural chooser."
         platforms={featuredPlatforms}
-      />
+      /> */}
       <PlatformRail
         title="Trending platforms"
         description="High-signal AI platforms teams are actively evaluating right now."

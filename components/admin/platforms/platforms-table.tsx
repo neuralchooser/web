@@ -21,7 +21,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deletePlatformAction } from "@/lib/actions/platform-actions";
+import { HOMEPAGE_SECTION_OPTIONS } from "@/lib/constants/homepage-sections";
 import type { AIPlatform } from "@/types/platform";
+
+const HOMEPAGE_SECTION_LABELS = Object.fromEntries(
+  HOMEPAGE_SECTION_OPTIONS.map((option) => [option.value, option.label]),
+) as Record<string, string>;
 
 import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
@@ -98,10 +103,11 @@ export function PlatformsTable({ platforms }: { platforms: AIPlatform[] }) {
               </TableCell>
               <TableCell className="hidden md:table-cell">
                 <div className="flex flex-wrap gap-1">
-                  {platform.featured ? <Badge>Featured</Badge> : null}
-                  {platform.trending ? (
-                    <Badge variant="secondary">Trending</Badge>
-                  ) : null}
+                  {(platform.homepageSections ?? []).map((section) => (
+                    <Badge key={section}>
+                      {HOMEPAGE_SECTION_LABELS[section] ?? section}
+                    </Badge>
+                  ))}
                   {platform.apiAvailable ? (
                     <Badge variant="outline">API</Badge>
                   ) : null}
