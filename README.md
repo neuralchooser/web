@@ -124,6 +124,9 @@ Create `.env.local` with:
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
+# Server-only. Bypasses Row Level Security — never prefix this with NEXT_PUBLIC_.
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+
 ADMIN_EMAIL=your-admin-email@example.com
 ADMIN_PASSWORD=your-admin-password
 ADMIN_COOKIE_SECRET=your-long-random-cookie-secret
