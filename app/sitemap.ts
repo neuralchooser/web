@@ -45,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Tag explore pages only. Category explore pages are canonicalized to
   // /categories/[slug], so they are intentionally left out to avoid duplicates.
   const tagRoutes = tags.map((tag) => ({
-    url: `${siteConfig.url}/explore/tag/${tag}`,
+    url: `${siteConfig.url}/explore/tag/${encodeURIComponent(tag)}`,
     lastModified: now,
   }));
 
