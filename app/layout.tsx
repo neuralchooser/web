@@ -24,7 +24,11 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   icons: {
-    icon: "/logos/brand/favicon/favicon.ico",
+    icon: [
+      { url: "/logos/brand/favicon/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/logos/brand/favicon/favicon.svg", type: "image/svg+xml" },
+      { url: "/logos/brand/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
     shortcut: "/logos/brand/favicon/favicon.ico",
     apple: "/logos/brand/favicon/apple-touch-icon.png",
   },
