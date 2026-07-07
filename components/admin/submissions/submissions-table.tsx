@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/admin/empty-state";
 import {
   Table,
@@ -59,6 +62,7 @@ export function SubmissionsTable({
             <TableHead className="hidden md:table-cell">Company</TableHead>
             <TableHead className="hidden md:table-cell">Email</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -83,6 +87,11 @@ export function SubmissionsTable({
                 <Badge variant={statusVariant[sub.status]}>
                   {sub.status}
                 </Badge>
+              </TableCell>
+              <TableCell className="text-right">
+                <Button asChild size="sm" variant="outline">
+                  <Link href={`/admin/submissions/${sub.id}`}>Details</Link>
+                </Button>
               </TableCell>
             </TableRow>
           ))}

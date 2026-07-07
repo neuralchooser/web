@@ -29,11 +29,11 @@ function validationError(error: unknown): AdminActionState {
 }
 
 function revalidatePlatformPaths(slug?: string | null) {
-  revalidatePath("/");
-  revalidatePath("/platforms");
+  revalidatePath("/", "layout");
+  revalidatePath("/platforms", "layout");
   revalidatePath("/admin");
   revalidatePath("/admin/platforms");
-  if (slug) revalidatePath(`/platforms/${slug}`);
+  if (slug) revalidatePath(`/platforms/${slug}`, "layout");
 }
 
 export async function createPlatformAction(

@@ -40,3 +40,38 @@ export async function listToolSubmissions() {
 
   return data as ToolSubmissionRow[];
 }
+
+export async function getToolSubmissionById(id: string) {
+  assertSupabaseConfig();
+
+  const { data, error } = await supabaseServer
+    .from("tool_submissions")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data as ToolSubmissionRow | null) ?? null;
+}
+
+export async function updateToolSubmission(
+  id: string,
+  input: ToolSubmissionInput & { status: ToolSubmissionRow["status"] },
+) {
+  assertSupabaseConfig();
+
+  const { error } = await supabaseServer
+    .from("tool_submissions")
+    .update({
+      ...input,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
