@@ -29,10 +29,10 @@ function validationError(error: unknown): AdminActionState {
 }
 
 function revalidateBlogPaths() {
-  revalidatePath("/");
-  revalidatePath("/blog");
-  revalidatePath("/admin");
-  revalidatePath("/admin/blog");
+  revalidatePath("/", "layout");
+  revalidatePath("/blog", "layout");
+  revalidatePath("/admin", "layout");
+  revalidatePath("/admin/blog", "layout");
 }
 
 export async function createBlogAction(

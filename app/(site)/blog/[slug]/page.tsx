@@ -15,6 +15,8 @@ import {
 import { createMetadata } from "@/lib/seo";
 import { Button } from "@/components/ui/button";
 
+export const revalidate = 300;
+
 export async function generateStaticParams() {
   const blogs = await getPublishedBlogs();
   return blogs.map((blog) => ({ slug: blog.slug }));

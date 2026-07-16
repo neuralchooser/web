@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { SubmitButton } from "@/components/admin/submit-button";
 import { CategoryMultiSelect } from "@/components/admin/platforms/category-multi-select";
 import { TagsInput } from "@/components/admin/platforms/tags-input";
+import { PlatformLogo } from "@/components/cards/platform-logo";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -56,6 +57,7 @@ export function SubmissionDetailsForm({
       categories: submission.categories ?? [],
       tags: submission.tags ?? [],
       founder_email: submission.founder_email,
+      logo: submission.logo ?? "",
       pricing_free: submission.pricing_free,
       pricing_paid: submission.pricing_paid,
       api_available: submission.api_available,
@@ -121,6 +123,44 @@ export function SubmissionDetailsForm({
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="logo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Logo URL</FormLabel>
+              <FormControl>
+                <div className="space-y-2">
+                  <Input {...field} placeholder="https://example.com/logo.svg" />
+                  {field.value ? (
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm text-muted-foreground">Preview:</p>
+                      <PlatformLogo
+                        platform={{
+                          id: submission.id,
+                          slug: "",
+                          name: submission.name,
+                          company: submission.company ?? "",
+                          shortDescription: submission.short_description,
+                          description: submission.description ?? "",
+                          categories: [],
+                          pricing: {
+                            free: submission.pricing_free,
+                            paid: submission.pricing_paid,
+                          },
+                          logo: field.value,
+                        }}
+                        className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm"
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField
@@ -319,11 +359,11 @@ export function SubmissionDetailsForm({
         <div className="grid gap-2 rounded-md border border-border bg-muted/30 p-3 text-sm">
           <p>
             <span className="text-muted-foreground">Created:</span>{" "}
-            {new Date(submission.created_at).toLocaleString()}
+            {submission.created_at ? new Date(submission.created_at).toLocaleString() : "N/A"}
           </p>
           <p>
             <span className="text-muted-foreground">Last updated:</span>{" "}
-            {new Date(submission.updated_at).toLocaleString()}
+            {submission.updated_at ? new Date(submission.updated_at).toLocaleString() : "N/A"}
           </p>
           <p className="break-all">
             <span className="text-muted-foreground">Submission ID:</span>{" "}

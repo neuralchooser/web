@@ -51,6 +51,7 @@ export interface ToolSubmissionRow {
   api_available: boolean;
   open_source: boolean;
   founder_email: string;
+  logo: string | null;
   status: "pending" | "approved" | "rejected";
   created_at: string;
   updated_at: string;
