@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 
 import { CategoryMultiSelect } from "@/components/admin/platforms/category-multi-select";
 import { TagsInput } from "@/components/admin/platforms/tags-input";
+import { PlatformLogo } from "@/components/cards/platform-logo";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -25,7 +26,7 @@ import {
   type ToolSubmissionFormValues,
 } from "@/lib/validators/tool-submission-schema";
 import type { SubmissionActionState } from "@/lib/actions/tool-submission-actions";
-import type { PlatformCategory } from "@/types/platform";
+import type { PlatformCategory, AIPlatform } from "@/types/platform";
 
 interface SubmitToolFormProps {
   categories: PlatformCategory[];
@@ -42,12 +43,135 @@ const defaultValues: ToolSubmissionFormValues = {
   categories: [],
   tags: [],
   founder_email: "",
+  logo: "",
   documentation: "",
   pricing_free: false,
   pricing_paid: false,
   api_available: false,
   open_source: false,
 };
+
+function sanitizeFileName(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function isSvgFile(file: File) {
+  const extension = file.name.split(".").pop()?.toLowerCase();
+  return (
+    extension === "svg" &&
+    (file.type === "image/svg+xml" || file.type === "")
+  );
+}
+
+function LogoUploadField({
+  form,
+}: {
+  form: ReturnType<typeof useForm<ToolSubmissionFormValues>>;
+}) {
+  const [uploading, setUploading] = React.useState(false);
+  const [uploadError, setUploadError] = React.useState<string | null>(null);
+  const toolName = form.watch("name");
+
+  async function handleFileUpload(file: File) {
+    setUploadError(null);
+
+    if (!isSvgFile(file)) {
+      setUploadError("Only SVG files are allowed.");
+      return;
+    }
+
+    setUploading(true);
+
+    const name = toolName ? sanitizeFileName(toolName) : `${Date.now()}`;
+    const filePath = `submission-logos/${name}-${Date.now()}.svg`;
+
+    const body = new FormData();
+    body.append("file", file);
+    body.append("filePath", filePath);
+
+    const response = await fetch("/api/submissions/upload", {
+      method: "POST",
+      body,
+    });
+
+    const json = (await response.json()) as {
+      publicUrl?: string;
+      error?: string;
+    };
+
+    if (!response.ok || !json.publicUrl) {
+      setUploadError(json.error ?? "Upload failed.");
+      setUploading(false);
+      return;
+    }
+
+    form.setValue("logo", json.publicUrl);
+    setUploading(false);
+  }
+
+  const previewPlatform = {
+    id: "",
+    slug: "",
+    name: toolName || "Tool",
+    company: "",
+    shortDescription: "",
+    description: "",
+    categories: [],
+    pricing: { free: false, paid: false },
+  } satisfies AIPlatform;
+
+  return (
+    <FormField
+      control={form.control}
+      name="logo"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="font-medium">Tool Logo *</FormLabel>
+          <FormControl>
+            <div className="space-y-2">
+              <Input
+                type="file"
+                accept=".svg,image/svg+xml"
+                className="bg-background/50"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) return;
+                  await handleFileUpload(file);
+                  event.target.value = "";
+                }}
+                disabled={uploading}
+              />
+              {field.value ? (
+                <div className="flex items-center gap-2">
+                  <p className="text-sm text-muted-foreground">Preview:</p>
+                  <PlatformLogo
+                    platform={{ ...previewPlatform, logo: field.value }}
+                    className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-lg font-semibold shadow-sm"
+                  />
+                </div>
+              ) : null}
+            </div>
+          </FormControl>
+          <FormDescription className="text-xs text-muted-foreground">
+            Upload an SVG logo. This is required and will appear on the site.
+          </FormDescription>
+          <FormMessage />
+          {uploadError ? (
+            <p className="text-sm text-destructive">{uploadError}</p>
+          ) : null}
+          {uploading ? (
+            <p className="text-sm text-muted-foreground">Uploading logo…</p>
+          ) : null}
+        </FormItem>
+      )}
+    />
+  );
+}
 
 export function SubmitToolForm({
   categories,
@@ -151,6 +275,8 @@ export function SubmitToolForm({
               )}
             />
           </div>
+
+          <LogoUploadField form={form} />
 
           <div className="grid gap-6 sm:grid-cols-2">
             <FormField

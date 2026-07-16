@@ -16,6 +16,7 @@ create table if not exists public.tool_submissions (
     api_available boolean not null default false,
     open_source boolean not null default false,
     founder_email text not null,
+    logo text,
     status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
@@ -23,6 +24,9 @@ create table if not exists public.tool_submissions (
 
 -- Enable RLS (Row Level Security) if you want to protect it, or let the service role handle it
 alter table public.tool_submissions enable row level security;
+
+-- Migration for existing databases:
+-- alter table public.tool_submissions add column if not exists logo text;
 
 -- Create policy to allow inserts from anyone (public submission)
 create policy "Allow public inserts" on public.tool_submissions

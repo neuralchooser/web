@@ -39,6 +39,14 @@ export const toolSubmissionSchema = z.object({
   categories: z.array(z.string()).min(1, "Choose at least one category"),
   tags: z.array(z.string()).default([]),
   founder_email: z.string().trim().min(1, "Founder email is required").email("Enter a valid email address"),
+  logo: z
+    .string()
+    .trim()
+    .min(1, "Logo is required")
+    .url("Enter a valid logo URL")
+    .refine((url) => /^https?:\/\//i.test(url), {
+      message: "Logo URL must use http or https",
+    }),
   documentation: optionalUrl,
   pricing_free: z.boolean().default(false),
   pricing_paid: z.boolean().default(false),
