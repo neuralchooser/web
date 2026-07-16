@@ -4,6 +4,8 @@ import { PlatformSearch } from "@/components/search/platform-search";
 import { getAllCategories, getAllPlatforms } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = createMetadata({
   title: "AI Platform Directory",
   description:

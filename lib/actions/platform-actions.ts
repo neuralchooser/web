@@ -31,9 +31,14 @@ function validationError(error: unknown): AdminActionState {
 function revalidatePlatformPaths(slug?: string | null) {
   revalidatePath("/", "layout");
   revalidatePath("/platforms", "layout");
-  revalidatePath("/admin");
-  revalidatePath("/admin/platforms");
-  if (slug) revalidatePath(`/platforms/${slug}`, "layout");
+  revalidatePath("/blog", "layout");
+  revalidatePath("/admin", "layout");
+  revalidatePath("/admin/platforms", "layout");
+  revalidatePath("/explore", "layout");
+  if (slug) {
+    revalidatePath(`/platforms/${slug}`, "layout");
+    revalidatePath(`/categories/${slug}`, "layout");
+  }
 }
 
 export async function createPlatformAction(

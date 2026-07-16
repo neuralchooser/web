@@ -6,6 +6,8 @@ import { getAllCategories, getAllPlatforms } from "@/lib/platforms";
 import { createMetadata } from "@/lib/seo";
 import type { PlatformCategory } from "@/types/platform";
 
+export const revalidate = 300;
+
 export async function generateStaticParams() {
   const categories = await getAllCategories();
   return categories.map((category: PlatformCategory) => ({

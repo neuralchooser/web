@@ -29,11 +29,14 @@ function validationError(error: unknown): AdminActionState {
 }
 
 function revalidateCategoryPaths(slug?: string | null) {
-  revalidatePath("/");
-  revalidatePath("/platforms");
-  revalidatePath("/admin");
-  revalidatePath("/admin/categories");
-  if (slug) revalidatePath(`/categories/${slug}`);
+  revalidatePath("/", "layout");
+  revalidatePath("/platforms", "layout");
+  revalidatePath("/admin", "layout");
+  revalidatePath("/admin/categories", "layout");
+  revalidatePath("/explore", "layout");
+  if (slug) {
+    revalidatePath(`/categories/${slug}`, "layout");
+  }
 }
 
 export async function createCategoryAction(
