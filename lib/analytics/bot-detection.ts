@@ -66,3 +66,22 @@ export function isBot(userAgent: string | null): boolean {
   if (!userAgent) return true;
   return BOT_PATTERNS.some((pattern) => pattern.test(userAgent));
 }
+
+/**
+ * Determines whether a request's analytics event should be recorded.
+ * Skips non-production environments and detected bots.
+ */
+export function shouldTrackRequest(
+  host: string | null,
+  userAgent: string | null,
+): boolean {
+  const isProduction =
+    process.env.NODE_ENV === "production" &&
+    !!host &&
+    !host.includes("localhost") &&
+    !host.includes("127.0.0.1");
+
+  if (!isProduction) return false;
+  if (isBot(userAgent)) return false;
+  return true;
+}
