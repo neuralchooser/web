@@ -1,22 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { trackPlatformView } from "@/lib/repositories/analytics-repository";
-import { isBot } from "@/lib/analytics/bot-detection";
+import { shouldTrackRequest } from "@/lib/analytics/bot-detection";
 
 export async function POST(request: NextRequest) {
   try {
-    // Only process analytics in production environment
-    const host = request.headers.get("host");
-    const isProduction = process.env.NODE_ENV === "production" &&
-      host &&
-      !host.includes("localhost") &&
-      !host.includes("127.0.0.1");
-
-    if (!isProduction) {
-      return NextResponse.json({ success: true }, { status: 200 });
-    }
-
-    const userAgent = request.headers.get("user-agent");
-    if (isBot(userAgent)) {
+    // Skip non-production environments and detected bots.
+    if (
+      !shouldTrackRequest(
+        request.headers.get("host"),
+        request.headers.get("user-agent"),
+      )
+    ) {
       return NextResponse.json({ success: true }, { status: 200 });
     }
 
