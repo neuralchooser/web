@@ -7,8 +7,10 @@ import { requireAdmin } from "@/lib/auth/admin-session";
 import {
   createPlatform,
   deletePlatform,
+  getPlatformById,
   updatePlatform,
 } from "@/lib/repositories/platforms-repository";
+import { getAllCategories } from "@/lib/services/categories";
 import {
   platformSchema,
   type PlatformFormValues,
@@ -28,16 +30,21 @@ function validationError(error: unknown): AdminActionState {
   return { ok: false, message: "Unable to validate platform." };
 }
 
-function revalidatePlatformPaths(slug?: string | null) {
-  revalidatePath("/", "layout");
-  revalidatePath("/platforms", "layout");
-  revalidatePath("/blog", "layout");
-  revalidatePath("/admin", "layout");
-  revalidatePath("/admin/platforms", "layout");
-  revalidatePath("/explore", "layout");
-  if (slug) {
-    revalidatePath(`/platforms/${slug}`, "layout");
-    revalidatePath(`/categories/${slug}`, "layout");
+async function revalidateCategorySlugs(categoryIds: string[]) {
+  if (!categoryIds.length) return;
+  const ids = new Set(categoryIds);
+  const categories = await getAllCategories();
+  for (const category of categories) {
+    if (ids.has(category.id)) {
+      revalidatePath(`/categories/${category.slug}`);
+      revalidatePath(`/explore/category/${category.slug}`);
+    }
+  }
+}
+
+function revalidateTagPaths(tags: string[]) {
+  for (const tag of tags) {
+    revalidatePath(`/explore/tag/${tag}`);
   }
 }
 
@@ -58,7 +65,10 @@ export async function createPlatformAction(
     };
   }
 
-  revalidatePlatformPaths(parsed.data.slug);
+  revalidatePath("/");
+  revalidatePath("/platforms");
+  await revalidateCategorySlugs(parsed.data.category_ids);
+  revalidateTagPaths(parsed.data.tags);
   redirect("/admin/platforms");
 }
 
@@ -71,6 +81,8 @@ export async function updatePlatformAction(
   const parsed = platformSchema.safeParse(input);
   if (!parsed.success) return validationError(parsed.error);
 
+  const previous = await getPlatformById(id);
+
   try {
     await updatePlatform(id, parsed.data);
   } catch (error) {
@@ -80,12 +92,28 @@ export async function updatePlatformAction(
     };
   }
 
-  revalidatePlatformPaths(parsed.data.slug);
+  revalidatePath("/");
+  revalidatePath("/platforms");
+  revalidatePath(`/platforms/${parsed.data.slug}`);
+  if (previous && previous.slug !== parsed.data.slug) {
+    revalidatePath(`/platforms/${previous.slug}`);
+  }
+  await revalidateCategorySlugs([
+    ...new Set([
+      ...(previous?.categories.map((category) => category.id) ?? []),
+      ...parsed.data.category_ids,
+    ]),
+  ]);
+  revalidateTagPaths([
+    ...new Set([...(previous?.tags ?? []), ...parsed.data.tags]),
+  ]);
   redirect("/admin/platforms");
 }
 
 export async function deletePlatformAction(id: string): Promise<AdminActionState> {
   await requireAdmin();
+
+  const existing = await getPlatformById(id);
 
   try {
     await deletePlatform(id);
@@ -96,6 +124,13 @@ export async function deletePlatformAction(id: string): Promise<AdminActionState
     };
   }
 
-  revalidatePlatformPaths();
+  revalidatePath("/");
+  revalidatePath("/platforms");
+  if (existing) {
+    revalidatePath(`/platforms/${existing.slug}`);
+    await revalidateCategorySlugs(existing.categories.map((category) => category.id));
+    revalidateTagPaths(existing.tags ?? []);
+  }
+
   return { ok: true };
 }

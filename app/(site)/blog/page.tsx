@@ -4,8 +4,6 @@ import { FeaturedBlogSection } from "@/components/blog/featured-blog-section";
 import { BlogGrid } from "@/components/blog/blog-grid";
 import { createMetadata } from "@/lib/seo";
 
-export const revalidate = 60;
-
 export const metadata: Metadata = createMetadata({
   title: "AI & Technology Blog",
   description:

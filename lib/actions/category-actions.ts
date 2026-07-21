@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import {
   createCategory,
   deleteCategory,
+  getCategoryById,
   updateCategory,
 } from "@/lib/repositories/categories-repository";
 import { requireAdmin } from "@/lib/auth/admin-session";
@@ -28,17 +29,6 @@ function validationError(error: unknown): AdminActionState {
   return { ok: false, message: "Unable to validate category." };
 }
 
-function revalidateCategoryPaths(slug?: string | null) {
-  revalidatePath("/", "layout");
-  revalidatePath("/platforms", "layout");
-  revalidatePath("/admin", "layout");
-  revalidatePath("/admin/categories", "layout");
-  revalidatePath("/explore", "layout");
-  if (slug) {
-    revalidatePath(`/categories/${slug}`, "layout");
-  }
-}
-
 export async function createCategoryAction(
   input: CategoryFormValues,
 ): Promise<AdminActionState> {
@@ -56,7 +46,8 @@ export async function createCategoryAction(
     };
   }
 
-  revalidateCategoryPaths(parsed.data.slug);
+  revalidatePath("/");
+  revalidatePath("/platforms");
   redirect("/admin/categories");
 }
 
@@ -69,6 +60,8 @@ export async function updateCategoryAction(
   const parsed = categorySchema.safeParse(input);
   if (!parsed.success) return validationError(parsed.error);
 
+  const previous = await getCategoryById(id);
+
   try {
     await updateCategory(id, parsed.data);
   } catch (error) {
@@ -78,12 +71,19 @@ export async function updateCategoryAction(
     };
   }
 
-  revalidateCategoryPaths(parsed.data.slug);
+  revalidatePath("/");
+  revalidatePath("/platforms");
+  revalidatePath(`/categories/${parsed.data.slug}`);
+  if (previous && previous.slug !== parsed.data.slug) {
+    revalidatePath(`/categories/${previous.slug}`);
+  }
   redirect("/admin/categories");
 }
 
 export async function deleteCategoryAction(id: string): Promise<AdminActionState> {
   await requireAdmin();
+
+  const existing = await getCategoryById(id);
 
   try {
     await deleteCategory(id);
@@ -94,6 +94,11 @@ export async function deleteCategoryAction(id: string): Promise<AdminActionState
     };
   }
 
-  revalidateCategoryPaths();
+  revalidatePath("/");
+  revalidatePath("/platforms");
+  if (existing) {
+    revalidatePath(`/categories/${existing.slug}`);
+  }
+
   return { ok: true };
 }

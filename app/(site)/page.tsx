@@ -4,8 +4,6 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { PlatformRail } from "@/components/sections/platform-rail";
 import { getAllPlatforms } from "@/lib/platforms";
 
-export const revalidate = 60;
-
 export default async function Home() {
   const platforms = await getAllPlatforms();
   // const featuredPlatforms = platforms

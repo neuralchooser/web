@@ -282,7 +282,7 @@ export function SubmissionDetailsForm({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="!mt-0">Free tier</FormLabel>
+                <FormLabel className="mt-0!">Free tier</FormLabel>
               </FormItem>
             )}
           />
@@ -297,7 +297,7 @@ export function SubmissionDetailsForm({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="!mt-0">Paid plans</FormLabel>
+                <FormLabel className="mt-0!">Paid plans</FormLabel>
               </FormItem>
             )}
           />
@@ -312,7 +312,7 @@ export function SubmissionDetailsForm({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="!mt-0">API available</FormLabel>
+                <FormLabel className="mt-0!">API available</FormLabel>
               </FormItem>
             )}
           />
@@ -327,7 +327,7 @@ export function SubmissionDetailsForm({
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className="!mt-0">Open source</FormLabel>
+                <FormLabel className="mt-0!">Open source</FormLabel>
               </FormItem>
             )}
           />

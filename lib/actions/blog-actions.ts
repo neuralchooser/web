@@ -7,6 +7,7 @@ import { requireAdmin } from "@/lib/auth/admin-session";
 import {
   createBlog,
   deleteBlog,
+  getBlogById,
   updateBlog,
 } from "@/lib/repositories/blogs-repository";
 import {
@@ -28,13 +29,6 @@ function validationError(error: unknown): AdminActionState {
   return { ok: false, message: "Unable to validate blog post." };
 }
 
-function revalidateBlogPaths() {
-  revalidatePath("/", "layout");
-  revalidatePath("/blog", "layout");
-  revalidatePath("/admin", "layout");
-  revalidatePath("/admin/blog", "layout");
-}
-
 export async function createBlogAction(
   input: BlogFormValues,
 ): Promise<AdminActionState> {
@@ -52,7 +46,7 @@ export async function createBlogAction(
     };
   }
 
-  revalidateBlogPaths();
+  revalidatePath("/blog");
   redirect("/admin/blog");
 }
 
@@ -65,6 +59,8 @@ export async function updateBlogAction(
   const parsed = blogSchema.safeParse(input);
   if (!parsed.success) return validationError(parsed.error);
 
+  const previous = await getBlogById(id);
+
   try {
     await updateBlog(id, parsed.data);
   } catch (error) {
@@ -74,12 +70,18 @@ export async function updateBlogAction(
     };
   }
 
-  revalidateBlogPaths();
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${parsed.data.slug}`);
+  if (previous && previous.slug !== parsed.data.slug) {
+    revalidatePath(`/blog/${previous.slug}`);
+  }
   redirect("/admin/blog");
 }
 
 export async function deleteBlogAction(id: string): Promise<AdminActionState> {
   await requireAdmin();
+
+  const existing = await getBlogById(id);
 
   try {
     await deleteBlog(id);
@@ -90,6 +92,10 @@ export async function deleteBlogAction(id: string): Promise<AdminActionState> {
     };
   }
 
-  revalidateBlogPaths();
+  revalidatePath("/blog");
+  if (existing) {
+    revalidatePath(`/blog/${existing.slug}`);
+  }
+
   return { ok: true };
 }

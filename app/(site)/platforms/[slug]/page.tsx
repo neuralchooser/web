@@ -15,9 +15,6 @@ import {
 import { createMetadata } from "@/lib/seo";
 import { TrackView } from "@/components/analytics/track-view";
 
-
-export const revalidate = 300;
-
 export async function generateStaticParams() {
   const platforms = await getAllPlatforms();
   return platforms.map((platform) => ({ slug: platform.slug }));
